@@ -4,7 +4,7 @@ Contributors: layotte, blepoxp, fullthrottledevelopment
 Tags: calendar, dates, events, times, event manager, scheduling, recurring, recurring events, ec3
 Requires at least: 3.0
 Tested up to: 3.1.2
-Stable tag: 
+Stable tag: 0.2
 
 A calendar plugin supporting multiple calendars, recurring events, and several different widgets / shortcodes. More info at http://calendar-plugin.com
 
