@@ -14,9 +14,14 @@ A calendar plugin supporting multiple calendars, recurring events, and several d
 
 Key features include:
 
-* 
-* 
-* 
+* Recurring Events 
+* Multiple Colors
+* Multiple Shortcodes and Widgets
+* Full sized calendar
+* Sexy Google Calendar UI
+* Uses custom post types
+* Events can be attached to any Post, Page, or custom post type
+* Premium support and custom development available if required
 
 == Installation ==
 
@@ -25,8 +30,6 @@ Key features include:
 3. Create at least one calendar.
 4. Type `[ftcalendar]` into any Post or Page you want SimpleMap to be displayed in.
 5. Visit the FT Calendar Help page inside your WordPress dashboard to discover more shortcodes and widgets
-
-== Screenshots ==
 
 == Frequently Asked Questions ==
 
