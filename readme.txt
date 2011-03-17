@@ -3,8 +3,8 @@
 Contributors: layotte, blepoxp, fullthrottledevelopment
 Tags: calendar, dates, events, times, event manager, scheduling, recurring, recurring events, ec3
 Requires at least: 3.0
-Tested up to: 3.1.2
-Stable tag: 0.2
+Tested up to: 3.1
+Stable tag: 1.0
 
 A calendar plugin supporting multiple calendars, recurring events, and several different widgets / shortcodes. More info at http://calendar-plugin.com
 
@@ -14,9 +14,14 @@ A calendar plugin supporting multiple calendars, recurring events, and several d
 
 Key features include:
 
-* 
-* 
-* 
+* Recurring Events
+* Multiple Colors
+* Multiple Shortcodes and Widgets
+* Full sized calendar
+* Sexy Google Calendar UI
+* Uses custom post types
+* Events can be attached to any Post, Page, or custom post type
+* Premium support and custom development available if required
 
 == Installation ==
 
@@ -25,8 +30,6 @@ Key features include:
 3. Create at least one calendar.
 4. Type `[ftcalendar]` into any Post or Page you want SimpleMap to be displayed in.
 5. Visit the FT Calendar Help page inside your WordPress dashboard to discover more shortcodes and widgets
-
-== Screenshots ==
 
 == Frequently Asked Questions ==
 
