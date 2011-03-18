@@ -45,6 +45,9 @@ You must have:
 
 == Changelog ==
 
+= 1.0.1 =
+* Fixed bug related to recurring monthly and yearly events not displaying properly
+
 = 1.0.0 =
 * Initial Release
 

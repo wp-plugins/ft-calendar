@@ -1111,11 +1111,11 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 									
 									if ( 0 == $month_diff % $cal_data->r_every ) {
 										if ( 0 == $cal_data->r_by ) { // by day of month
-											if ( date_i18n( 'd', $strdate ) == date_i18n( 'd', $cal_data->r_start_datetime ) ) {
+											if ( date_i18n( 'd', $strdate ) == date_i18n( 'd', strtotime( $cal_data->r_start_datetime ) ) ) {
 												$cal_entries[date_i18n( 'Y-m-d', $strdate )][$rstime][] = $cal_data->id;
 											}
 										} else { // by day of week
-											if ( date_i18n( 'D', $strdate ) == date_i18n( 'D', $cal_data->r_start_datetime ) ) {
+											if ( date_i18n( 'D', $strdate ) == date_i18n( 'D', strtotime( $cal_data->r_start_datetime ) ) ) {
 												$cal_entries[date_i18n( 'Y-m-d', $strdate )][$rstime][] = $cal_data->id;
 											}
 										}
@@ -1129,7 +1129,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 									$year_diff = $c_y - $s_y;
 									
 									if ( 0 == $year_diff % $cal_data->r_every ) {
-										if ( date_i18n( 'd-m', $strdate ) == date_i18n( 'd-m', $cal_data->r_start_datetime ) ) {
+										if ( date_i18n( 'd-m', $strdate ) == date_i18n( 'd-m', strtotime( $cal_data->r_start_datetime ) ) ) {
 											$cal_entries[date_i18n( 'Y-m-d', $strdate )][$rstime][] = $cal_data->id;
 										}
 									}
