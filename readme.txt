@@ -20,6 +20,7 @@ Key features include:
 * Sexy Google Calendar UI
 * Events can be attached to any Post, Page, or custom post type
 * Premium support and custom development available
+* [Quick Start Guide](http://calendar-plugin.com/quick-start-guide)
 
 == Installation ==
 
