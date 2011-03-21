@@ -1,0 +1,253 @@
+#repeats_label, #repeats_frequency, #repeats_range { 
+	display:none;
+}
+
+/* calendar */
+table.calendar { 
+	border-left:1px solid #999;
+	width:100px;
+	height:50px; 
+}
+
+td.calendar-day	{ 
+	min-height:10px;
+	font-size:11px;
+	position:relative;
+} 
+
+* html div.calendar-day { 
+	height:10px; 
+}
+
+td.calendar-day:hover {
+	background:#eceff5;
+}
+
+td.calendar-day-np {
+	background:#eee;
+	min-height:10px; 
+} 
+
+* html div.calendar-day-np { 
+	height:10px;
+}
+
+td.calendar-day-head { 
+	background:#ccc; 
+	font-weight:bold; 
+	text-align:center; 
+	width:100px; 
+	padding:5px; 
+	border-bottom:1px solid #999; 
+	border-top:1px solid #999; 
+	border-right:1px solid #999; 
+}
+
+div.day-number { 
+	background:#transparent;
+	padding:5px;
+	color:#999;
+	font-weight:bold;
+	float:right; 
+	margin:0;
+	width:10px;
+	text-align:center;
+}
+
+/* shared */
+td.calendar-day, td.calendar-day-np {
+	width:10px;
+	padding:5px;
+	border-bottom:1px solid #999;
+	border-right:1px solid #999; 
+}
+
+/* Drop down time */
+.ft_cal_time_item_hover {
+	background-color:#eee;
+}
+
+div#ftsupport {
+	border-top: 1px dashed grey;
+    margin-top: 20px;
+    padding-top: 10px;	
+}
+
+div#main_ft_cal_options {
+	width: 550px;
+	overflow: visible;
+	margin-left: auto;
+	margin-right: auto;	
+}
+
+#poststuff .inside div#ftsupport p {
+	font-size: 8pt;
+	text-align: center;
+}
+
+/* English Sentance Label */
+p.repeats_label_item{
+	background-color:#eee;
+	border:1px solid #ddd;
+	padding:5px;
+	width:500px;
+}
+
+/* meta box */
+#post-body ul.ft-cal-tabs {
+	float: left;
+	width: 120px;
+	text-align: right;
+	/* Negative margin for the sake of those without JS: all tabs display */
+	margin: 0 -120px 0 5px;
+	padding: 0;
+}
+
+#post-body ul.ft-cal-tabs li {
+	padding: 8px;
+}
+
+#post-body ul.ft-cal-tabs li.ft-cal-tab {
+	border: 1px solid #DFDFDF;
+	border-right:none;
+	margin-right:-1px;
+	-moz-border-radius: 3px 0 0 3px;
+	-webkit-border-top-left-radius: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	-khtml-border-top-left-radius: 3px;
+	-khtml-border-bottom-left-radius: 3px;
+	border-top-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+	background-color:#F1F1F1;
+}
+
+#post-body ul.ft-cal-tabs li.ft-cal-tab a {
+	font-weight: bold;
+	text-decoration: none;
+	color:#000;
+}
+
+div.ft-cal-tabs-panel {
+	height: 200px;
+	overflow: auto;
+	padding: 0.5em 0.9em;
+	border-style: solid;
+	border-width: 1px;
+}
+
+div.tabs-panel-active {
+	display:block;
+}
+
+div.tabs-panel-inactive {
+	display:none;
+}
+
+#post-body div.ft-cal-tabs-panel {
+	margin: 0 5px 0 125px;
+	border-color:#DFDFDF;
+}
+
+#side-sortables ul.ft-cal-tabs li {
+	padding: 5px;
+}
+
+#side-sortables ul.ft-cal-tabs li.ft-cal-tab {
+	border: 1px solid #DFDFDF;
+	border-bottom:none;
+	margin-bottom:-1px;
+	-moz-border-radius: 3px 3px 0 0;
+	-webkit-border-top-left-radius: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	-khtml-border-top-left-radius: 3px;
+	-khtml-border-bottom-left-radius: 3px;
+	border-top-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+	background-color:#F1F1F1;
+}
+
+#side-sortables ul.ft-cal-tabs li.ft-cal-tab a {
+	font-weight: bold;
+	text-decoration: none;
+	color:#000;
+}
+
+#side-sortables .ft-cal-tabs li {
+	display: inline;
+}
+
+#side-sortables .ft-cal-tabs a {
+	text-decoration: none;
+}
+
+#side-sortables .ft-cal-tabs {
+	margin-bottom: 3px;
+}
+
+#side-sortables div.ft-cal-tabs-panel {
+	border-color:#DFDFDF;
+}
+
+select#calendar {
+	clear: both;
+}
+
+.ft_cal_error {
+	background-color: #FFF0F0 !important;
+	border-color: #CC0000 !important;
+}
+
+input#ft_cal_save_event {
+	color: #006600;
+	font-size:10pt;
+	font-weight:bold;
+	height:24px;
+	width:24px;
+}
+
+input#ft_cal_clear_event {
+	color:#FF0000;
+	font-size:10pt;
+	font-weight:bold;
+	height:24px;
+	width:24px;
+}
+
+div#event_recurring_field_options {
+	display:none; 
+	overflow:auto; 
+	border: thin dashed #DDDDDD; 
+	padding: 10px;
+	width: 550px;
+	margin-top: 10px;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+}
+
+table#recurring_table {
+	width: 550px;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+}
+
+table#recurring_table th {
+	width: 95px;
+	text-align: right;
+	padding-right: 5px;
+}
+
+table#recurring_table td {
+	width: 440px;
+	text-align: left;
+	padding-left: 10px;
+}
+
+div#ui-datepicker-div {
+	display: none;
+}
+
+div#ftcal_data_meta_box div.inside {
+	min-height: 200px;
+}
