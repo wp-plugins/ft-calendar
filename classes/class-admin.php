@@ -81,7 +81,7 @@ if ( !class_exists( 'FT_CAL_Admin' ) ) {
 			?>
 			<div class="wrap">
 				<div id="icon-options-general" class="icon32"><br /></div>
-				<h2><?php _e( 'FullThrottle Calendar General Settings', 'ftcalendar' ); ?> <a href="admin.php?page=ftcalendar-help" style="text-decoration: none;"><?php _e( '(Upgrade to Premium Support)' ); ?></a></h2>
+				<h2><?php _e( 'FullThrottle Calendar General Settings', 'ftcalendar' ); ?> <a href="admin.php?page=ftcalendar-help" style="text-decoration: none;"><?php /**/ _e( '(Upgrade to Premium Support)' ); /**/?></a></h2>
 					
 				<div id="dashboard-widgets-wrap" class="clear">
 					
@@ -171,6 +171,7 @@ if ( !class_exists( 'FT_CAL_Admin' ) ) {
 
                     </div> <!-- postbox-container -->
 
+					<?php /* PARTNERS */ ?>
                     <div class='widget-liquid-right' style='width: 30%;'>
                             
                         <div id='widgets-right' style='width: 100%;'>
@@ -227,7 +228,8 @@ if ( !class_exists( 'FT_CAL_Admin' ) ) {
                         </div> <!-- meta-box-sortables -->
                         
                     </div> <!-- postbox-container -->
-
+					<?php /**/ ?>
+                    
 				</div><!-- dashboard-widgets-wrap -->
                 
 			</div>
@@ -632,6 +634,7 @@ See <a href="http://php.net/date/" target="_blank">PHP's Format Parameters</a> f
                                 
                             </div>
                             
+							<?php /* PARTNERS */ ?>
                         	<div class="widgets-holder-wrap">
                             
 								<?php do_action( 'sm-help-side-sortables-top' ); ?>
@@ -677,6 +680,7 @@ See <a href="http://php.net/date/" target="_blank">PHP's Format Parameters</a> f
                                 </div> <!-- postbox -->
                                 
                             </div>
+							<?php /**/ ?>
                             
                         </div> <!-- meta-box-sortables -->
                         

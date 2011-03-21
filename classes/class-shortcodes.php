@@ -124,8 +124,9 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 								$data['TIME'] 	= date_i18n( $timeformat, strtotime( $time ) );
 							
 							$data['MONTH'] 		= date_i18n( $monthformat, strtotime( $date ) );
-							$data['DATE'] 		= date_i18n( $dateformat, strtotime( $date ) );					
+							$data['DATE'] 		= date_i18n( $dateformat, strtotime( $date ) );		
 							$data['LINK'] 		= get_permalink( $cal_data_arr[$event_id]->post_parent );
+							$data['URL'] 		= get_permalink( $cal_data_arr[$event_id]->post_parent );
 							$data['TITLE'] 		= get_the_title( $cal_data_arr[$event_id]->post_parent );
 							
 							// get author details

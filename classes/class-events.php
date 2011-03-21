@@ -292,6 +292,7 @@ if ( !class_exists( 'FT_CAL_Events' ) ) {
 				echo $this->refresh_ftcal_existing_div( $get_post_id ); ?>
                 </div>
                 
+                <?php /* PARTNERS */ ?>
                 <div id="ftsupport">
                     <div style="margin-left: auto; margin-right: auto; width: 468px;">
                     <a href="http://www.shareasale.com/r.cfm?b=255473&u=474529&m=28169&urllink=&afftrack=" target="_blank"><img src="http://www.shareasale.com/image/28169/468x60.png" alt="Genesis Framework for WordPress" border="0"></a>
@@ -300,6 +301,8 @@ if ( !class_exists( 'FT_CAL_Events' ) ) {
                     <a href="admin.php?page=ftcalendar-help">remove partners</a>
                     </p>
                 </div>
+				<?php /**/ ?>
+                
             <?php else :
                 _e( 'You must <a href="edit-tags.php?taxonomy=ftcalendar">create a calendar</a> before you can add an event to it!', 'ftcalendar' );
              endif;

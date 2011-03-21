@@ -45,11 +45,26 @@ You must have:
 
 == Changelog ==
 
+= 1.1.2 =
+* Typo in Event Calendar List argument, named "LINK" but defaulted to "URL". Set both as acceptable arguments.
+
+= 1.1.1 =
+* Fixed bug related to recurring monthly and yearly events not displaying properly
+
+= 1.1.0 =
+* Initial Premium Release
+
+= 1.0.2 =
+* Typo in Event Calendar List argument, named "LINK" but defaulted to "URL". Set both as acceptable arguments.
+
 = 1.0.1 =
 * Fixed bug related to recurring monthly and yearly events not displaying properly
 
 = 1.0.0 =
-* Initial Release
+* Initial WordPress Release
+
+= 0.3.2 =
+* Beta Release
 
 == License ==
 
