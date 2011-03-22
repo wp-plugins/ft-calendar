@@ -30,6 +30,18 @@ Key features include:
 1. Type `[ftcalendar]` into any Post or Page you want SimpleMap to be displayed in.
 1. Visit the FT Calendar Help page inside your WordPress dashboard to discover more shortcodes and widgets
 
+== Screenshots ==
+
+1. Full Page Calendar
+2. Single Week View
+3. Single Day View
+4. Sidebar Widget
+5. Widget Admin Options
+6. Calendar Admin Options
+7. Event Admin Options
+8. Recurring Events Interface
+9. Shortcode Reference
+
 == Frequently Asked Questions ==
 
 = What are the minimum requirements for FT Calendar? =
