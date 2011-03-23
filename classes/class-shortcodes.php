@@ -1089,16 +1089,14 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 									break;
 								
 								case 'weekly' :
-									if ( 0 == ( $i - $str_rsdate ) % ( $cal_data->r_every * 7 ) ) {
-										$days_of_week = array( 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' );
-										for ( $x = 0; $x < 7; $x++) {
-											if ( 1 == substr( $cal_data->r_on, $x, 1 ) )
-												$dow[] = $days_of_week[$x];
-										}
-									
-										if ( in_array( date_i18n( 'D', $strdate ), $dow ) ) {
-											$cal_entries[date_i18n( 'Y-m-d', $strdate )][$rstime][] = $cal_data->id;
-										}
+									$days_of_week = array( 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' );
+									for ( $x = 0; $x < 7; $x++) {
+										if ( 1 == substr( $cal_data->r_on, $x, 1 ) )
+											$dow[] = $days_of_week[$x];
+									}
+								
+									if ( in_array( date_i18n( 'D', $strdate ), $dow ) ) {
+										$cal_entries[date_i18n( 'Y-m-d', $strdate )][$rstime][] = $cal_data->id;
 									}
 									break;
 								
