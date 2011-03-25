@@ -110,66 +110,66 @@ class FT_CAL_Event_List extends WP_Widget {
 		if ( ! empty( $available_calendars ) ) : 
 			?>
 			<p>
-	        	<label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label>
+	        	<label for="<?php echo $this->get_field_id('title'); ?>"><?php _e( 'Title:', 'ftcalendar' ); ?></label>
 	            <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr( strip_tags( $title ) ); ?>" />
 	        </p>
 			<p>
-	        	<label for="<?php echo $this->get_field_id('calendars'); ?>"><?php _e( 'Calendars:' ); ?></label>
+	        	<label for="<?php echo $this->get_field_id('calendars'); ?>"><?php _e( 'Calendars:', 'ftcalendar' ); ?></label>
 	            <br />
-	            <input type="radio" value="all" name="<?php echo $this->get_field_name( 'calendars' ) ?>" id="calendars" <?php checked( $calendars, "all" ) ?> class="checkbox" /> <label for="<?php echo $this->get_field_id( 'calendars '); ?>"><?php _e( 'All Calendars' ); ?></label>
+	            <input type="radio" value="all" name="<?php echo $this->get_field_name( 'calendars' ) ?>" id="calendars" <?php checked( $calendars, "all" ) ?> class="checkbox" /> <label for="<?php echo $this->get_field_id( 'calendars '); ?>"><?php _e( 'All Calendars', 'ftcalendar' ); ?></label>
 				<?php foreach ( (array)$available_calendars as $key => $calendar ) : ?>
 	                <br />
 	                <input type="radio" value="<?php echo $calendar->name ?>" name="<?php echo $this->get_field_name( 'calendars' ) ?>" id="calendars" <?php checked( $calendars, $calendar->name ) ?> class="checkbox" /> <label for="<?php echo $this->get_field_id( 'calendars' ); ?>"><?php echo $calendar->name ?></label>
 	            <?php endforeach; ?>
 			</p>
 			<p>
-				<label for="<?php echo $this->get_field_id( 'span' ); ?>"><?php _e( 'Time Span:' ); ?></label>
+				<label for="<?php echo $this->get_field_id( 'span' ); ?>"><?php _e( 'Time Span:', 'ftcalendar' ); ?></label>
 				+<select name="<?php echo $this->get_field_name( 'number_of' ); ?>" id="<?php echo $this->get_field_id( 'number_of' ); ?>">
 	            <?php for ( $i = 1; $i <= 30; $i++ ) { ?>
 					<option value="<?php echo $i; ?>" <?php selected( $number_of, $i ); ?>><?php echo $i; ?></option>
 	            <?php } ?>
 				</select>
 				<select name="<?php echo $this->get_field_name( 'date_types' ); ?>" id="<?php echo $this->get_field_id( 'date_types' ); ?>">
-					<option value="Day" <?php selected( $date_types, "Day" ); ?>><?php _e( 'Day(s)' ); ?></option>
-					<option value="Week" <?php selected( $date_types, "Week" ); ?>><?php _e( 'Week(s)' ); ?></option>
-					<option value="Month" <?php selected( $date_types, "Month" ); ?>><?php _e( 'Month(s)' ); ?></option>
-					<option value="Year" <?php selected( $date_types, "Year" ); ?>><?php _e( 'Year(s)' ); ?></option>
+					<option value="Day" <?php selected( $date_types, "Day" ); ?>><?php _e( 'Day(s)', 'ftcalendar' ); ?></option>
+					<option value="Week" <?php selected( $date_types, "Week" ); ?>><?php _e( 'Week(s)', 'ftcalendar' ); ?></option>
+					<option value="Month" <?php selected( $date_types, "Month" ); ?>><?php _e( 'Month(s)', 'ftcalendar' ); ?></option>
+					<option value="Year" <?php selected( $date_types, "Year" ); ?>><?php _e( 'Year(s)', 'ftcalendar' ); ?></option>
 				</select>
 			</p>
 			<p>
-	        	<label for="<?php echo $this->get_field_id( 'limit' ); ?>"><?php _e( 'Limit:' ); ?></label>
+	        	<label for="<?php echo $this->get_field_id( 'limit' ); ?>"><?php _e( 'Limit:', 'ftcalendar' ); ?></label>
 	            <input type="text" value="<?php echo esc_attr( $limit ); ?>" name="<?php echo $this->get_field_name( 'limit' ); ?>" id="<?php echo esc_attr( $limit ); ?>" />
 				<br />
-				<small><?php _e( '0 = Show all events in given time span' ); ?></small>
+				<small><?php _e( '0 = Show all events in given time span', 'ftcalendar' ); ?></small>
 			</p>
 	        <p>
-	        	<label for="<?php echo $this->get_field_id( 'timeformat' ); ?>"><?php _e( 'Time Format:' ); ?></label>
+	        	<label for="<?php echo $this->get_field_id( 'timeformat' ); ?>"><?php _e( 'Time Format:', 'ftcalendar' ); ?></label>
 	            <input type="text" value="<?php echo esc_attr( strip_tags( $timeformat ) ); ?>" name="<?php echo $this->get_field_name( 'timeformat' ); ?>" id="<?php echo esc_attr( strip_tags( $timeformat ) ); ?>" class="widefat" />
 				<br />
-	            <small><?php _e( 'See <a href="http://php.net/date/" target="_blank">PHP\'s Format Parameters</a> for help.' ); ?></small>        
+	            <small><?php _e( 'See <a href="http://php.net/date/" target="_blank">PHP\'s Format Parameters</a> for help.', 'ftcalendar' ); ?></small>        
 			</p>
 	        <p>
-	        	<label for="<?php echo $this->get_field_id('dateformat'); ?>"><?php _e( 'Date Format:' ); ?></label>
+	        	<label for="<?php echo $this->get_field_id('dateformat'); ?>"><?php _e( 'Date Format:', 'ftcalendar' ); ?></label>
 	            <input type="text" value="<?php echo esc_attr( strip_tags( $dateformat ) ); ?>" name="<?php echo $this->get_field_name( 'dateformat' ); ?>" id="<?php echo esc_attr( strip_tags( $dateformat ) ); ?>" class="widefat" />
 				<br />
-	            <small><?php _e( 'See <a href="http://php.net/date/" target="_blank">PHP\'s Format Parameters</a> for help.' ); ?></small>        
+	            <small><?php _e( 'See <a href="http://php.net/date/" target="_blank">PHP\'s Format Parameters</a> for help.', 'ftcalendar' ); ?></small>        
 			</p>
 	        <p>
-	        	<label for="<?php echo $this->get_field_id( 'date_template' ); ?>"><?php _e( 'Date Template:' ); ?></label>
+	        	<label for="<?php echo $this->get_field_id( 'date_template' ); ?>"><?php _e( 'Date Template:', 'ftcalendar' ); ?></label>
 	            <input type="text" value="<?php echo esc_attr( $date_template ); ?>" name="<?php echo $this->get_field_name( 'date_template' ); ?>" id="<?php echo esc_attr( $date_template ); ?>" class="widefat" />   
 			</p>
 	        <p>
-	        	<label for="<?php echo $this->get_field_id( 'monthformat '); ?>"><?php _e( 'Month Format:' ); ?></label>
+	        	<label for="<?php echo $this->get_field_id( 'monthformat '); ?>"><?php _e( 'Month Format:', 'ftcalendar' ); ?></label>
 	            <input type="text" value="<?php echo esc_attr( strip_tags( $monthformat ) ); ?>" name="<?php echo $this->get_field_name( 'monthformat' ); ?>" id="<?php echo esc_attr( strip_tags( $monthformat ) ); ?>" class="widefat" />
 				<br />
-	            <small><?php _e( 'See <a href="http://php.net/date/" target="_blank">PHP\'s Format Parameters</a> for help.' ); ?></small>        
+	            <small><?php _e( 'See <a href="http://php.net/date/" target="_blank">PHP\'s Format Parameters</a> for help.', 'ftcalendar' ); ?></small>        
 			</p>
 	        <p>
-	        	<label for="<?php echo $this->get_field_id( 'month_template' ); ?>"><?php _e( 'Month Template:' ); ?></label>
+	        	<label for="<?php echo $this->get_field_id( 'month_template' ); ?>"><?php _e( 'Month Template:', 'ftcalendar' ); ?></label>
 	            <input type="text" value="<?php echo esc_attr( $month_template ); ?>" name="<?php echo $this->get_field_name( 'month_template' ); ?>" id="<?php echo esc_attr( $month_template ); ?>" class="widefat" />   
 			</p>
 	        <p>
-	        	<label for="<?php echo $this->get_field_id( 'event_template' ); ?>"><?php _e( 'Event Template:' ); ?></label>
+	        	<label for="<?php echo $this->get_field_id( 'event_template' ); ?>"><?php _e( 'Event Template:', 'ftcalendar' ); ?></label>
 	            <input type="text" value="<?php echo esc_attr( $event_template ); ?>" name="<?php echo $this->get_field_name( 'event_template' ); ?>" id="<?php echo esc_attr( $event_template ); ?>" class="widefat" />   
 			</p>
         	<?php 
@@ -265,13 +265,13 @@ class FT_CAL_Thumb_Calendar extends WP_Widget {
 		if ( !empty( $available_calendars ) ) : 
 			?>
 			<p>
-	        	<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label>
+	        	<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'ftcalendar' ); ?></label>
 	            <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( strip_tags( $title ) ); ?>" />
 	        </p>
 			<p>
-	        	<label for="<?php echo $this->get_field_id( 'calendars' ); ?>"><?php _e( 'Calendars:' ); ?></label>
+	        	<label for="<?php echo $this->get_field_id( 'calendars' ); ?>"><?php _e( 'Calendars:', 'ftcalendar' ); ?></label>
 	            <br />
-	            <input type="radio" value="all" name="<?php echo $this->get_field_name( 'calendars' ) ?>" id="calendars" <?php checked( $calendars, "all" ) ?> class="checkbox" /> <label for="<?php echo $this->get_field_id( 'calendars' ); ?>"><?php _e( 'All Calendars' ); ?></label>
+	            <input type="radio" value="all" name="<?php echo $this->get_field_name( 'calendars' ) ?>" id="calendars" <?php checked( $calendars, "all" ) ?> class="checkbox" /> <label for="<?php echo $this->get_field_id( 'calendars' ); ?>"><?php _e( 'All Calendars', 'ftcalendar' ); ?></label>
 				<?php foreach ( (array)$available_calendars as $key => $calendar ) : ?>
 	                <br />
 	                <input type="radio" value="<?php echo $calendar->name ?>" name="<?php echo $this->get_field_name( 'calendars' ) ?>" id="calendars" <?php checked( $calendars, $calendar->name ) ?> class="checkbox" /> <label for="<?php echo $this->get_field_id( 'calendars' ); ?>"><?php echo $calendar->name ?></label>

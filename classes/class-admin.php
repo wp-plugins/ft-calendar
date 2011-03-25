@@ -81,7 +81,7 @@ if ( !class_exists( 'FT_CAL_Admin' ) ) {
 			?>
 			<div class="wrap">
 				<div id="icon-options-general" class="icon32"><br /></div>
-				<h2><?php _e( 'FullThrottle Calendar General Settings', 'ftcalendar' ); ?> <a href="admin.php?page=ftcalendar-help" style="text-decoration: none;"><?php /**/ _e( '(Upgrade to Premium Support)' ); /**/?></a></h2>
+				<h2><?php _e( 'FullThrottle Calendar General Settings', 'ftcalendar' ); ?> <a href="admin.php?page=ftcalendar-help" style="text-decoration: none;"><?php /**/ _e( '(Upgrade to Premium Support)', 'ftcalendar' ); /**/ ?></a></h2>
 					
 				<div id="dashboard-widgets-wrap" class="clear">
 					
@@ -115,7 +115,7 @@ if ( !class_exists( 'FT_CAL_Admin' ) ) {
                                             
                                             <!-- How are events added to calendars? -->
                                             <tr valign="top">
-                                                <th scope="row"><?php _e('Enable Calendar items for these post types:') ?></th>
+                                                <th scope="row"><?php _e( 'Enable Calendar items for these post types:', 'ftcalendar' ) ?></th>
                                                 <td> 
                                                     <?php
 													if ( version_compare( $wp_version, '3.0', '>' ) ) {
@@ -147,7 +147,7 @@ if ( !class_exists( 'FT_CAL_Admin' ) ) {
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <th scope="row"><?php _e('Show Support Link:') ?></th>
+                                                <th scope="row"><?php _e( 'Show Support Link:', 'ftcalendar' ) ?></th>
                                                 <td>
                                                     <input type="checkbox" name="show_support" <?php checked( $show_support ); ?>/>
                                                 </td>
@@ -168,8 +168,42 @@ if ( !class_exists( 'FT_CAL_Admin' ) ) {
                             </div> <!-- postbox -->
                         
                         </div> <!-- meta-box-sortables -->
+                        
+                        <?php /* PREMIUM UPDATES */ ?>
+                        <div id='available-widgets' class='widgets-holder-wrap ui-droppable'>
+                        
+                            <div class="sidebar-name">
+                
+                                <h3><?php _e( 'Available Premium Updates', 'ftcalendar' ); ?></h3>
+                                
+                            </div>
+                            
+                            <div class="widget-holder">
+                            
+                                <div class="inside" style="padding: 0 10px 10px 10px;">
+                                    
+                                    <div class="table">
+                                    
+                                    	<p><?php _e( 'These updates are available now by upgrading to Premium Support...' ); ?></p>
+                                    
+                                    	<ul style='margin-left:25px;list-style-type:disc'>
+                                            <li><?php _e( 'Backup & Export your FullThrottle Calendar data to a CSV file', 'ftcalendar' ); ?></li>
+                                            <li><?php _e( 'Import your FullThrottle Calendar data from a CVS file', 'ftcalendar' ); ?></li>
+                                            <li><?php _e( 'Import existing Event Calendar 3 data into the FullThrottle Calendar', 'ftcalendar' ); ?></li>
+                                            <li><?php _e( 'Partners removed from Calendar Meta Boxes and Control Panels' ); ?></li>
+                                        </ul>
+                                        
+                                        <p><a href="admin.php?page=ftcalendar-help" style="text-decoration: none;"><?php /**/ _e( 'Learn more...', 'ftcalendar' ); /**/ ?></a></p>
+                                    </div>
+                                    
+                                </div> <!-- inside -->
+                                
+                            </div> <!-- postbox -->
+                        
+                        </div> <!-- meta-box-sortables -->
 
                     </div> <!-- postbox-container -->
+                    <?php /**/ ?>
 
 					<?php /* PARTNERS */ ?>
                     <div class='widget-liquid-right' style='width: 30%;'>
@@ -234,6 +268,7 @@ if ( !class_exists( 'FT_CAL_Admin' ) ) {
                 
 			</div>
 			<?php
+			
 		}
 
 		/**
@@ -545,11 +580,10 @@ See <a href="http://php.net/date/" target="_blank">PHP's Format Parameters</a> f
                                             <tr>
                                             
                                                 <td>
-
                                                    
-                                                   <p>This widget is available in <a href='widgets.php'>Widgets</a> section of your WordPress dashboard. It is basically the Event List shortcode. You are able to customize the same settings as the shortcode.</p>
-                                                                                                        
-													<p>See <a href="http://php.net/date/" target="_blank">PHP's Format Parameters</a> for help with Date, Time, and Month format strings.</p>
+                                                    <p>This widget is available in <a href='widgets.php'>Widgets</a> section of your WordPress dashboard. It is basically the Event List shortcode. You are able to customize the same settings as the shortcode.</p>
+                                                                                       
+                                                    <p>See <a href="http://php.net/date/" target="_blank">PHP's Format Parameters</a> for help with Date, Time, and Month format strings.</p>
 
                                                 </td>
                                                 
@@ -606,7 +640,7 @@ See <a href="http://php.net/date/" target="_blank">PHP's Format Parameters</a> f
                                                 <li><?php _e( 'Professional and timely response times to all your questions from the FT Calendar team', 'ftcalendar' ); ?></li>
                                                 <li><?php _e( 'A 10% discount for any custom functionality you request from the FT Calendar developers', 'ftcalendar' ); ?></li>
                                                 <li><?php _e( 'A 6-12 month advance access to new features integrated into the auto upgrade functionality of WordPress', 'ftcalendar' ); ?></li>
-                                                <li><?php _e( 'Ads removed from Calendar Meta Boxes and Control Panels' ); ?></li>
+                                                <li><?php _e( 'Partners removed from Calendar Meta Boxes and Control Panels' ); ?></li>
                                             </ul>
                                             
                                             <ul style='margin-left:25px;list-style-type:none'>
@@ -768,6 +802,8 @@ See <a href="http://php.net/date/" target="_blank">PHP's Format Parameters</a> f
 			$options = $ft_cal_options->parse_option_args( $submitted, $existing );
 			
 			update_option( 'ft_calendar_options', $options );
+			
+			echo '<div class="updated"><p><strong>' . __( 'Settings Saved.', 'ftcalendar' ) . '</strong></p></div>';
 			
 			return $options;
 			

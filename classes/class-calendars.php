@@ -106,7 +106,7 @@ if ( !class_exists( 'FT_Cal_Calendars' ) ) {
 		function ftcalendar_taxonomy_add_form_fields() {
 			?>	
             <div class="form-field">
-            	<label for="ftcalendar-color"><?php _e( 'Calendar Label Color' ); ?></label>
+            	<label for="ftcalendar-color"><?php _e( 'Calendar Label Color', 'ftcalendar' ); ?></label>
                 <?php echo $this->get_calendar_colors(); ?>
             </div>
 			<?php
@@ -120,9 +120,10 @@ if ( !class_exists( 'FT_Cal_Calendars' ) ) {
 		function ftcalendar_taxonomy_edit_form_fields( $tag, $taxonomy ) {
 		    
 		    $ftcal_meta = get_option( $taxonomy . "_meta" );
+			
 			?>		
 			<tr class="form-field">
-            <th valign="top" scope="row"><?php _e( 'Calendar Label Color' ); ?></th>
+            <th valign="top" scope="row"><?php _e( 'Calendar Label Color', 'ftcalendar' ); ?></th>
             <td><?php echo $this->get_calendar_colors( $ftcal_meta['ftcal-bg-color-' . $tag->term_id ] ); ?></td>
 			</tr>
 			<?php
@@ -139,11 +140,12 @@ if ( !class_exists( 'FT_Cal_Calendars' ) ) {
 			$full_colors = $this->get_full_colors();
 
 			$color = ( isset( $ftcal_color ) ) ? $ftcal_color : '668cd9';
-			$style = "background-color: " . $color . "; border-color: " . $color . ";";
+			
+			$style = "background-color: #" . $color . "; border-color: #" . $color . ";";
 
 			$cc = '<div id="ftcalendar-color-picker">';
 			$cc .= '<input type="hidden" value="' . $color .'" id="ftcal-color" name="ftcal-color" />';
-			$cc .= "<div id='calendar-label-color' style='width: 175px; clear: both; $style'><div style='$style'>calendar</div></div>";
+			$cc .= "<div id='calendar-label-color' style='width: 175px; clear: both; " . $style . "'><div style='" . $style . "'>calendar</div></div>";
 			$cc .= "<ul>";
 			foreach ( (array)$full_colors as $bg_color => $border_color ) {
 				$cc .= '<li class="calcolor-li"><a class="calcolor-square" style="background-color: #' . $bg_color .'; border: 1px solid #' . $border_color . ';">&nbsp;</a></li>';

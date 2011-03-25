@@ -187,7 +187,7 @@ if ( !class_exists( 'FT_CAL_Events' ) ) {
                 <!-- Time Start -->
                 <input style='width:70px;' type='text' id='event_time_start' value='<?php echo esc_attr( $time_start ); ?>' />
                     
-                <?php _e( 'to', 'ft_calendar' ); ?> 
+                <?php _e( 'to', 'ftcalendar' ); ?> 
                 
                 <!-- Date end -->
                 <input style="width: 85px;" type="text" value='<?php echo esc_attr( $date_end ); ?>' id='event_date_end' />
@@ -195,9 +195,9 @@ if ( !class_exists( 'FT_CAL_Events' ) ) {
                 <input style='width:70px;' type="text" id='event_time_end' value="<?php echo esc_attr( $time_end ); ?>" />
                 
                 <!-- All Day? -->
-                <input type='checkbox' name='ft_cal_event_all_day' id='ft_cal_event_all_day' <?php checked( $all_day ); ?> /> <?php _e( 'All day' ); ?>
+                <input type='checkbox' name='ft_cal_event_all_day' id='ft_cal_event_all_day' <?php checked( $all_day ); ?> /> <?php _e( 'All day', 'ftcalendar' ); ?>
                 <!-- All Day? -->
-                <input type='checkbox' name='ft_cal_event_repeats' id='ft_cal_event_repeats' <?php checked( $repeats ); ?> /> <?php _e( 'Repeats...' ); ?>
+                <input type='checkbox' name='ft_cal_event_repeats' id='ft_cal_event_repeats' <?php checked( $repeats ); ?> /> <?php _e( 'Repeats...', 'ftcalendar' ); ?>
                 <input style='float: right;' type='button' name='ft_cal_clear_event' id='ft_cal_clear_event' value="X" />
                 <input style='float: right; margin-right: 5px;' type='button' name='ft_cal_save_event' id='ft_cal_save_event' value="+" />
                 
@@ -207,16 +207,16 @@ if ( !class_exists( 'FT_CAL_Events' ) ) {
                 <div id='event_recurring_field_options'>
                     <table id='recurring_table'>
                         <tr>
-                            <th style="text-align: right; width: 100px;"><strong><?php _e( 'Repeats' ); ?>:</strong></th>
+                            <th style="text-align: right; width: 100px;"><strong><?php _e( 'Repeats', 'ftcalendar' ); ?>:</strong></th>
                             <td style="text-align: left; width: 400px;">
                             <select id='repeats_select' name='ft_cal_repeats' style='margin-bottom:5px;'>
-                                <option value='daily' <?php selected( 'daily', $repeats_select ); ?> ><?php _e( 'Daily' ); ?></option>
-                                <option value='weekdays' <?php selected( 'weekdays', $repeats_select ); ?> ><?php _e( 'Every weekday' ); ?></option>
-                                <option value='mwf' <?php selected( 'mwf', $repeats_select ); ?> ><?php _e( 'Every Mon., Wed., and Fri.' ); ?></option>
-                                <option value='tt' <?php selected( 'tt', $repeats_select ); ?> ><?php _e( 'Every Tues., and Thurs.' ); ?></option>
-                                <option value='weekly' <?php selected( 'weekly', $repeats_select ); ?> ><?php _e( 'Weekly' ); ?></option>
-                                <option value='monthly' <?php selected( 'montly', $repeats_select ); ?> ><?php _e( 'Monthly' ); ?></option>
-                                <option value='yearly' <?php selected( 'yearly', $repeats_select ); ?> ><?php _e( 'Yearly' ); ?></option>
+                                <option value='daily' <?php selected( 'daily', $repeats_select ); ?> ><?php _e( 'Daily', 'ftcalendar' ); ?></option>
+                                <option value='weekdays' <?php selected( 'weekdays', $repeats_select ); ?> ><?php _e( 'Every weekday', 'ftcalendar' ); ?></option>
+                                <option value='mwf' <?php selected( 'mwf', $repeats_select ); ?> ><?php _e( 'Every Mon., Wed., and Fri.', 'ftcalendar' ); ?></option>
+                                <option value='tt' <?php selected( 'tt', $repeats_select ); ?> ><?php _e( 'Every Tues., and Thurs.', 'ftcalendar' ); ?></option>
+                                <option value='weekly' <?php selected( 'weekly', $repeats_select ); ?> ><?php _e( 'Weekly', 'ftcalendar' ); ?></option>
+                                <option value='monthly' <?php selected( 'montly', $repeats_select ); ?> ><?php _e( 'Monthly', 'ftcalendar' ); ?></option>
+                                <option value='yearly' <?php selected( 'yearly', $repeats_select ); ?> ><?php _e( 'Yearly', 'ftcalendar' ); ?></option>
                             </select>
                             </td>
                         </tr>
@@ -225,9 +225,9 @@ if ( !class_exists( 'FT_CAL_Events' ) ) {
                             <td colspan="2">
                             <div id='repeats_label' style='text-align: center;'>
                                 <p id='repeats_daily_p' class='repeats_label_item' ><span id='repeats_daily_label'></span><span class='date_until'></span></p>
-                                <p id='repeats_weekdays_p' class='repeats_label_item' ><span id='repeats_weekdays_single'><?php _e( 'Weekly on weekdays' ); ?></span><span class='date_until'></span></p>
-                                <p id='repeats_mwf_p' class='repeats_label_item' ><span id='repeats_mwf_single'><?php _e( 'Weekly on Monday, Wednesday, Friday' ); ?></span><span class='date_until'></span></p>
-                                <p id='repeats_tt_p' class='repeats_label_item' ><span id='repeats_tt_single'><?php _e( 'Weekly on Tuesday, Thursday' ); ?></span><span class='date_until'></span></p>
+                                <p id='repeats_weekdays_p' class='repeats_label_item' ><span id='repeats_weekdays_single'><?php _e( 'Weekly on weekdays', 'ftcalendar' ); ?></span><span class='date_until'></span></p>
+                                <p id='repeats_mwf_p' class='repeats_label_item' ><span id='repeats_mwf_single'><?php _e( 'Weekly on Monday, Wednesday, Friday', 'ftcalendar' ); ?></span><span class='date_until'></span></p>
+                                <p id='repeats_tt_p' class='repeats_label_item' ><span id='repeats_tt_single'><?php _e( 'Weekly on Tuesday, Thursday', 'ftcalendar' ); ?></span><span class='date_until'></span></p>
                                 <p id='repeats_weekly_p' class='repeats_label_item' ><span id='repeats_weekly_label'></span><span id='repeats_weekly_on'></span><span class='date_until'></span></p>
                                 <p id='repeats_monthly_p' class='repeats_label_item' ><span id='repeats_monthly_label'></span><span class='date_until'></span></p>
                                 <p id='repeats_yearly_p' class='repeats_label_item' ><span id='repeats_yearly_label'></span><span class='date_until'></span></p>
@@ -236,49 +236,49 @@ if ( !class_exists( 'FT_CAL_Events' ) ) {
                         </tr>
     
                         <tr id='repeats_every'>
-                            <th><strong><?php _e( 'Repeat Every' ); ?>:</strong></th>
+                            <th><strong><?php _e( 'Repeat Every', 'ftcalendar' ); ?>:</strong></th>
                             <td>
                             <div style='margin-bottom:5px;'>
                                 <select name='ft_cal_repeats_every' id='repeats_every_select'>
                                     <?php for($i=1;$i<=30;$i++){ ?><option value='<?php echo $i; ?>' <?php checked( $i, $repeats_every ); ?> ><?php echo $i; ?></option><?php } ?>
-                                </select> <span id='repeats_every_label'><?php _e( 'days' ); ?></span>
+                                </select> <span id='repeats_every_label'><?php _e( 'days', 'ftcalendar' ); ?></span>
                             </div>
                             </td>
                         </tr>
                     
                     <tr id='repeats_on' style='margin-bottom:5px;display:none;'>
-                        <th><strong><?php _e( 'Repeat On:' ); ?></strong></th>
+                        <th><strong><?php _e( 'Repeat On:', 'ftcalendar' ); ?></strong></th>
                         <td>
-                        <input type='checkbox' id='repeats_on_sun' class='repeats_on' name='ft_cal_repeats_on[]' value='sun' <?php if ( in_array( 'sun', $repeats_on ) ) { echo "checked='checked'"; } ?> /> <?php _e( 'S' ); ?>&nbsp;&nbsp;
-                        <input type='checkbox' id='repeats_on_mon' class='repeats_on' name='ft_cal_repeats_on[]' value='mon' <?php if ( in_array( 'mon', $repeats_on ) ) { echo "checked='checked'"; } ?> /> <?php _e( 'M' ); ?>&nbsp;&nbsp;
-                        <input type='checkbox' id='repeats_on_tue' class='repeats_on' name='ft_cal_repeats_on[]' value='tue' <?php if ( in_array( 'tue', $repeats_on ) ) { echo "checked='checked'"; } ?> /> <?php _e( 'T' ); ?>&nbsp;&nbsp;
-                        <input type='checkbox' id='repeats_on_wed' class='repeats_on' name='ft_cal_repeats_on[]' value='wed' <?php if ( in_array( 'wed', $repeats_on ) ) { echo "checked='checked'"; } ?> /> <?php _e( 'W' ); ?>&nbsp;&nbsp;
-                        <input type='checkbox' id='repeats_on_thu' class='repeats_on' name='ft_cal_repeats_on[]' value='thu' <?php if ( in_array( 'thu', $repeats_on ) ) { echo "checked='checked'"; } ?> /> <?php _e( 'T' ); ?>&nbsp;&nbsp;
-                        <input type='checkbox' id='repeats_on_fri' class='repeats_on' name='ft_cal_repeats_on[]' value='fri' <?php if ( in_array( 'fri', $repeats_on ) ) { echo "checked='checked'"; } ?> /> <?php _e( 'F' ); ?>&nbsp;&nbsp;
-                        <input type='checkbox' id='repeats_on_sat' class='repeats_on' name='ft_cal_repeats_on[]' value='sat' <?php if ( in_array( 'sat', $repeats_on ) ) { echo "checked='checked'"; } ?> /> <?php _e( 'S' ); ?>&nbsp;&nbsp;
+                        <input type='checkbox' id='repeats_on_sun' class='repeats_on' name='ft_cal_repeats_on[]' value='sun' <?php if ( in_array( 'sun', $repeats_on ) ) { echo "checked='checked'"; } ?> /> <?php _e( 'S', 'ftcalendar' ); ?>&nbsp;&nbsp;
+                        <input type='checkbox' id='repeats_on_mon' class='repeats_on' name='ft_cal_repeats_on[]' value='mon' <?php if ( in_array( 'mon', $repeats_on ) ) { echo "checked='checked'"; } ?> /> <?php _e( 'M', 'ftcalendar' ); ?>&nbsp;&nbsp;
+                        <input type='checkbox' id='repeats_on_tue' class='repeats_on' name='ft_cal_repeats_on[]' value='tue' <?php if ( in_array( 'tue', $repeats_on ) ) { echo "checked='checked'"; } ?> /> <?php _e( 'T', 'ftcalendar' ); ?>&nbsp;&nbsp;
+                        <input type='checkbox' id='repeats_on_wed' class='repeats_on' name='ft_cal_repeats_on[]' value='wed' <?php if ( in_array( 'wed', $repeats_on ) ) { echo "checked='checked'"; } ?> /> <?php _e( 'W', 'ftcalendar' ); ?>&nbsp;&nbsp;
+                        <input type='checkbox' id='repeats_on_thu' class='repeats_on' name='ft_cal_repeats_on[]' value='thu' <?php if ( in_array( 'thu', $repeats_on ) ) { echo "checked='checked'"; } ?> /> <?php _e( 'T', 'ftcalendar' ); ?>&nbsp;&nbsp;
+                        <input type='checkbox' id='repeats_on_fri' class='repeats_on' name='ft_cal_repeats_on[]' value='fri' <?php if ( in_array( 'fri', $repeats_on ) ) { echo "checked='checked'"; } ?> /> <?php _e( 'F', 'ftcalendar' ); ?>&nbsp;&nbsp;
+                        <input type='checkbox' id='repeats_on_sat' class='repeats_on' name='ft_cal_repeats_on[]' value='sat' <?php if ( in_array( 'sat', $repeats_on ) ) { echo "checked='checked'"; } ?> /> <?php _e( 'S', 'ftcalendar' ); ?>&nbsp;&nbsp;
                         </td>
                     </tr>
                     
                     <tr id='repeats_by' style='margion-bottom:5px;display:none;'>
-                        <th><strong><?php _e( 'Repeat By' ); ?>:</strong></th>
+                        <th><strong><?php _e( 'Repeat By', 'ftcalendar' ); ?>:</strong></th>
                         <td>
-                        <input type='radio' name='ft_cal_repeats_by' class='repeats_by' id='repeats_by_dayofmonth' value='0' <?php checked( '0', $repeats_by ); ?> /> <?php _e( 'day of the month' ); ?> &nbsp;&nbsp;
-                        <input type='radio' name='ft_cal_repeats_by' class='repeats_by' id='repeats_by_dayofweek' value='1' <?php checked( '1', $repeats_by ); ?>/> <?php _e( 'day of the week' ); ?> 
+                        <input type='radio' name='ft_cal_repeats_by' class='repeats_by' id='repeats_by_dayofmonth' value='0' <?php checked( '0', $repeats_by ); ?> /> <?php _e( 'day of the month', 'ftcalendar' ); ?> &nbsp;&nbsp;
+                        <input type='radio' name='ft_cal_repeats_by' class='repeats_by' id='repeats_by_dayofweek' value='1' <?php checked( '1', $repeats_by ); ?>/> <?php _e( 'day of the week', 'ftcalendar' ); ?> 
                         </td>
                     </tr>
                     
                     <tr id='starts_on'>
-                        <th><strong><?php _e( 'Starts On' ); ?>:</strong></th>
+                        <th><strong><?php _e( 'Starts On', 'ftcalendar' ); ?>:</strong></th>
                         <td>
                             <input id='range_start' name='ft_cal_range_start' type='text' style='width:100px;' readonly='readonly' value="<?php echo esc_attr( $range_start ); ?>" /><br />
                         </td>
                     </tr>
                     
                     <tr id='ends_on'>
-                        <th><strong><?php _e( 'Ends On:' ); ?></strong></th>
+                        <th><strong><?php _e( 'Ends On:', 'ftcalendar' ); ?></strong></th>
                         <td>
-                            <input id='range_end_type_never' class='range_end_type' name='ft_cal_range_end_type' type='radio' value='0' <?php checked( '0', $range_end_type ); ?> /> <?php _e( 'Never' ); ?> 
-                            <input id='range_end_type_until' name='ft_cal_range_end_type' class='range_end_type' type='radio' value='1' <?php checked( '1', $range_end_type ); ?> /> <?php _e( 'Until' ); ?> 
+                            <input id='range_end_type_never' class='range_end_type' name='ft_cal_range_end_type' type='radio' value='0' <?php checked( '0', $range_end_type ); ?> /> <?php _e( 'Never', 'ftcalendar' ); ?> 
+                            <input id='range_end_type_until' name='ft_cal_range_end_type' class='range_end_type' type='radio' value='1' <?php checked( '1', $range_end_type ); ?> /> <?php _e( 'Until', 'ftcalendar' ); ?> 
                             <input style="width: 100px;" type="text" value='<?php echo esc_attr( $date_until ); ?>' id='range_end' />
                         </td>
                     </tr>
@@ -292,7 +292,7 @@ if ( !class_exists( 'FT_CAL_Events' ) ) {
 				echo $this->refresh_ftcal_existing_div( $get_post_id ); ?>
                 </div>
                 
-                <?php /* PARTNERS */ ?>
+                <?php /* PARTNERS
                 <div id="ftsupport">
                     <div style="margin-left: auto; margin-right: auto; width: 468px;">
                     <a href="http://www.shareasale.com/r.cfm?b=255473&u=474529&m=28169&urllink=&afftrack=" target="_blank"><img src="http://www.shareasale.com/image/28169/468x60.png" alt="Genesis Framework for WordPress" border="0"></a>
@@ -304,7 +304,7 @@ if ( !class_exists( 'FT_CAL_Events' ) ) {
 				<?php /**/ ?>
                 
             <?php else :
-                _e( 'You must <a href="edit-tags.php?taxonomy=ftcalendar">create a calendar</a> before you can add an event to it!', 'ftcalendar' );
+                _e( 'You must <a href="edit-tags.php?taxonomy=ftcalendar">create a calendar</a> before you can add an event to it!', 'ftcalendar', 'ftcalendar' );
              endif;
 		}
 		
