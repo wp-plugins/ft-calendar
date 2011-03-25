@@ -11,7 +11,7 @@ A calendar plugin supporting multiple calendars, recurring events, and several d
 
 A calendar plugin supporting multiple calendars, recurring events, and several different widgets / shortcodes. More info at http://calendar-plugin.com
 
-Key features include:
+Basic features include:
 
 * Recurring Events
 * Multiple Color Labels
@@ -21,6 +21,12 @@ Key features include:
 * Events can be attached to any Post, Page, or custom post type
 * Premium support and custom development available
 * [Quick Start Guide](http://calendar-plugin.com/quick-start-guide)
+
+Premium features available:
+
+* Backup & Export FullThrottle Calendar data to a CSV file
+* Import FullThrottle Calendar data from a CSV file
+* Import Event Calendar 3 data from the WordPress database
 
 == Installation ==
 
