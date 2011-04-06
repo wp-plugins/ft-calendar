@@ -33,7 +33,7 @@ Premium features available:
 1. Upload the entire `ft-calendar` folder to your `/wp-content/plugins/` folder.
 1. Go to the 'Plugins' page in the menu and activate the plugin.
 1. Create at least one calendar.
-1. Type `[ftcalendar]` into any Post or Page you want SimpleMap to be displayed in.
+1. Type `[ftcalendar]` into any Post or Page you want FT Calendar to be displayed in.
 1. Visit the FT Calendar Help page inside your WordPress dashboard to discover more shortcodes and widgets
 
 == Frequently Asked Questions ==
