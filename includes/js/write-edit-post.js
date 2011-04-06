@@ -288,7 +288,7 @@ jQuery(document).ready(function($) {
 			r_label:		$('div#repeats_label p:visible').text(),
 			r_every:		$('select#repeats_every_select option:selected').val(),
 			r_on:			repeats_on,
-			r_by:			$('input.repeats_by').val(),
+			r_by:			$('input.repeats_by:checked').val(),
 			r_start_date:	$('input#range_start').val(),
 			r_end:			$('input.range_end_type:checked').val(),
 			r_end_date:		$('input#range_end').val(),

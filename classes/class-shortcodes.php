@@ -1123,7 +1123,12 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 											}
 										} else { // by day of week
 											if ( date_i18n( 'D', $strdate ) == date_i18n( 'D', strtotime( $cal_data->r_start_datetime ) ) ) {
-												$cal_entries[date_i18n( 'Y-m-d', $strdate )][$rstime][] = $cal_data->id;
+												
+												$dom = $this->get_nth_weekday_of_month( strtotime( $cal_data->r_start_datetime ) );
+												$cdom = $this->get_nth_weekday_of_month( $strdate );
+												
+												if ( $dom == $cdom )
+													$cal_entries[date_i18n( 'Y-m-d', $strdate )][$rstime][] = $cal_data->id;
 											}
 										}
 									}
@@ -1210,6 +1215,40 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 					
 			return $headings;
 		
+		}
+		
+		function get_nth_weekday_of_month( $strdate ) {
+			
+			$englishnumber = array(
+								'first',
+								'second',
+								'third',
+								'fourth',
+								'fifth'
+							);
+			
+			$date = date_i18n( 'j', $strdate );
+			$day = date_i18n( 'w', $strdate ) + 1;
+			$firstday = date_i18n( 'w', strtotime( date_i18n( 'Y-m-1', $strdate ) ) ) + 1;
+			
+			for ( $i = 0; $i <= 5; $i++ ) {
+			
+				if ( ( $day + ( 7 * $i ) ) >= $date ) {
+				
+					if ( $day < $firstday ) {
+					
+						$i--;
+						
+					}
+					
+					return $englishnumber[$i];
+					
+				}
+				
+			}
+		
+			return false;
+			
 		}
 	
 	}

@@ -11,5 +11,4 @@ jQuery(document).ready(function($) {
 		$( 'div#calendar-label-color div').css( 'background-color', $( this ).css( 'background-color' ) );
 		$( 'div#calendar-label-color div').css( 'border-color', $( this ).css( 'background-color' ) );
 	});
-	
 });

@@ -50,6 +50,15 @@ You must have:
 * FT Calendar is GPL
 
 == Changelog ==
+= 1.0.3.1 =
+* Fixed bug causing calendar to disappear with the legend turned off
+* Fixed bug preventing IE from changing the label color
+* Fixed minor error showing when looking at the help page with no calendars defined
+* Fixed minor bug causing Legend to display entire list of calendars, even when 'calendars' shortcode arg is set
+* Fixed weekly recursion calculation error
+* Fixed monthly recursion JS and calculation error when "day of the week" is selected
+* Fixed "day" link on Month and Week calendar
+
 = 1.0.3 =
 * Fixed bug in weekly recurring events
 * Fixed bug preventing calendar label color from not appearing properly when editing the taxonomy
