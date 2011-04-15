@@ -334,9 +334,9 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			if ( 'on' == $types ) {
 				
 				$table .= "<span id='ftcalendar-types'>";
-				$table .= '<a href="' . $permalink. '?type=day">' . __('Day') . '</a> ' .
-							'<a href="' . $permalink. '?type=week">' . __('Week') . '</a> ' .
-							'<a href="' . $permalink. '?type=month">' . __('Month') . '</a>';
+				$table .= '<a href="' . $permalink . '?type=day">' . __('Day') . '</a> ' .
+							'<a href="' . $permalink . '?type=week">' . __('Week') . '</a> ' .
+							'<a href="' . $permalink . '?type=month">' . __('Month') . '</a>';
 				$table .= "</span>";
 			
 			}
@@ -472,9 +472,9 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			if ( 'on' == $types ) {
 			
 				$table .= "<span id='ftcalendar-types'>";
-				$table .= '<a href="' . $permalink. '?type=day">' . __('Day') . '</a> ' .
-							'<a href="' . $permalink. '?type=week">' . __('Week') . '</a> ' .
-							'<a href="' . $permalink. '?type=month">' . __('Month') . '</a>';
+				$table .= '<a href="' . $permalink . '?type=day">' . __('Day') . '</a> ' .
+							'<a href="' . $permalink . '?type=week">' . __('Week') . '</a> ' .
+							'<a href="' . $permalink . '?type=month">' . __('Month') . '</a>';
 				$table .= "</span>";
 			
 			}
@@ -667,9 +667,9 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			if ( 'on' == $types ) {
 				
 				$table .= "<span id='ftcalendar-types'>";
-				$table .= '<a href="' . $permalink. '?type=day">' . __('Day') . '</a> ' .
-							'<a href="' . $permalink. '?type=week">' . __('Week') . '</a> ' .
-							'<a href="' . $permalink. '?type=month">' . __('Month') . '</a>';
+				$table .= '<a href="' . $permalink . '?type=day">' . __('Day') . '</a> ' .
+							'<a href="' . $permalink . '?type=week">' . __('Week') . '</a> ' .
+							'<a href="' . $permalink . '?type=month">' . __('Month') . '</a>';
 				$table .= "</span>";
 			
 			}
@@ -1089,7 +1089,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 									break;
 								
 								case 'weekly' :
-									$day = date_i18n( 'w', $str_rsdate ); 	//Get numeric day
+									$day = date_i18n( 'w', $str_rsdate * 86400 ); 	//Get numeric day
 									$str_rsweek = $str_rsdate - $day;		//Set start week
 									$dow = array();	//track days of week and numeric days that event falls on
 									$days = array();
@@ -1103,7 +1103,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 									}
 								
 									if ( in_array( date_i18n( 'D', $strdate ), $dow ) 
-											&& in_array( ( $i - $str_rsweek - 1 ) % ( $cal_data->r_every * 7 ), $days ) ) {
+											&& in_array( ( $i - $str_rsweek ) % ( $cal_data->r_every * 7 ), $days ) ) {
 										$cal_entries[date_i18n( 'Y-m-d', $strdate )][$rstime][] = $cal_data->id;
 									}
 									break;

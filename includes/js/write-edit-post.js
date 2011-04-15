@@ -104,8 +104,8 @@ jQuery(document).ready(function($) {
 		if ( null == repeats_select )
 			repeats_select = 'daily';
 			
-		repeats_every = $('select#repeats_every_select').val();
-		date_until = $( 'input#range_end' ).val();
+		var repeats_every_select = $('select#repeats_every_select').val();
+		var date_until = $( 'input#range_end' ).val();
 		
 		if ( '' != date_until ) {
 			$( '.date_until' ).text(', until ' + $.datepicker.formatDate( 'MM dd, yy', $( 'input#range_end' ).datepicker( 'getDate' ) ) ).show()
@@ -117,11 +117,11 @@ jQuery(document).ready(function($) {
 		switch( repeats_select ) {
 			case 'daily' :
 				// Set repeats label
-				if ( repeats_every == 1 ) {
+				if ( repeats_every_select == 1 ) {
 					$( '#repeats_daily_label' ).text('Daily').show()
 					$( '#repeats_every_label' ).text('day').show()
 				} else {
-					$( '#repeats_daily_label' ).text( 'Every ' + repeats_every + ' days' ).show();
+					$( '#repeats_daily_label' ).text( 'Every ' + repeats_every_select + ' days' ).show();
 					$( '#repeats_every_label' ).text('days').show()
 				}
 				$( '#repeats_daily_p, #repeats_every, #repeats_range' ).show();
@@ -140,11 +140,11 @@ jQuery(document).ready(function($) {
 				break;
 			case 'weekly' :
 				// Set repeats label
-				if ( repeats_every == 1 ) {
+				if ( repeats_every_select == 1 ) {
 					$( '#repeats_weekly_label' ).text('Weekly').show()
 					$( '#repeats_every_label' ).text('week').show()
 				} else {
-					$( '#repeats_weekly_label' ).text( 'Every ' + repeats_every + ' weeks' ).show();
+					$( '#repeats_weekly_label' ).text( 'Every ' + repeats_every_select + ' weeks' ).show();
 					$( '#repeats_every_label' ).text( 'weeks' ).show();
 				}
 				
@@ -177,11 +177,11 @@ jQuery(document).ready(function($) {
 				else
 					var label_out = 'on day ' + daynumber;
 									
-				if ( repeats_every == 1 ) {
+				if ( repeats_every_select == 1 ) {
 					$( '#repeats_monthly_label' ).text('Monthly ' + label_out ).show()		
 					$( '#repeats_every_label' ).text( 'month' ).show();
 				} else {
-					$( '#repeats_monthly_label' ).text( 'Every ' + repeats_every + ' months ' + label_out ).show();		
+					$( '#repeats_monthly_label' ).text( 'Every ' + repeats_every_select + ' months ' + label_out ).show();		
 					$( '#repeats_every_label' ).text( 'months' ).show();
 				}
 				
@@ -192,11 +192,11 @@ jQuery(document).ready(function($) {
 				// Set repeats label
 				var start_date  = $.datepicker.formatDate( 'MM dd', $( '#event_date_start' ).datepicker( 'getDate' ) );
 			
-				if ( repeats_every == 1 ) {
+				if ( repeats_every_select == 1 ) {
 					$( '#repeats_yearly_label' ).text('Annually on ' + start_date ).show();
 					$( '#repeats_every_label' ).text( 'year' ).show();
 				} else {
-					$( '#repeats_yearly_label' ).text( 'Every ' + repeats_every + ' years on ' + start_date ).show();
+					$( '#repeats_yearly_label' ).text( 'Every ' + repeats_every_select + ' years on ' + start_date ).show();
 					$( '#repeats_every_label' ).text( 'years' ).show();
 				}
 

@@ -32,12 +32,13 @@ class FT_CAL_Event_List extends WP_Widget {
 		global $ft_cal_shortcodes;
 		extract( $args );
 
-		$title 		= apply_filters('widget_title', empty( $instance['title'] ) ? __( 'Upcoming Events' ) : $instance['title'], $instance, $this->id_base);
-		$span 		= empty( $instance['span'] ) ? '+1 Month' : $instance['span'];
-		$calendar 	= empty( $instance['calendars'] ) ? 'all' : $instance['calendars'];
-		$limit 		= empty( $instance['limit'] ) ? 0 : $instance['limit'];
+		$title = apply_filters('widget_title', empty( $instance['title'] ) ? __( 'Upcoming Events' ) : $instance['title'], $instance, $this->id_base);
 		
-		$out 		= $ft_cal_shortcodes->do_ftcal_event_list( $instance );
+		if ( $term = get_term_by( 'name', $instance['calendars'], 'ftcalendar' ) ) {
+			$instance['calendars'] = $term->slug;
+		}
+		
+		$out = $ft_cal_shortcodes->do_ftcal_event_list( $instance );
 		
 		if ( ! empty( $out ) ) {
 			
@@ -119,7 +120,7 @@ class FT_CAL_Event_List extends WP_Widget {
 	            <input type="radio" value="all" name="<?php echo $this->get_field_name( 'calendars' ) ?>" id="calendars" <?php checked( $calendars, "all" ) ?> class="checkbox" /> <label for="<?php echo $this->get_field_id( 'calendars '); ?>"><?php _e( 'All Calendars', 'ftcalendar' ); ?></label>
 				<?php foreach ( (array)$available_calendars as $key => $calendar ) : ?>
 	                <br />
-	                <input type="radio" value="<?php echo $calendar->name ?>" name="<?php echo $this->get_field_name( 'calendars' ) ?>" id="calendars" <?php checked( $calendars, $calendar->name ) ?> class="checkbox" /> <label for="<?php echo $this->get_field_id( 'calendars' ); ?>"><?php echo $calendar->name ?></label>
+	                <input type="radio" value="<?php echo $calendar->slug ?>" name="<?php echo $this->get_field_name( 'calendars' ) ?>" id="calendars" <?php checked( $calendars, $calendar->slug ) ?> class="checkbox" /> <label for="<?php echo $this->get_field_id( 'calendars' ); ?>"><?php echo $calendar->name ?></label>
 	            <?php endforeach; ?>
 			</p>
 			<p>
@@ -214,6 +215,10 @@ class FT_CAL_Thumb_Calendar extends WP_Widget {
 
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Calendar of Events' ) : $instance['title'], $instance, $this->id_base );
 		
+		if ( $term = get_term_by( 'name', $instance['calendars'], 'ftcalendar' ) ) {
+			$instance['calendars'] = $term->slug;
+		}
+		
 		$out = $ft_cal_shortcodes->do_ftcal_thumb_calendar( $instance );
 		
 		if ( !empty( $out ) ) {
@@ -274,7 +279,7 @@ class FT_CAL_Thumb_Calendar extends WP_Widget {
 	            <input type="radio" value="all" name="<?php echo $this->get_field_name( 'calendars' ) ?>" id="calendars" <?php checked( $calendars, "all" ) ?> class="checkbox" /> <label for="<?php echo $this->get_field_id( 'calendars' ); ?>"><?php _e( 'All Calendars', 'ftcalendar' ); ?></label>
 				<?php foreach ( (array)$available_calendars as $key => $calendar ) : ?>
 	                <br />
-	                <input type="radio" value="<?php echo $calendar->name ?>" name="<?php echo $this->get_field_name( 'calendars' ) ?>" id="calendars" <?php checked( $calendars, $calendar->name ) ?> class="checkbox" /> <label for="<?php echo $this->get_field_id( 'calendars' ); ?>"><?php echo $calendar->name ?></label>
+	                <input type="radio" value="<?php echo $calendar->slug ?>" name="<?php echo $this->get_field_name( 'calendars' ) ?>" id="calendars" <?php checked( $calendars, $calendar->slug ) ?> class="checkbox" /> <label for="<?php echo $this->get_field_id( 'calendars' ); ?>"><?php echo $calendar->name ?></label>
 	            <?php endforeach; ?>
 			</p>
         	<?php 

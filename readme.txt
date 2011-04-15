@@ -24,6 +24,8 @@ Basic features include:
 
 Premium features available:
 
+* SMART event ordering for WordPress queries
+* RSS 1.0 & 2.0, ATOM, and RDF feeds
 * Backup & Export FullThrottle Calendar data to a CSV file
 * Import FullThrottle Calendar data from a CSV file
 * Import Event Calendar 3 data from the WordPress database
@@ -50,6 +52,12 @@ You must have:
 * FT Calendar is GPL
 
 == Changelog ==
+= 1.0.3.2 =
+* Fixed bug in JavaScript when setting "Repeats Every" for recurring events in Internet Explorer.
+* Added upgrade() function for changes made to plugin that require DB updates
+* Fixed bug in widgets, was incorrectly using term name for the value instead of the term slug
+* Fixed weekly recurring bug, calculation errors
+
 = 1.0.3.1 =
 * Fixed bug causing calendar to disappear with the legend turned off
 * Fixed bug preventing IE from changing the label color

@@ -192,5 +192,16 @@ if ( ! class_exists( 'FT_CAL_Options' ) ) {
 			update_option( 'ft_cal_db_version', FT_CAL_DB_VERSION );
 				
 		}
+		
+		/**
+		 * Performs any necessary updates
+		 *
+		 * @since 1.0.3.2
+		 */
+		function do_ftcal_update() {
+			
+			update_option( 'ft_cal_version', FT_CAL_VERSION );
+				
+		}
 	}
 }

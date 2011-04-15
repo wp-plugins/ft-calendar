@@ -19,17 +19,17 @@ if ( !class_exists( 'FT_CAL_Events' ) ) {
 		 */
 		function ft_cal_events() {
 			
-			add_action( 'admin_init', array( &$this, 'attach_event_boxes_to_post_types' ) );
-			add_action( 'admin_print_styles-edit.php', array( &$this, 'enqueue_write_edit_post_css' ) );
-			add_action( 'admin_print_scripts-edit.php', array( &$this, 'enqueue_write_edit_post_js' ) );
-			add_action( 'admin_print_styles-post.php', array( &$this, 'enqueue_write_edit_post_css' ) );
-			add_action( 'admin_print_scripts-post.php', array( &$this, 'enqueue_write_edit_post_js' ) );
-			add_action( 'admin_print_styles-post-new.php', array( &$this, 'enqueue_write_edit_post_css' ) );
+			add_action( 'admin_init', 						array( &$this, 'attach_event_boxes_to_post_types' ) );
+			add_action( 'admin_print_styles-edit.php', 		array( &$this, 'enqueue_write_edit_post_css' ) );
+			add_action( 'admin_print_scripts-edit.php', 	array( &$this, 'enqueue_write_edit_post_js' ) );
+			add_action( 'admin_print_styles-post.php', 		array( &$this, 'enqueue_write_edit_post_css' ) );
+			add_action( 'admin_print_scripts-post.php', 	array( &$this, 'enqueue_write_edit_post_js' ) );
+			add_action( 'admin_print_styles-post-new.php', 	array( &$this, 'enqueue_write_edit_post_css' ) );
 			add_action( 'admin_print_scripts-post-new.php', array( &$this, 'enqueue_write_edit_post_js' ) );
-			add_action( 'wp_ajax_save_ftcal_data', array( &$this, 'save_ftcal_data_ajax' ) );
-			add_action( 'wp_ajax_delete_ftcal_data', array( &$this, 'delete_ftcal_data_ajax' ) );
-			add_action( 'deleted_post', array( $this, 'delete_post_ftcal_data' ) ); //keep an eye on this hook, it's duplicated in wp_delete_post... hook may change in future release of WP
-		
+			add_action( 'wp_ajax_save_ftcal_data', 			array( &$this, 'save_ftcal_data_ajax' ) );
+			add_action( 'wp_ajax_delete_ftcal_data', 		array( &$this, 'delete_ftcal_data_ajax' ) );
+			add_action( 'deleted_post', 					array( $this, 'delete_post_ftcal_data' ) ); //keep an eye on this hook, it's duplicated in wp_delete_post... hook may change in future release of WP
+
 		}
 				
 		/**
@@ -292,7 +292,7 @@ if ( !class_exists( 'FT_CAL_Events' ) ) {
 				echo $this->refresh_ftcal_existing_div( $get_post_id ); ?>
                 </div>
                 
-                <?php /* PARTNERS */ ?>
+                <?php /* PREMIUM */ ?>
                 <div id="ftsupport">
                     <div style="margin-left: auto; margin-right: auto; width: 468px;">
                     <a href="http://www.shareasale.com/r.cfm?b=255473&u=474529&m=28169&urllink=&afftrack=" target="_blank"><img src="http://www.shareasale.com/image/28169/468x60.png" alt="Genesis Framework for WordPress" border="0"></a>
@@ -350,13 +350,16 @@ if ( !class_exists( 'FT_CAL_Events' ) ) {
 				'repeating'			=> $repeating,
 				'r_start_datetime' 	=> date_i18n( "Y-m-d H:i:s", strtotime( $_POST['r_start_date'] . " " .  $_POST['start_time'] ) ),
 				'r_end'				=> $_POST['r_end'],
-				'r_end_datetime' 	=> date_i18n( "Y-m-d H:i:s", strtotime( $_POST['r_end_date'] . " " .  $_POST['end_time'] ) ),
 				'r_type' 			=> $_POST['r_type'],
 				'r_label' 			=> $_POST['r_label'],
 				'r_every' 			=> $_POST['r_every'],
 				'r_on' 				=> $_POST['r_on'],
 				'r_by' 				=> $_POST['r_by'] 
 			);
+			
+			if ( 1 == $_POST['r_end'] ) {
+				$data['r_end_datetime'] = date_i18n( "Y-m-d H:i:s", strtotime( $_POST['r_end_date'] . " " .  $_POST['end_time'] ) );
+			}
 			
 			if ( $wpdb->insert( $wpdb->prefix . "ftcalendar_events", $data ) )
 				die( $this->refresh_ftcal_existing_div( $_POST['post_ID'] ) );
@@ -535,4 +538,3 @@ if ( !class_exists( 'FT_CAL_Events' ) ) {
 	}
 	
 }
-?>

@@ -26,7 +26,6 @@ if ( !class_exists( 'FT_Cal_Calendars' ) ) {
 		 */
 		function ft_cal_calendars() {
 			
-			//add_action( 'admin_head', array( $this, 'print_hook_suffix' ) );
 			add_action( 'init', array( &$this, 'register_calendar_taxonomy' ) );
 			add_action( 'ftcalendar_add_form_fields', array( &$this, 'ftcalendar_taxonomy_add_form_fields' ) );
 			add_action( 'ftcalendar_edit_form_fields', array( &$this, 'ftcalendar_taxonomy_edit_form_fields' ), 10, 2 );
@@ -35,16 +34,8 @@ if ( !class_exists( 'FT_Cal_Calendars' ) ) {
 			add_filter( 'manage_ftcalendar_sortable_columns', array( &$this, 'ftcalendar_taxonomy_add_column' ) );
 			add_action( 'admin_print_styles-edit-tags.php', array( &$this, 'enqueue_add_edit_taxonomy_css' ) );
 			add_action( 'admin_print_scripts-edit-tags.php', array( &$this, 'enqueue_add_edit_taxonomy_js' ) );
+			add_filter( 'pre_insert_term', array( &$this, 'ftcal_reserved_terms' ), 10, 2 );
 		}
-		
-		/*function print_hook_suffix( $hook_suffix ) {
-			global $hook_suffix, $current_screen;
-			
-			echo "<pre>";
-			print_r( $current_screen );
-			print_r( $hook_suffix );
-			echo "</pre>";
-		}*/
 		
 		/**
 		 * Registers the Calendar Taxonomy
@@ -167,21 +158,21 @@ if ( !class_exists( 'FT_Cal_Calendars' ) ) {
 						
 			$full_colors = $this->get_full_colors();
 			
-			$meta_options = get_option('ftcalendar_meta');
+			$meta_options = get_option( 'ftcalendar_meta' );
 			
 			if ( isset( $_POST['ftcal-color'] ) ) {
 				
 				if ( preg_match( '/rgb\((\d+), (\d+), (\d+)\)/', $_POST['ftcal-color'], $matches ) )
 					$hex = $this->rgbToHex( $matches[1], $matches[2], $matches[3] );
 				else
-					$hex = $_POST['ftcal-color'];
+					$hex = ltrim( $_POST['ftcal-color'], '#' );
 			
 				$meta_options['ftcal-bg-color-' . $term_id] = $hex;
 				$meta_options['ftcal-border-color-' . $term_id] = $full_colors[$hex];
 			
 			}
 			
-			update_option( "ftcalendar_meta", $meta_options );
+			update_option( 'ftcalendar_meta', $meta_options );
 		
 		}
 		
@@ -310,10 +301,14 @@ if ( !class_exists( 'FT_Cal_Calendars' ) ) {
 				$last = count($calendars) - 1;
 				foreach ( (array)$calendars as $calendar ) {
 					$term = get_term_by( 'slug', $calendar, 'ftcalendar' );
-					$sql .= " calendar_id = " . $term->term_id . " ";
-					
-					if ( $last > $i ) {
-						$sql .= " || ";
+					if ( !empty( $term ) ) {
+						$sql .= " calendar_id = " . $term->term_id . " ";
+						
+						if ( $last > $i ) {
+							$sql .= " || ";
+						}
+					} else {
+						$sql .= " 0 ";	
 					}
 					
 					$i++;
@@ -355,6 +350,24 @@ if ( !class_exists( 'FT_Cal_Calendars' ) ) {
 			if ( 'ftcalendar' == $current_screen->taxonomy )
 				wp_enqueue_script( 'add-edit-taxonomy', FT_CAL_URL . '/includes/js/add-edit-taxonomy.js' );
 		
+		}				
+
+		/**
+		 * Check for reserved terms and return error if one is found
+		 *
+		 * @since 1.1.6
+		 */
+		function ftcal_reserved_terms( $term, $taxonomy ) {
+			
+			if ( 'ftcalendar' == $taxonomy ) {
+				
+				if ( 0 == strcasecmp( 'all', $term ) )		
+					return new WP_Error( 'reserved_term_all', __( '"' . $term . '" is a reserved term in FT Calendar' ) );
+			
+			}
+			
+			return $term;
+			
 		}
 		
 	}

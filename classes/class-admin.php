@@ -26,6 +26,9 @@ if ( !class_exists( 'FT_CAL_Admin' ) ) {
 
 				add_action( 'admin_menu', array( $this, 'register_option_pages' ) );
 				add_action( 'admin_enqueue_scripts', array( $this, 'ftcalendar_admin_js' ) );
+				/* PREMIUM */
+				add_action( 'admin_init', array( $this, 'ft_call_discount' ) ); 
+				/**/
 
 			}
 			
@@ -49,11 +52,12 @@ if ( !class_exists( 'FT_CAL_Admin' ) ) {
 			if ( version_compare( $wp_version , '2.9' , '>=' ) )
 				add_submenu_page( 'ftcalendar-general', __( 'FullThrottle Calendar General Settings', 'ftcalendar' ), __( 'FT Calendar', 'ftcalendar' ), 'install_plugins', 'ftcalendar-general', array( &$this, 'options_page' ) );
 			
-			// Adds submenu to item
-				add_submenu_page( 'ftcalendar-general', __( 'Manage ' . ucwords( $ft_cal_options->calendar_options['calendar_label_plural'] ), 'ftcalendar' ) , __( ucwords( $ft_cal_options->calendar_options['calendar_label_plural'] ), 'ftcalendar' ), 'install_plugins', 'edit-tags.php?taxonomy=ftcalendar' );
+			// ftcalendar taxonomy
+			add_submenu_page( 'ftcalendar-general', __( 'Manage ' . ucwords( $ft_cal_options->calendar_options['calendar_label_plural'] ), 'ftcalendar' ) , __( ucwords( $ft_cal_options->calendar_options['calendar_label_plural'] ), 'ftcalendar' ), 'install_plugins', 'edit-tags.php?taxonomy=ftcalendar' );
 
 			// Help Page
-				add_submenu_page( 'ftcalendar-general', __( 'FullThrottle Calendar Help', 'ftcalendar' ), __( 'FT Calendar Help', 'ftcalendar' ), 'install_plugins', 'ftcalendar-help', array( &$this, 'help_page' ) );
+			add_submenu_page( 'ftcalendar-general', __( 'FullThrottle Calendar Help', 'ftcalendar' ), __( 'FT Calendar Help', 'ftcalendar' ), 'install_plugins', 'ftcalendar-help', array( &$this, 'help_page' ) );
+
 		
 		}
 		
@@ -145,11 +149,17 @@ if ( !class_exists( 'FT_CAL_Admin' ) ) {
 													}
                                                     ?>
                                                 </td>
+                                                <td>&nbsp;
+                                                	
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <th scope="row"><?php _e( 'Show Support Link:', 'ftcalendar' ) ?></th>
                                                 <td>
                                                     <input type="checkbox" name="show_support" <?php checked( $show_support ); ?>/>
+                                                </td>
+                                                <td>&nbsp;
+                                                	
                                                 </td>
                                             </tr>
                                             </table>
@@ -169,7 +179,7 @@ if ( !class_exists( 'FT_CAL_Admin' ) ) {
                         
                         </div> <!-- meta-box-sortables -->
                         
-                        <?php /* PREMIUM UPDATES */ ?>
+                        <?php /* PREMIUM */ ?>
                         <div id='available-widgets' class='widgets-holder-wrap ui-droppable'>
                         
                             <div class="sidebar-name">
@@ -187,6 +197,8 @@ if ( !class_exists( 'FT_CAL_Admin' ) ) {
                                     	<p><?php _e( 'These updates are available now by upgrading to Premium Support...' ); ?></p>
                                     
                                     	<ul style='margin-left:25px;list-style-type:disc'>
+                                            <li><?php _e( 'RSS/ATOM/RFD Feeds for Calendar events', 'ftcalendar' ); ?></li>
+                                            <li><?php _e( 'SMART event ordering for WordPress post queries', 'ftcalendar' ); ?></li>
                                             <li><?php _e( 'Backup & Export your FullThrottle Calendar data to a CSV file', 'ftcalendar' ); ?></li>
                                             <li><?php _e( 'Import your FullThrottle Calendar data from a CVS file', 'ftcalendar' ); ?></li>
                                             <li><?php _e( 'Import existing Event Calendar 3 data into the FullThrottle Calendar', 'ftcalendar' ); ?></li>
@@ -205,7 +217,7 @@ if ( !class_exists( 'FT_CAL_Admin' ) ) {
                     </div> <!-- postbox-container -->
                     <?php /**/ ?>
 
-					<?php /* PARTNERS */ ?>
+					<?php /* PREMIUM */ ?>
                     <div class='widget-liquid-right' style='width: 30%;'>
                             
                         <div id='widgets-right' style='width: 100%;'>
@@ -281,11 +293,23 @@ if ( !class_exists( 'FT_CAL_Admin' ) ) {
 			$dateformat = get_option( 'date_format' );
 			
 			$ftcalendars = get_terms( 'ftcalendar', 'order=ASC&orderby=name&hide_empty=0' );
-			foreach ( $ftcalendars as $ftcalendar ) {
+			foreach ( (array)$ftcalendars as $ftcalendar ) {
+				
 				$calendars[] = $ftcalendar->slug;
 				$single_calendar = $ftcalendar->slug;
+			
 			}
-			$calendar_string = join( ',', $calendars );
+			
+			if ( empty( $calendars ) ) {
+			
+				$calendar_string = "calendar1,calendar2,calendar3";
+				$single_calendar = "calendar2";
+			
+			} else {
+			
+				$calendar_string = join( ',', (array)$calendars );
+			
+			}
 			
 			?>
 			<div class="wrap">
@@ -668,7 +692,7 @@ See <a href="http://php.net/date/" target="_blank">PHP's Format Parameters</a> f
                                 
                             </div>
                             
-							<?php /* PARTNERS */ ?>
+							<?php /* PREMIUM */ ?>
                         	<div class="widgets-holder-wrap">
                             
 								<?php do_action( 'sm-help-side-sortables-top' ); ?>
@@ -790,8 +814,6 @@ See <a href="http://php.net/date/" target="_blank">PHP's Format Parameters</a> f
 				$submitted['calendar']['show_support'] = true;
 				
 			} else {
-			
-				echo "off";
 				
 				$submitted['calendar']['show_support'] = false;
 				
@@ -807,6 +829,35 @@ See <a href="http://php.net/date/" target="_blank">PHP's Format Parameters</a> f
 			
 			return $options;
 			
+		}
+		
+		/**
+		 * Adds discount notice to plugin on upgrade
+		 *
+		 * @since 1.1.7, 1.0.3.2
+		 */
+		function ft_call_discount() {
+			
+			// Kill notice
+			if ( isset( $_GET['remove_ftcal_discount'] ) )
+				update_option( 'ftcal_show_discount', FT_CAL_VERSION );
+			
+			if ( version_compare( get_option( 'ftcal_show_discount' ), FT_CAL_VERSION, '<' ) )
+				add_action( 'admin_notices', array( $this, 'ftcal_discount_notice' ) );
+			
+		}
+		
+		/**
+		 * This displays the option to purchase with discount
+		 *
+		 * @since 1.1.7, 1.0.3.2
+		 */
+		function ftcal_discount_notice() {
+		
+			$link = 'http://calendar-plugin.com/?coupon=15off';
+			$no_thanks = 'plugins.php?remove_ftcal_discount';
+			echo "<div class='update-nag'>" . sprintf( __( "Thanks for upgrading FT Calendar! Act now and get a $15.00 discount on our premium features and support. Use coupon code: '15off'?<br /><a href='%s' target='_blank'>Yes, I want the discount!</a> | <a href='%s'>No thanks</a>." ), $link, $no_thanks ) . "</div>";
+		 
 		}
 		
 	}
