@@ -1,63 +1,63 @@
 <?php
 /**
  * @package FT_Calendar
- * @version 1.0.3.2
+ * @version 1.0.3.3
  */
 /*
 Plugin Name: FullThrottle Calendar
 Plugin URI: http://fullthrottlecalendar.com/ft-calendar
 Description: A feature rich calendar plugin for WordPress.
 Author: FullThrottle Development
-Version: 1.0.3.2
+Version: 1.0.3.3
 Author URI: http://fullthrottledevelopment.com/
 Primary Developer: Glenn Ansley (glenn@glennansley.com)
 Primary Developer: Lew Ayotte (lew@lewayotte.com)
 */
 
 #### CONSTANTS ####
-define( 'FT_CAL_VERSION', '1.0.3.2' );
+define( 'FT_CAL_VERSION', '1.0.3.3' );
 define( 'FT_CAL_DB_VERSION', '1.0' );
-	
+
 // From http://codex.wordpress.org/Determining_Plugin_and_Content_Directories
 if ( ! function_exists( 'is_ssl' ) ) {
 	
 	function is_ssl() {
-			
+		
 		if ( isset( $_SERVER['HTTPS'] ) ) {
 			
 			if ( 'on' == strtolower( $_SERVER['HTTPS'] ) || '1' == $_SERVER['HTTPS'] )
 				return true;
-								
+							
 		} elseif ( isset( $_SERVER['SERVER_PORT'] ) && ( '443' == $_SERVER['SERVER_PORT'] ) ) {
-				
-			return true;
 			
+			return true;
+		
 		}
 		
 		return false;
-			
-	}
 		
-}
+	}
 	
+}
+
 // Set wp_content URL
 if ( version_compare( get_bloginfo( 'version' ), '3.0', '<' ) && is_ssl() )
 	$wp_content_url = str_replace( 'http://' , 'https://' , get_option( 'siteurl' ) );
 else
 	$wp_content_url = get_option( 'siteurl' );
-	
+
 $wp_content_url 	.= '/wp-content';
 $wp_content_dir 	 = ABSPATH . 'wp-content';
 $wp_plugin_url 		 = $wp_content_url . '/plugins';
 $wp_plugin_dir 		 = $wp_content_dir . '/plugins';
-	
+
 /**
  * URL to Plugin folder
  *
  * @since 0.3
  */
 define( 'FT_CAL_URL', $wp_plugin_url . '/' .   basename( dirname(__FILE__) ) );
-	
+
 /**
  * Server path to plugin Dir
  *

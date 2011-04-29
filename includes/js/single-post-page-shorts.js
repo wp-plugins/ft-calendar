@@ -1,6 +1,5 @@
 jQuery(document).ready(function($) {
 	$( '.thumb-event' ).live( 'click', function() {
-		$( '.thumb-event-div' ).hide();
 		$event = $( this ).attr('ref');
 		$( '#' + $event ).show();
 	});

@@ -24,6 +24,8 @@ Basic features include:
 
 Premium features available:
 
+* Display schedule information within post content
+* iCal feeds
 * SMART event ordering for WordPress queries
 * RSS 1.0 & 2.0, ATOM, and RDF feeds
 * Backup & Export FullThrottle Calendar data to a CSV file
@@ -52,6 +54,9 @@ You must have:
 * FT Calendar is GPL
 
 == Changelog ==
+= 1.0.3.3 =
+* Fixed bug in current_day class name calculation
+
 = 1.0.3.2 =
 * Fixed bug in JavaScript when setting "Repeats Every" for recurring events in Internet Explorer.
 * Added upgrade() function for changes made to plugin that require DB updates

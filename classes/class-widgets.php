@@ -30,6 +30,7 @@ class FT_CAL_Event_List extends WP_Widget {
 	 */
 	function widget( $args, $instance ) {
 		global $ft_cal_shortcodes;
+		
 		extract( $args );
 
 		$title = apply_filters('widget_title', empty( $instance['title'] ) ? __( 'Upcoming Events' ) : $instance['title'], $instance, $this->id_base);

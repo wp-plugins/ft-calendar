@@ -23,6 +23,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			if ( ! is_admin() ) {
 			
 				wp_enqueue_style( 'ft-cal-single-post-page-shorts', FT_CAL_URL . '/includes/css/single-post-page-shorts.css' );
+				wp_enqueue_script( 'jquery-tooltip', FT_CAL_URL . '/includes/js/jquery.tools.min.js', array( 'jquery' ) );
 				wp_enqueue_script( 'ft-cal-single-post-page-shorts-js', FT_CAL_URL . '/includes/js/single-post-page-shorts.js', array( 'jquery' ) );
 				wp_localize_script( 'ft-cal-single-post-page-shorts-js', 'FTCajax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 			
@@ -506,7 +507,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 				$str_time = strtotime( "+" . $i . " Days", $str_start_date );
 				$day = date_i18n( 'j', $str_time );
 				$month = date_i18n( 'm', $str_time );
-				$year = date_i18n( 'y', $str_time );
+				$year = date_i18n( 'Y', $str_time );
 				$fordate = date_i18n( 'Y-m-d', $str_time );
 				
 				if ( $day == $cur_day && $month == $cur_month && $year == $cur_year )
@@ -609,7 +610,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			$wday 			= date_i18n( 'w', $str_date );
 			$mday			= date_i18n( 'j', $str_date );
 			$cur_day		= date_i18n( 'j' );
-			$cur_month 		= date_i18n( 'm' );
+			$cur_month 		= date_i18n( 'n' );
 			$working_month 	= date_i18n( 'm', $str_date );
 			$cur_year 		= date_i18n( 'Y' );
 			
@@ -699,7 +700,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 				$str_time = strtotime( "+" . $i . " Days", $str_start_date );
 				$day = date_i18n( 'j', $str_time );
 				$month = date_i18n( 'm', $str_time );
-				$year = date_i18n( 'y', $str_time );
+				$year = date_i18n( 'Y', $str_time );
 				$fordate = date_i18n( 'Y-m-d', $str_time );
 				
 				if ( $cur_dow % 7 == 0 ) {
@@ -841,7 +842,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			$wday 			= date_i18n( 'w', $str_date );
 			$mday			= date_i18n( 'j', $str_date );
 			$cur_day		= date_i18n( 'j' );
-			$cur_month 		= date_i18n( 'm' );
+			$cur_month 		= date_i18n( 'n' );
 			$working_month 	= date_i18n( 'm', $str_date );
 			$cur_year 		= date_i18n( 'Y' );
 			
@@ -915,7 +916,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 				$str_time = strtotime( "+" . $i . " Days", $str_start_date );
 				$day = date_i18n( 'j', $str_time );
 				$month = date_i18n( 'm', $str_time );
-				$year = date_i18n( 'y', $str_time );
+				$year = date_i18n( 'Y', $str_time );
 				$fordate = date_i18n( 'Y-m-d', $str_time );
 				
 				if ( $cur_dow % 7 == 0 ) {
@@ -1217,14 +1218,20 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 		
 		}
 		
+		/**
+		 * Get nth weekday of the month (i.e. 4th wednesday of the month)
+		 *
+		 * @param string $strdate A string to time of the date you're looking at
+		 * @since 0.3
+		 */
 		function get_nth_weekday_of_month( $strdate ) {
 			
 			$englishnumber = array(
-								'first',
-								'second',
-								'third',
-								'fourth',
-								'fifth'
+								'1',
+								'2',
+								'3',
+								'4',
+								'5'
 							);
 			
 			$date = date_i18n( 'j', $strdate );

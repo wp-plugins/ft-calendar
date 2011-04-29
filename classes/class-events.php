@@ -441,19 +441,19 @@ if ( !class_exists( 'FT_CAL_Events' ) ) {
 					
 					if ( $entry->all_day ) {
 					
-						$output .= $start_date . " to " . $end_date;
+						$output .= $start_date . " " . __( "to" ) . " " . $end_date;
 					
 					} else {
 					
 						$start_time = date_i18n( $timeformat, strtotime( $entry->start_datetime ) );
 						$end_time = date_i18n( $timeformat, strtotime( $entry->end_datetime ) );
 						
-						$output .= $start_date . " " . $start_time . " to " . $end_date . " " . $end_time;
+						$output .= $start_date . " " . $start_time . " " . __( "to" ) . " " . $end_date . " " . $end_time;
 					
 					}
 						
 					if ( $entry->repeating )
-						$output .= "<br /><span style='margin-left: 20px;'>(Repeating " . $entry->r_label . ")</span>";
+						$output .= "<br /><span style='margin-left: 20px;'>(" . __( "Repeating" ) . " " . $entry->r_label . ")</span>";
 					
 					$output .= "</td></tr>";
 				}

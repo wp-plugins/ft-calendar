@@ -197,6 +197,8 @@ if ( !class_exists( 'FT_CAL_Admin' ) ) {
                                     	<p><?php _e( 'These updates are available now by upgrading to Premium Support...' ); ?></p>
                                     
                                     	<ul style='margin-left:25px;list-style-type:disc'>
+                                            <li><?php _e( 'Display schedule information within post content', 'ftcalendar' ); ?></li>
+                                            <li><?php _e( 'iCal feeds', 'ftcalendar' ); ?></li>
                                             <li><?php _e( 'RSS/ATOM/RFD Feeds for Calendar events', 'ftcalendar' ); ?></li>
                                             <li><?php _e( 'SMART event ordering for WordPress post queries', 'ftcalendar' ); ?></li>
                                             <li><?php _e( 'Backup & Export your FullThrottle Calendar data to a CSV file', 'ftcalendar' ); ?></li>
@@ -275,14 +277,12 @@ if ( !class_exists( 'FT_CAL_Admin' ) ) {
                         
                     </div> <!-- postbox-container -->
 					<?php /**/ ?>
-                    
 				</div><!-- dashboard-widgets-wrap -->
                 
 			</div>
 			<?php
-			
 		}
-
+		
 		/**
 		 * Content for the calendar help page
 		 *
@@ -604,10 +604,11 @@ See <a href="http://php.net/date/" target="_blank">PHP's Format Parameters</a> f
                                             <tr>
                                             
                                                 <td>
+
                                                    
-                                                    <p>This widget is available in <a href='widgets.php'>Widgets</a> section of your WordPress dashboard. It is basically the Event List shortcode. You are able to customize the same settings as the shortcode.</p>
-                                                                                       
-                                                    <p>See <a href="http://php.net/date/" target="_blank">PHP's Format Parameters</a> for help with Date, Time, and Month format strings.</p>
+                                                   <p>This widget is available in <a href='widgets.php'>Widgets</a> section of your WordPress dashboard. It is basically the Event List shortcode. You are able to customize the same settings as the shortcode.</p>
+                                                                                                        
+													<p>See <a href="http://php.net/date/" target="_blank">PHP's Format Parameters</a> for help with Date, Time, and Month format strings.</p>
 
                                                 </td>
                                                 
