@@ -54,6 +54,11 @@ You must have:
 * FT Calendar is GPL
 
 == Changelog ==
+= 1.0.3.4 =
+* Added str_ireplace function for older PHP version compatibility
+* Fixed bug with day URL on the Month/Week calendar
+* Fixed bug with day not changing to the current day being viewed on the Day calendar
+
 = 1.0.3.3 =
 * Fixed bug in current_day class name calculation
 

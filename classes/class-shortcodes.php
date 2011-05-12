@@ -298,7 +298,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			$end_date		= $start_date;
 			$month 			= date_i18n( 'm', $str_start_date );
 			$year 			= date_i18n( 'Y', $str_start_date );
-			$cur_dow 		= $cur_date['wday'];
+			$cur_dow 		= date_i18n( 'w', $str_start_date );
 			$style			= '';
 			
 			$cal_data_arr 	= $ft_cal_calendars->get_ftcal_data_ids( $start_date, $end_date, $calendars );
@@ -525,7 +525,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 				
 				if ( 'on' == $types ) {
 					
-					$link = "<a href='" . $permalink . "?type=day&date=" . $date . "'>";
+					$link = "<a href='" . $permalink . "?type=day&date=" . $fordate . "'>";
 					$link_end = "</a>";
 				
 				}
