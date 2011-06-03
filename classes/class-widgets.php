@@ -85,6 +85,7 @@ class FT_CAL_Event_List extends WP_Widget {
 	 * Displays the widget options in the dashboard
 	 *
 	 * @since 0.3
+	 * @TODO Watch out for changes to widget API get_field_name();
 	 */
 	function form( $instance ) {
 		
@@ -255,6 +256,7 @@ class FT_CAL_Thumb_Calendar extends WP_Widget {
 	 * Displays the widget options in the dashboard
 	 *
 	 * @since 0.3
+	 * @TODO Watch out for changes to widget API get_field_name();
 	 */
 	function form( $instance ) {
 		$timeformat 			= get_option( 'time_format' );

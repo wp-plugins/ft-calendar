@@ -665,7 +665,7 @@ See <a href="http://php.net/date/" target="_blank">PHP's Format Parameters</a> f
                                                 <li><?php _e( 'Professional and timely response times to all your questions from the FT Calendar team', 'ftcalendar' ); ?></li>
                                                 <li><?php _e( 'A 10% discount for any custom functionality you request from the FT Calendar developers', 'ftcalendar' ); ?></li>
                                                 <li><?php _e( 'A 6-12 month advance access to new features integrated into the auto upgrade functionality of WordPress', 'ftcalendar' ); ?></li>
-                                                <li><?php _e( 'Partners removed from Calendar Meta Boxes and Control Panels' ); ?></li>
+                                                <li><?php _e( 'Partners removed from Calendar Control Panels' ); ?></li>
                                             </ul>
                                             
                                             <ul style='margin-left:25px;list-style-type:none'>
@@ -855,9 +855,9 @@ See <a href="http://php.net/date/" target="_blank">PHP's Format Parameters</a> f
 		 */
 		function ftcal_discount_notice() {
 		
-			$link = 'http://calendar-plugin.com/?coupon=15off';
+			$link = 'http://calendar-plugin.com/?coupon=10off';
 			$no_thanks = 'plugins.php?remove_ftcal_discount';
-			echo "<div class='update-nag'>" . sprintf( __( "Thanks for upgrading FT Calendar! Act now and get a $15.00 discount on our premium features and support. Use coupon code: '15off'?<br /><a href='%s' target='_blank'>Yes, I want the discount!</a> | <a href='%s'>No thanks</a>." ), $link, $no_thanks ) . "</div>";
+			echo "<div class='update-nag'>" . sprintf( __( "Thanks for upgrading FT Calendar! Act now and get a $10.00 discount on our premium features and support. Use coupon code: '10off'?<br /><a href='%s' target='_blank'>Yes, I want the discount!</a> | <a href='%s'>No thanks</a>." ), $link, $no_thanks ) . "</div>";
 		 
 		}
 		

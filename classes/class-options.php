@@ -38,7 +38,7 @@ if ( ! class_exists( 'FT_CAL_Options' ) ) {
 		 *
 		 * @since 0.3.2
 		 */
-		var $show_support			= true;
+		var $show_support			= false;
 		
 		/**
 		 * PHP Constructor
@@ -111,7 +111,7 @@ if ( ! class_exists( 'FT_CAL_Options' ) ) {
 				'attach_events_to_post_types'	=> array( 'post' ),
 				'calendar_label_singular'		=> __( 'Calendar' ),
 				'calendar_label_plural'			=> __( 'Calendars' ),
-				'show_support'					=> true
+				'show_support'					=> false
 			);
 			$calendar_options = apply_filters( 'ft_cal_calendar_default_options', $calendar_options );
 						

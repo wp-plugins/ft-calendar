@@ -54,6 +54,13 @@ You must have:
 * FT Calendar is GPL
 
 == Changelog ==
+= 1.0.3.5 =
+* Efficiency updates
+* Fixed bug with sorting recurring events times
+* Fixed timezone issue with non-recurring events (if server time is off)
+* Removed Affiliate ad from post edit screen
+* Changed "support" link default setting to false
+
 = 1.0.3.4 =
 * Added str_ireplace function for older PHP version compatibility
 * Fixed bug with day URL on the Month/Week calendar

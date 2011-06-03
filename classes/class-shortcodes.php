@@ -49,8 +49,10 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 		 */
 		function do_ftcal_event_list( $atts ) {
 			
-			global $ft_cal_calendars;
+			global $ft_cal_events, $ft_cal_calendars, $ft_cal_options, $wp_rewrite;
 			$timeformat = get_option( 'time_format' );
+			$permalink 	= get_permalink();
+			$list = "";
 				
 			$defaults = array( 
 				'type'				=> 'list',
@@ -79,31 +81,34 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 				
 				$break = false;
 				$count = 1;
-				$list = "<ul>";
-				
+				$list .= "<ul>";
+				$last_month = 0;
 				foreach ( (array)$cal_entries as $date => $times ) {
 					
+					$str_date = strtotime( $date );
+					$cur_month = date_i18n( 'n', $str_date );
+					
 					if ( isset( $event_date ) 
-							&& ( !isset( $event_date ) || $event_date != date_i18n( $dateformat, strtotime( $date ) ) ) )
+							&& ( !isset( $event_date ) || $event_date != date_i18n( $dateformat, $str_date ) ) )
 						$list .= "</ul>";
 					
 					if ( isset( $event_month ) 
-						&& ( !isset( $event_month) || $event_month != date_i18n( $monthformat, strtotime( $date ) ) ) )
+						&& ( !isset( $event_month) || $event_month != date_i18n( $monthformat, $str_date ) ) )
 						$list .= "</ul>";
 					
 					if ( !empty( $month_template ) 
-							&& ( !isset( $event_month) || $event_month != date_i18n( $monthformat, strtotime( $date ) ) ) ) {
+							&& ( !isset( $event_month) || $event_month != date_i18n( $monthformat, $str_date ) ) ) {
 						
-						$event_month = date_i18n( $monthformat, strtotime( $date ) );
+						$event_month = date_i18n( $monthformat, $str_date );
 						$list .= "<ul>";
 						$list .= "<li>" . str_replace( '%MONTH%', $event_month, $month_template ) . "</li>";
 					
 					}
 					
 					if ( ! empty( $date_template ) 
-							&& ( !isset( $event_date ) || $event_date != date_i18n( $dateformat, strtotime( $date ) ) ) ) {
+							&& ( !isset( $event_date ) || $event_date != date_i18n( $dateformat, $str_date ) ) ) {
 						
-						$event_date = date_i18n( $dateformat, strtotime( $date ) );
+						$event_date = date_i18n( $dateformat, $str_date );
 						$list .= "<ul>";
 						$list .= "<li>" . str_replace( '%DATE%', $event_date, $date_template ) . "</li>";
 					
@@ -119,19 +124,20 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 							
 							$data = array();
 							
+							$post = &get_post( $cal_data_arr[$event_id]->post_parent );
+								
 							if ( $cal_data_arr[$event_id]->all_day )
 								$data['TIME'] 	= __( 'all day' );
 							else
 								$data['TIME'] 	= date_i18n( $timeformat, strtotime( $time ) );
 							
-							$data['MONTH'] 		= date_i18n( $monthformat, strtotime( $date ) );
-							$data['DATE'] 		= date_i18n( $dateformat, strtotime( $date ) );		
-							$data['LINK'] 		= get_permalink( $cal_data_arr[$event_id]->post_parent );
-							$data['URL'] 		= get_permalink( $cal_data_arr[$event_id]->post_parent );
-							$data['TITLE'] 		= get_the_title( $cal_data_arr[$event_id]->post_parent );
-							
+							$data['MONTH'] 			= date_i18n( $monthformat, strtotime( $date ) );
+							$data['DATE'] 			= date_i18n( $dateformat, strtotime( $date ) );		
+							$data['LINK'] 			= get_permalink( $post->ID );
+							$data['URL'] 			= get_permalink( $post->ID );
+							$data['TITLE'] 			= get_the_title( $post->ID );
+														
 							// get author details
-							$post = get_post( $cal_data_arr[$event_id]->post_parent );
 							$author = get_userdata( $post->post_author );
 							
 							$data['AUTHOR'] 	= $author->display_name;
@@ -150,6 +156,8 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 						if ( $break ) break;
 						
 					}
+					
+					$last_month = $cur_month;
 					
 					if ( $break ) break;
 				
@@ -359,6 +367,8 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			
 			if ( isset( $cal_entries[$start_date] ) ) {
 				
+				ksort( $cal_entries[$start_date] );
+				
 				foreach ( (array)$cal_entries[$start_date] as $time => $events ) {
 					
 					foreach ( (array)$events as $event_id ) {
@@ -533,6 +543,8 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 				$table .= "<div class='ftcalendar-event-date'>" . $link . $day . $link_end . "</div>";
 				
 				if ( isset( $cal_entries[$fordate] ) ) {
+				
+					ksort( $cal_entries[$fordate] );
 					
 					$table .= "<div class='ftcalendar-events-div'>";
 					
@@ -716,7 +728,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 				$table .= "<td class='" . $current_day_class . "'>";
 				
 				if ( 'on' == $types ) {
-					$link = "<a href='" . $permalink . "?type=day&date=" . $date . "'>";
+					$link = "<a href='" . $permalink . "?type=day&date=" . $fordate . "'>";
 					$link_end = "</a>";
 				}
 				
@@ -734,27 +746,46 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 				}
 				
 				if ( isset( $cal_entries[$fordate] ) ) {
+				
+					ksort( $cal_entries[$fordate] );
+					
 					$table .= "<div class='ftcalendar-events-div'>";
+					
 					foreach ( (array)$cal_entries[$fordate] as $time => $event_ids ) {
+						
 						foreach ( (array)$event_ids as $event_id ) {
+							
 							if ( $cal_data_arr[$event_id]->all_day ) {
+								
 								$style = 'background-color: #' . $ftcal_meta['ftcal-bg-color-' . $cal_data_arr[$event_id]->calendar_id] . '; border-color: #' . $ftcal_meta['ftcal-border-color-' . $cal_data_arr[$event_id]->calendar_id] . ';';
 								$table .= "<div style='" . $style . "' class='ftcalendar-event'><div style='" . $style . "' ><a href='" . get_permalink( $cal_data_arr[$event_id]->post_parent ) . "'>" . get_the_title( $cal_data_arr[$event_id]->post_parent ) . "</a></div></div>";
+								
 							} else {
+								
 								$style = 'color: #' . $ftcal_meta['ftcal-bg-color-' . $cal_data_arr[$event_id]->calendar_id] . ';';
 								$table .= "<div class='ftcalendar-event'><div><a style='" . $style . "' href='" . get_permalink( $cal_data_arr[$event_id]->post_parent ) . "'><span class='ftcalendar-event-time'>" . date_i18n( $timeformat, strtotime( $cal_data_arr[$event_id]->start_datetime ) ) . "</span> " . get_the_title( $cal_data_arr[$event_id]->post_parent ) . "</a></div></div>";
+								
 							}
+							
 						}
+						
 					}
+					
 					$table .= "</div>";
+					
 				} 
+				
 				$table .= "</td>";
 			
 				$cur_dow++;
 				if ( $cur_dow % 7 == 0 ) {
+					
 					$table .= "</tr>";
+					
 				}
+				
 			}
+			
 			$table .= "</table>";
 			
 			if ( 'on' == $legend )
@@ -1031,6 +1062,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 		/**
 		 *
 		 * @TODO Add description
+		 * @TODO There might be a better way to do non-repeating events...
 		 * @since 0.3
 		 */
 		function parse_calendar_data( $start_date, $end_date, $cal_data_arr = array() ) {	
@@ -1152,14 +1184,15 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 						
 					} else {
 					
-						$str_sdate = floor( strtotime( $cal_data->start_datetime ) / 86400 );
-						$sdate = date_i18n( 'Y-m-d', strtotime( $cal_data->start_datetime ) );
-						$stime = date_i18n( 'Hi', strtotime( $cal_data->start_datetime ) );
-						$str_edate = floor( strtotime( $cal_data->end_datetime ) / 86400 );
-						$edate = date_i18n( 'Y-m-d', strtotime( $cal_data->end_datetime ) );
+						$str_sdate = strtotime( $cal_data->start_datetime );
+						$str_sdays = floor( $str_sdate / 86400 );
+						//$sdate = date_i18n( 'Y-m-d', strtotime( $cal_data->start_datetime ) );
+						$stime = date_i18n( 'Hi', $str_sdate );
+						//$str_edate = floor( strtotime( $cal_data->end_datetime ) / 86400 );
+						//$edate = date_i18n( 'Y-m-d', strtotime( $cal_data->end_datetime ) );
 						
-						if ( $i >= $str_sdate && $i <= $str_edate )
-							$cal_entries[date_i18n( 'Y-m-d', $strdate )][$stime][] = $cal_data->id;
+						if ( $i >= $str_sdays && $i <= $str_sdays )
+							$cal_entries[date_i18n( 'Y-m-d', $str_sdate )][$stime][] = $cal_data->id;
 						
 					}
 					
