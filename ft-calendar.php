@@ -5,7 +5,7 @@
  */
 /*
 Plugin Name: FullThrottle Calendar
-Plugin URI: http://fullthrottlecalendar.com/ft-calendar
+Plugin URI: http://calendar-plugin.com
 Description: A feature rich calendar plugin for WordPress.
 Author: FullThrottle Development
 Version: 1.0.3.5
