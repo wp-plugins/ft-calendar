@@ -54,6 +54,12 @@ You must have:
 * FT Calendar is GPL
 
 == Changelog ==
+= 1.0.3.6 =
+* Updated main plugin URL
+* Fixed timezone bug with event listing on recurring events
+* Efficiency updates
+* Added filter to change calendar arrows
+
 = 1.0.3.5 =
 * Efficiency updates
 * Fixed bug with sorting recurring events times

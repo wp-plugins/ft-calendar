@@ -145,8 +145,10 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 							$list .= "<li>" . $this->ftc_str_replace( $event_template, $data ) . "</li>";
 							
 							if ( 0 != $limit && ++$count > $limit ) {
+								
 								$break = true;
 								break;
+								
 							}
 							
 						}
@@ -335,9 +337,9 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			$table  .= "<input type='hidden' id='largecalendar-timeformat' value='" . $timeformat . "' />";
 			
 			$table  .= "<div id='ftcalendar-nav'>";
-			$table  .= "<span id='ftcalendar-prev'><a class='large-prev' ref='" . $prev_date . "' href='" . $permalink . "?type=day&date=" . $prev_date . "'>&lArr;</a></span>";
+			$table  .= "<span id='ftcalendar-prev'><a class='large-prev' ref='" . $prev_date . "' href='" . $permalink . "?type=day&date=" . $prev_date . "'>" . apply_filters( 'ftcalendar-prev-arrow', '&lArr;' ) . "</a></span>";
 			$table	.= "&nbsp;";
-			$table  .= "<span id='ftcalendar-next'><a class='large-next' ref='" . $next_date . "' href='" . $permalink . "?type=day&date=" . $next_date . "'>&rArr;</a></span>";
+			$table  .= "<span id='ftcalendar-next'><a class='large-next' ref='" . $next_date . "' href='" . $permalink . "?type=day&date=" . $next_date . "'>" . apply_filters( 'ftcalendar-next-arrow', '&rArr;' ) . "</a></span>";
 			$table  .= "<span id='ftcalendar-current'>" .  date_i18n( $dateformat, $str_start_date ) . "</span>";
 			
 			if ( 'on' == $types ) {
@@ -475,9 +477,9 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			$table .= "<input type='hidden' id='largecalendar-timeformat' value='" . $timeformat . "' />";
 			
 			$table .= "<div id='ftcalendar-nav'>";
-			$table .= "<span id='ftcalendar-prev'><a class='large-prev' ref='" . $prev_week . "' href='" . $permalink . "?type=week&date=" . $prev_week . "'>&lArr;</a></span>";
+			$table .= "<span id='ftcalendar-prev'><a class='large-prev' ref='" . $prev_week . "' href='" . $permalink . "?type=week&date=" . $prev_week . "'>" . apply_filters( 'ftcalendar-prev-arrow', '&lArr;' ) . "</a></span>";
 			$table	.= "&nbsp;";
-			$table .= "<span id='ftcalendar-next'><a class='large-next' ref='" . $next_week . "' href='" . $permalink . "?type=week&date=" . $next_week . "'>&rArr;</a></span>";
+			$table .= "<span id='ftcalendar-next'><a class='large-next' ref='" . $next_week . "' href='" . $permalink . "?type=week&date=" . $next_week . "'>" . apply_filters( 'ftcalendar-next-arrow', '&rArr;' ) . "</a></span>";
 			$table .= "<span id='ftcalendar-current'>" .  date_i18n( $dateformat, $str_start_date ) . ' - ' . date_i18n( $dateformat, $str_end_date ) . "</span>";
 			
 			if ( 'on' == $types ) {
@@ -672,9 +674,9 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			
 			
 			$table .= "<div id='ftcalendar-nav'>";
-			$table .= "<span id='ftcalendar-prev'><a class='large-prev' ref='" . $prev_month . "' href='" . $permalink . "?type=month&date=" . $prev_month . "'>&lArr;</a></span>";
+			$table .= "<span id='ftcalendar-prev'><a class='large-prev' ref='" . $prev_month . "' href='" . $permalink . "?type=month&date=" . $prev_month . "'>" . apply_filters( 'ftcalendar-prev-arrow', '&lArr;' ) . "</a></span>";
 			$table	.= "&nbsp;";
-			$table .= "<span id='ftcalendar-next'><a class='large-next' ref='" . $next_month . "' href='" . $permalink . "?type=month&date=" . $next_month . "'>&rArr;</a></span>";
+			$table .= "<span id='ftcalendar-next'><a class='large-next' ref='" . $next_month . "' href='" . $permalink . "?type=month&date=" . $next_month . "'>" . apply_filters( 'ftcalendar-next-arrow', '&rArr;' ) . "</a></span>";
 			$table .= "<span id='ftcalendar-current'>" .  date_i18n( 'F Y', $str_date ) . "</span>";
 			
 			if ( 'on' == $types ) {
@@ -918,9 +920,9 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			$table .= "<input type='hidden' id='thumbcalendar-timeformat' value='" . $timeformat . "' />";
 			
 			$table .= "<div id='ftcalendar-nav'>";
-			$table .= "<span id='ftcalendar-prev'><a class='thumb-prev' ref='" . $prev_month . "' href='" . $permalink . "?thumb_date=" . $prev_month . "'>&lArr;</a></span>";
+			$table .= "<span id='ftcalendar-prev'><a class='thumb-prev' ref='" . $prev_month . "' href='" . $permalink . "?thumb_date=" . $prev_month . "'>" . apply_filters( 'ftcalendar-thumb-prev-arrow', '&lArr;' ) . "</a></span>";
 			$table	.= "&nbsp;";
-			$table .= "<span id='ftcalendar-next'><a class='thumb-next' ref='" . $next_month . "' href='" . $permalink . "?thumb_date=" . $next_month . "'>&rArr;</a></span>";
+			$table .= "<span id='ftcalendar-next'><a class='thumb-next' ref='" . $next_month . "' href='" . $permalink . "?thumb_date=" . $next_month . "'>" . apply_filters( 'ftcalendar-thumb-next-arrow', '&rArr;' ) . "</a></span>";
 			$table .= "<span id='ftcalendar-current'>" .  date_i18n( 'F Y', $str_date ) . "</span>";
 			
 			$table .= "</div>";
@@ -1065,7 +1067,13 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 		 * @TODO There might be a better way to do non-repeating events...
 		 * @since 0.3
 		 */
-		function parse_calendar_data( $start_date, $end_date, $cal_data_arr = array() ) {	
+		function parse_calendar_data( $start_date, $end_date, $cal_data_arr = array() ) {
+			
+			if ( function_exists( 'date_default_timezone_get' ) && function_exists( 'date_default_timezone_set' ) ) {
+				$tz = date_default_timezone_get();
+				date_default_timezone_set( 'UTC' );
+				$set_timezone = true;
+			}
 			
 			$cal_entries = false;
 			
@@ -1077,20 +1085,29 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 		
 			// 86400 = 24 hours (1 Day) in seconds
 			for ( $i = $str_start_date; $i <= $str_end_date; $i++ ) {
+				
 				$strdate = $i * 86400; // 24 days * 60 minutes * 60 seconds
 			
 				foreach ( (array)$cal_data_arr as $cal_data ) {
+					
 					if ( 1 == $cal_data->repeating ) {
-						$str_rsdate = floor( strtotime( $cal_data->r_start_datetime ) / 86400 );
-						$rsdate = date_i18n( 'Y-m-d', strtotime( $cal_data->r_start_datetime ) );
-						$rstime = date_i18n( 'Hi', strtotime( $cal_data->r_start_datetime ) );
+						
+						$str_rsdatetime = strtotime( $cal_data->r_start_datetime );
+						$str_rsdate = floor( $str_rsdatetime / 86400 );
+						$rsdate = date_i18n( 'Y-m-d', $str_rsdatetime );
+						$rstime = date_i18n( 'Hi', $str_rsdatetime );
 						
 						if ( 1 == $cal_data->r_end ) {
-							$str_redate = floor( strtotime( $cal_data->r_end_datetime ) / 86400 );
-							$redate = date_i18n( 'Y-m-d', strtotime( $cal_data->r_end_datetime ) );
+							
+							$str_redatetime = strtotime( $cal_data->r_end_datetime );
+							$str_redate = floor( $str_redatetime / 86400 );
+							$redate = date_i18n( 'Y-m-d', $str_redatetime );
+							
 						} else {
+							
 							$str_redate = $str_end_date;
 							$redate = date_i18n( 'Y-m-d', strtotime( $end_date ) );
+							
 						}
 		
 						if ( $i >= $str_rsdate && $i <= $str_redate ) {
@@ -1099,25 +1116,33 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 								
 								case 'daily' :
 									if ( 0 == ( $i - $str_rsdate ) % $cal_data->r_every ) {
+										
 										$cal_entries[date_i18n( 'Y-m-d', $strdate )][$rstime][] = $cal_data->id;
+										
 									}
 									break;
 								
 								case 'weekdays' :
 									if ( in_array( date_i18n( 'D', $strdate ), array( 'Mon', 'Tue', 'Wed', 'Thu', 'Fri' ) ) ) {
+										
 										$cal_entries[date_i18n( 'Y-m-d', $strdate )][$rstime][] = $cal_data->id;
+										
 									}
 									break;
 								
 								case 'mwf' :
 									if ( in_array( date_i18n( 'D', $strdate ), array( 'Mon', 'Wed', 'Fri' ) ) ) {
+										
 										$cal_entries[date_i18n( 'Y-m-d', $strdate )][$rstime][] = $cal_data->id;
+										
 									}
 									break;
 								
 								case 'tt':
 									if ( in_array( date_i18n( 'D', $strdate ), array( 'Tue', 'Thu' ) ) ) {
+										
 										$cal_entries[date_i18n( 'Y-m-d', $strdate )][$rstime][] = $cal_data->id;
+										
 									}
 									break;
 								
@@ -1129,15 +1154,21 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 									
 									$days_of_week = array( 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' );
 									for ( $x = 0; $x < 7; $x++) {
+										
 										if ( 1 == substr( $cal_data->r_on, $x, 1 ) ) {
+											
 											$dow[] = $days_of_week[$x];
 											$days[] = $x;
+											
 										}
+										
 									}
 								
 									if ( in_array( date_i18n( 'D', $strdate ), $dow ) 
 											&& in_array( ( $i - $str_rsweek ) % ( $cal_data->r_every * 7 ), $days ) ) {
+												
 										$cal_entries[date_i18n( 'Y-m-d', $strdate )][$rstime][] = $cal_data->id;
+										
 									}
 									break;
 								
@@ -1150,11 +1181,17 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 									$month_diff = ( $c_y - $s_y ) * 12 + ( $c_m - $s_m );
 									
 									if ( 0 == $month_diff % $cal_data->r_every ) {
+										
 										if ( 0 == $cal_data->r_by ) { // by day of month
+										
 											if ( date_i18n( 'd', $strdate ) == date_i18n( 'd', strtotime( $cal_data->r_start_datetime ) ) ) {
+												
 												$cal_entries[date_i18n( 'Y-m-d', $strdate )][$rstime][] = $cal_data->id;
+												
 											}
+											
 										} else { // by day of week
+										
 											if ( date_i18n( 'D', $strdate ) == date_i18n( 'D', strtotime( $cal_data->r_start_datetime ) ) ) {
 												
 												$dom = $this->get_nth_weekday_of_month( strtotime( $cal_data->r_start_datetime ) );
@@ -1162,8 +1199,11 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 												
 												if ( $dom == $cdom )
 													$cal_entries[date_i18n( 'Y-m-d', $strdate )][$rstime][] = $cal_data->id;
+													
 											}
+											
 										}
+										
 									}
 									break;
 								
@@ -1174,30 +1214,37 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 									$year_diff = $c_y - $s_y;
 									
 									if ( 0 == $year_diff % $cal_data->r_every ) {
+										
 										if ( date_i18n( 'd-m', $strdate ) == date_i18n( 'd-m', strtotime( $cal_data->r_start_datetime ) ) ) {
+											
 											$cal_entries[date_i18n( 'Y-m-d', $strdate )][$rstime][] = $cal_data->id;
+											
 										}
+										
 									}
 									break;
+									
 							}
+							
 						}
 						
 					} else {
 					
-						$str_sdate = strtotime( $cal_data->start_datetime );
-						$str_sdays = floor( $str_sdate / 86400 );
-						//$sdate = date_i18n( 'Y-m-d', strtotime( $cal_data->start_datetime ) );
-						$stime = date_i18n( 'Hi', $str_sdate );
-						//$str_edate = floor( strtotime( $cal_data->end_datetime ) / 86400 );
-						//$edate = date_i18n( 'Y-m-d', strtotime( $cal_data->end_datetime ) );
+						$str_sdatetime = strtotime( $cal_data->start_datetime );
+						$str_sdays = floor( $str_sdatetime / 86400 );
+						$stime = date_i18n( 'Hi', $str_sdatetime );
 						
 						if ( $i >= $str_sdays && $i <= $str_sdays )
-							$cal_entries[date_i18n( 'Y-m-d', $str_sdate )][$stime][] = $cal_data->id;
+							$cal_entries[date_i18n( 'Y-m-d', $str_sdatetime )][$stime][] = $cal_data->id;
 						
 					}
 					
 				}
 				
+			}
+			
+			if ( $set_timezone ) {
+				date_default_timezone_set( $tz );
 			}
 			
 			return $cal_entries;
