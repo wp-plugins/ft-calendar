@@ -197,9 +197,9 @@ if ( !class_exists( 'FT_CAL_Admin' ) ) {
                                     	<p><?php _e( 'These updates are available now by upgrading to Premium Support...' ); ?></p>
                                     
                                     	<ul style='margin-left:25px;list-style-type:disc'>
+                                            <li><?php _e( 'Considers "Week Starts On" setting in WordPress', 'ftcalendar' ); ?></li>
                                             <li><?php _e( 'Display schedule information within post content', 'ftcalendar' ); ?></li>
-                                            <li><?php _e( 'iCal feeds', 'ftcalendar' ); ?></li>
-                                            <li><?php _e( 'RSS/ATOM/RFD Feeds for Calendar events', 'ftcalendar' ); ?></li>
+                                            <li><?php _e( 'RSS, ATAM, RFD, and iCal feeds for Calendare vents', 'ftcalendar' ); ?></li>
                                             <li><?php _e( 'SMART event ordering for WordPress post queries', 'ftcalendar' ); ?></li>
                                             <li><?php _e( 'Backup & Export your FullThrottle Calendar data to a CSV file', 'ftcalendar' ); ?></li>
                                             <li><?php _e( 'Import your FullThrottle Calendar data from a CVS file', 'ftcalendar' ); ?></li>
@@ -522,6 +522,8 @@ Acceptable Template Replacement Tags:
 %TITLE% - Title of the event
 %TIME% - Time (fromt he timeformat)
 %AUTHOR% - Author of the event
+%CALNAME% - The name of the current calendar event information being displayed
+%CALSLUG% - The slug of the current calendar event information being displayed
 
 Examples:
 

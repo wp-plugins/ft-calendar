@@ -2,7 +2,7 @@
 Contributors: layotte, blepoxp, fullthrottledevelopment
 Tags: calendar, dates, events, times, event manager, scheduling, recurring, recurring events, ec3, event, widget, shortcode, AJAX, sidebar, repeating, repeat, recur, custom, post, types
 Requires at least: 3.0
-Tested up to: 3.1
+Tested up to: 3.2
 Stable tag: trunk
 
 A calendar plugin supporting multiple calendars, recurring events, and several different widgets / shortcodes. More info at http://calendar-plugin.com
@@ -24,10 +24,10 @@ Basic features include:
 
 Premium features available:
 
+* Considers "Week Starts On" setting in WordPress
 * Display schedule information within post content
-* iCal feeds
+* iCal, RSS 1.0 & 2.0, ATOM, and RDF feeds
 * SMART event ordering for WordPress queries
-* RSS 1.0 & 2.0, ATOM, and RDF feeds
 * Backup & Export FullThrottle Calendar data to a CSV file
 * Import FullThrottle Calendar data from a CSV file
 * Import Event Calendar 3 data from the WordPress database
@@ -54,6 +54,11 @@ You must have:
 * FT Calendar is GPL
 
 == Changelog ==
+= 1.0.3.7 =
+* Added new shortcode argument %CALNAME% to the 'class' variable
+* Added new shortcode argument %CALNAME% & %CALSLUG% *_template variable in ftcalendar_list
+* Added ftc filters for sql queries on the calendars
+
 = 1.0.3.6 =
 * Updated main plugin URL
 * Fixed timezone bug with event listing on recurring events

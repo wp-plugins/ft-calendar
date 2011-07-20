@@ -70,6 +70,13 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			// Merge defaults with passed atts
 			// Extract (make each array element its own PHP var
 			extract( shortcode_atts( $defaults, $atts ) );
+			
+			// Set the CLASS to the current calendar name being set.
+			if ( '%CALNAME%' == $class ) {
+				
+				$class = str_replace( ',', ' ', $calendars );
+				
+			}
 				
 			$start_date	= date_i18n( 'Y-m-d' );
 			$end_date 	= date_i18n( 'Y-m-d', strtotime( $span ) );
@@ -105,7 +112,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 					
 					}
 					
-					if ( ! empty( $date_template ) 
+					if ( !empty( $date_template ) 
 							&& ( !isset( $event_date ) || $event_date != date_i18n( $dateformat, $str_date ) ) ) {
 						
 						$event_date = date_i18n( $dateformat, $str_date );
@@ -136,7 +143,11 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 							$data['LINK'] 			= get_permalink( $post->ID );
 							$data['URL'] 			= get_permalink( $post->ID );
 							$data['TITLE'] 			= get_the_title( $post->ID );
-														
+							$calendar_term			= get_term_by( 'id', (int)$cal_data_arr[$event_id]->calendar_id, 'ftcalendar' );
+							
+							$data['CALNAME']		= $calendar_term->name;
+							$data['CALSLUG']		= $calendar_term->slug;
+							
 							// get author details
 							$author = get_userdata( $post->post_author );
 							

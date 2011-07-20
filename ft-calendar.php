@@ -1,21 +1,21 @@
 <?php
 /**
  * @package FT_Calendar
- * @version 1.0.3.6
+ * @version 1.0.3.7
  */
 /*
 Plugin Name: FullThrottle Calendar
 Plugin URI: http://calendar-plugin.com/
 Description: A feature rich calendar plugin for WordPress.
 Author: FullThrottle Development
-Version: 1.0.3.6
+Version: 1.0.3.7
 Author URI: http://fullthrottledevelopment.com/
 Primary Developer: Glenn Ansley (glenn@glennansley.com)
 Primary Developer: Lew Ayotte (lew@lewayotte.com)
 */
 
 #### CONSTANTS ####
-define( 'FT_CAL_VERSION', '1.0.3.6' );
+define( 'FT_CAL_VERSION', '1.0.3.7' );
 define( 'FT_CAL_DB_VERSION', '1.0' );
 
 // From http://codex.wordpress.org/Determining_Plugin_and_Content_Directories
@@ -51,19 +51,35 @@ $wp_content_dir 	 = ABSPATH . 'wp-content';
 $wp_plugin_url 		 = $wp_content_url . '/plugins';
 $wp_plugin_dir 		 = $wp_content_dir . '/plugins';
 
+
+// If this file is in the plugin directory, proceed as normal.
+if ( strpos( __FILE__, WP_PLUGIN_DIR ) === 0 ) {
+	$ftcalendar_file = plugin_basename( __FILE__ );
+} else {
+	// This file is most likely marked as an active plugin, so let's find it that way.
+	$ft_active_plugins = preg_grep( '#/' . basename( __FILE__ ) . '$#', get_option( 'active_plugins', array() ) );
+	if ( !empty( $ft_active_plugins ) ) {
+		$ftcalendar_file = current( $ft_active_plugins );
+	} else {
+		// Last ditch effort to find the 'good' filename.
+		$ftcalendar_file = plugin_basename( $plugin ? $plugin : ( $mu_plugin ? $mu_plugin : ( $network_plugin ? $network_plugin : __FILE__ ) ) );
+	}
+}
+$ftcalendar_dir = dirname( $ftcalendar_file );
+
 /**
  * URL to Plugin folder
  *
  * @since 0.3
  */
-define( 'FT_CAL_URL', $wp_plugin_url . '/' .   basename( dirname(__FILE__) ) );
+define( 'FT_CAL_URL', $wp_plugin_url . '/' . $ftcalendar_dir );
 
 /**
  * Server path to plugin Dir
  *
  * @since 0.3
  */
-define( 'FT_CAL_PATH', $wp_plugin_dir . '/' .  basename( dirname(__FILE__) ) );
+define( 'FT_CAL_PATH', $wp_plugin_dir . '/' . $ftcalendar_dir );
 
 
 #### INCLUDES ####

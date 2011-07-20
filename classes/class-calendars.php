@@ -274,27 +274,28 @@ if ( !class_exists( 'FT_Cal_Calendars' ) ) {
 		 * @param string $end_Date SQL format
 		 * @returns obj
 		 */
-		function get_ftcal_data_ids( $start_date, $end_date, $calendar = 'all' ) {	
+		function get_ftcal_data_ids( $start_date, $end_date, $calendar = 'all' ) {
+		
 			global $wpdb;
 			global $ft_cal_options;
 			
 			$start_date .= " 00:00:00";	// add Midnight in start date
 			$end_date .= " 23:59:59";	// add 1 second before the next day in end date
 			
-			$sql = 	"SELECT ftc.* FROM " . $wpdb->prefix . "ftcalendar_events as ftc " .
-					"JOIN " . $wpdb->posts . " as posts on posts.ID = ftc.post_parent " .
-					"WHERE ( " .
-					"( ( ftc.start_datetime >= '$start_date' || ftc.end_datetime >= '$start_date' ) " .
-					"    && ( ftc.start_datetime <= '$end_date' || ftc.end_datetime <= '$end_date' ) ) " .
-					"  || ( ftc.repeating = 1 " . 
-					"       && ( ftc.r_start_datetime >= '$start_date' " .
-					"            || ( ftc.r_end = 0 || ( ftc.r_end = 1 && ftc.r_end_datetime >= '$start_date' ) ) ) " .
-					"       && ( ftc.r_start_datetime <= '$end_date' " .
-					"            || ( ftc.r_end = 0 || ( ftc.r_end = 1 && ftc.r_end_datetime <= '$end_date' ) ) ) ) ) " .
-					" && posts.post_status = 'publish' ";
+			$select = 	"SELECT ftc.* FROM " . $wpdb->prefix . "ftcalendar_events as ftc ";
+			$join =		"JOIN " . $wpdb->posts . " as posts on posts.ID = ftc.post_parent ";
+			$where =	"WHERE ( " .
+						"( ( ftc.start_datetime >= '$start_date' || ftc.end_datetime >= '$start_date' ) " .
+						"    && ( ftc.start_datetime <= '$end_date' || ftc.end_datetime <= '$end_date' ) ) " .
+						"  || ( ftc.repeating = 1 " . 
+						"       && ( ftc.r_start_datetime >= '$start_date' " .
+						"            || ( ftc.r_end = 0 || ( ftc.r_end = 1 && ftc.r_end_datetime >= '$start_date' ) ) ) " .
+						"       && ( ftc.r_start_datetime <= '$end_date' " .
+						"            || ( ftc.r_end = 0 || ( ftc.r_end = 1 && ftc.r_end_datetime <= '$end_date' ) ) ) ) ) " .
+						" && posts.post_status = 'publish' ";
 					
 			if ( 'all' != $calendar ) {
-				$sql .= " && ( ";
+				$where .= " && ( ";
 				$calendars = preg_split("/\s?,\s?/", $calendar);
 				
 				$i = 0;
@@ -302,21 +303,27 @@ if ( !class_exists( 'FT_Cal_Calendars' ) ) {
 				foreach ( (array)$calendars as $calendar ) {
 					$term = get_term_by( 'slug', $calendar, 'ftcalendar' );
 					if ( !empty( $term ) ) {
-						$sql .= " calendar_id = " . $term->term_id . " ";
+						$where .= " calendar_id = " . $term->term_id . " ";
 						
 						if ( $last > $i ) {
-							$sql .= " || ";
+							$where .= " || ";
 						}
 					} else {
-						$sql .= " 0 ";	
+						$where .= " 0 ";	
 					}
 					
 					$i++;
 				}
-				$sql .= " ) ";
+				$where .= " ) ";
 			}
 					
-			$sql .= " ORDER BY all_day DESC, start_datetime ASC";
+			$orderby = " ORDER BY all_day DESC, start_datetime ASC";
+			
+			$join 		= apply_filters( 'ftc_join', $join );
+			$where 		= apply_filters( 'ftc_where', $where );
+			$orderby	= apply_filters( 'ftc_orderby',	$orderby );
+					
+			$sql = $select . $join . $where . $orderby; 
 			
 			$results = $wpdb->get_results( $wpdb->prepare( $sql ), OBJECT_K );
 			
