@@ -858,7 +858,6 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			$ftcal_options	= $ft_cal_options->get_calendar_options();
 			$dateformat 	= get_option( 'date_format' );
 			$timeformat 	= get_option( 'time_format' );
-			$permalink 		= get_permalink();
 			
 			$defaults = array( 
 				'type'			=> 'thumb',
@@ -931,9 +930,9 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			$table .= "<input type='hidden' id='thumbcalendar-timeformat' value='" . $timeformat . "' />";
 			
 			$table .= "<div id='ftcalendar-nav'>";
-			$table .= "<span id='ftcalendar-prev'><a class='thumb-prev' ref='" . $prev_month . "' href='" . $permalink . "?thumb_date=" . $prev_month . "'>" . apply_filters( 'ftcalendar-thumb-prev-arrow', '&lArr;' ) . "</a></span>";
+			$table .= "<span id='ftcalendar-prev'><a class='thumb-prev' ref='" . $prev_month . "' href='?thumb_date=" . $prev_month . "'>" . apply_filters( 'ftcalendar-thumb-prev-arrow', '&lArr;' ) . "</a></span>";
 			$table	.= "&nbsp;";
-			$table .= "<span id='ftcalendar-next'><a class='thumb-next' ref='" . $next_month . "' href='" . $permalink . "?thumb_date=" . $next_month . "'>" . apply_filters( 'ftcalendar-thumb-next-arrow', '&rArr;' ) . "</a></span>";
+			$table .= "<span id='ftcalendar-next'><a class='thumb-next' ref='" . $next_month . "' href='?thumb_date=" . $next_month . "'>" . apply_filters( 'ftcalendar-thumb-next-arrow', '&rArr;' ) . "</a></span>";
 			$table .= "<span id='ftcalendar-current'>" .  date_i18n( 'F Y', $str_date ) . "</span>";
 			
 			$table .= "</div>";

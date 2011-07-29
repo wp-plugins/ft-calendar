@@ -54,6 +54,9 @@ You must have:
 * FT Calendar is GPL
 
 == Changelog ==
+= 1.0.3.8 =
+* Fixed permalink bug in Calendar Thumb widget
+
 = 1.0.3.7 =
 * Added new shortcode argument %CALNAME% to the 'class' variable
 * Added new shortcode argument %CALNAME% & %CALSLUG% *_template variable in ftcalendar_list
