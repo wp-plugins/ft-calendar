@@ -54,6 +54,9 @@ You must have:
 * FT Calendar is GPL
 
 == Changelog ==
+= 1.0.4.0 =
+* Add POT file for language translations, hopefully will be getting some soon
+
 = 1.0.3.8 =
 * Fixed permalink bug in Calendar Thumb widget
 
