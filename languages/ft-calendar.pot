@@ -1,0 +1,381 @@
+# Copyright (C) 2010 
+# This file is distributed under the same license as the  package.
+msgid ""
+msgstr ""
+"Project-Id-Version:  \n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/ft-calendar\n"
+"POT-Creation-Date: 2011-08-08 13:32:24+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: strings.php:5 strings.php:6
+msgid "Calendar Label Color"
+msgstr ""
+
+#: strings.php:7
+msgid "to"
+msgstr ""
+
+#: strings.php:8
+msgid "All day"
+msgstr ""
+
+#: strings.php:9
+msgid "Repeats..."
+msgstr ""
+
+#: strings.php:10
+msgid "Repeats"
+msgstr ""
+
+#: strings.php:11
+msgid "Daily"
+msgstr ""
+
+#: strings.php:12
+msgid "Every weekday"
+msgstr ""
+
+#: strings.php:13
+msgid "Every Mon., Wed., and Fri."
+msgstr ""
+
+#: strings.php:14
+msgid "Every Tues., and Thurs."
+msgstr ""
+
+#: strings.php:15
+msgid "Weekly"
+msgstr ""
+
+#: strings.php:16
+msgid "Monthly"
+msgstr ""
+
+#: strings.php:17
+msgid "Yearly"
+msgstr ""
+
+#: strings.php:18
+msgid "Weekly on weekdays"
+msgstr ""
+
+#: strings.php:19
+msgid "Weekly on Monday, Wednesday, Friday"
+msgstr ""
+
+#: strings.php:20
+msgid "Weekly on Tuesday, Thursday"
+msgstr ""
+
+#: strings.php:21
+msgid "Repeat Every"
+msgstr ""
+
+#: strings.php:22
+msgid "days"
+msgstr ""
+
+#: strings.php:23
+msgid "Repeat On:"
+msgstr ""
+
+#: strings.php:24 strings.php:30
+msgid "S"
+msgstr ""
+
+#: strings.php:25
+msgid "M"
+msgstr ""
+
+#: strings.php:26 strings.php:28
+msgid "T"
+msgstr ""
+
+#: strings.php:27
+msgid "W"
+msgstr ""
+
+#: strings.php:29
+msgid "F"
+msgstr ""
+
+#: strings.php:31
+msgid "Repeat By"
+msgstr ""
+
+#: strings.php:32
+msgid "day of the month"
+msgstr ""
+
+#: strings.php:33
+msgid "day of the week"
+msgstr ""
+
+#: strings.php:34
+msgid "Starts On"
+msgstr ""
+
+#: strings.php:35
+msgid "Ends On:"
+msgstr ""
+
+#: strings.php:36
+msgid "Never"
+msgstr ""
+
+#: strings.php:37
+msgid "Until"
+msgstr ""
+
+#: strings.php:39
+msgid "FullThrottle Calendar General Settings"
+msgstr ""
+
+#: strings.php:40
+msgid "General Options"
+msgstr ""
+
+#: strings.php:41 strings.php:42
+msgid "Enable Calendar items for these post types:"
+msgstr ""
+
+#: strings.php:43
+msgid "Show Support Link:"
+msgstr ""
+
+#: strings.php:44
+msgid "Enable SMART Post Ordering:"
+msgstr ""
+
+#: strings.php:45
+msgid "Include Recurring End Date in SMART Ordering:"
+msgstr ""
+
+#: strings.php:46
+msgid "Show Schedule within Post:"
+msgstr ""
+
+#: strings.php:47
+msgid "Where to Display Schedule?"
+msgstr ""
+
+#: strings.php:48
+msgid "Use Event Date as pubDate in feeds:"
+msgstr ""
+
+#: strings.php:49
+msgid "Save Changes"
+msgstr ""
+
+#: strings.php:50 strings.php:60 strings.php:66 strings.php:83
+msgid "Partners"
+msgstr ""
+
+#: strings.php:51
+msgid "FullThrottle Calendar Import"
+msgstr ""
+
+#: strings.php:52 strings.php:62
+msgid "FullThrottle Calendar"
+msgstr ""
+
+#: strings.php:53
+msgid "Select file to import"
+msgstr ""
+
+#: strings.php:54
+msgid "Delete existing data?"
+msgstr ""
+
+#: strings.php:55
+msgid "Import FullThrottle Calendar Data"
+msgstr ""
+
+#: strings.php:56
+msgid "Event Calendar 3"
+msgstr ""
+
+#: strings.php:57
+msgid "Import Event Calendar 3 data to this Calendar"
+msgstr ""
+
+#: strings.php:58
+msgid "Import EC3 Data"
+msgstr ""
+
+#: strings.php:61
+msgid "FullThrottle Calendar Export"
+msgstr ""
+
+#: strings.php:63
+msgid "Select calendar(s) to export"
+msgstr ""
+
+#: strings.php:64 strings.php:88 strings.php:112
+msgid "All Calendars"
+msgstr ""
+
+#: strings.php:67
+msgid "FullThrottle Calendar Help"
+msgstr ""
+
+#: strings.php:68
+msgid "[ftcalendar] - Calendar Shortcode"
+msgstr ""
+
+#: strings.php:69
+msgid "[ftcalendar_thumb] - Thumbnail Calendar Shortcode"
+msgstr ""
+
+#: strings.php:70
+msgid "[ftcalendar_list] - Event List Shortcode"
+msgstr ""
+
+#: strings.php:71
+msgid "Calendar of Events Widget"
+msgstr ""
+
+#: strings.php:72
+msgid "Upcoming Events List Widget"
+msgstr ""
+
+#: strings.php:73
+msgid "Premium Support and Features"
+msgstr ""
+
+#: strings.php:74
+msgid ""
+"By signing up for FT Calendar premium support, you help to ensure future "
+"enhancements to this excellent project as well as the following benefits:"
+msgstr ""
+
+#: strings.php:75
+msgid ""
+"Around the clock access to our knowledge base and support forum from within "
+"your WordPress dashboard"
+msgstr ""
+
+#: strings.php:76
+msgid ""
+"Professional and timely response times to all your questions from the FT "
+"Calendar team"
+msgstr ""
+
+#: strings.php:77
+msgid ""
+"A 10% discount for any custom functionality you request from the FT Calendar "
+"developers"
+msgstr ""
+
+#: strings.php:78
+msgid ""
+"A 6-12 month advance access to new features integrated into the auto upgrade "
+"functionality of WordPress"
+msgstr ""
+
+#: strings.php:79
+msgid "Ads removed from Calendar Meta Boxes and Control Panels"
+msgstr ""
+
+#: strings.php:80
+msgid "Signup Now"
+msgstr ""
+
+#: strings.php:81
+msgid "Learn More"
+msgstr ""
+
+#: strings.php:82
+msgid "Launch Premium Support widget"
+msgstr ""
+
+#: strings.php:82
+msgid "Visit Premium Support web site"
+msgstr ""
+
+#: strings.php:84 strings.php:108
+msgid "Title:"
+msgstr ""
+
+#: strings.php:85 strings.php:109
+msgid "Show XML Feed?"
+msgstr ""
+
+#: strings.php:86 strings.php:110
+msgid "Show iCal Feed?"
+msgstr ""
+
+#: strings.php:87 strings.php:111
+msgid "Calendars:"
+msgstr ""
+
+#: strings.php:89
+msgid "Time Span:"
+msgstr ""
+
+#: strings.php:90
+msgid "Day(s)"
+msgstr ""
+
+#: strings.php:91
+msgid "Week(s)"
+msgstr ""
+
+#: strings.php:92
+msgid "Month(s)"
+msgstr ""
+
+#: strings.php:93
+msgid "Year(s)"
+msgstr ""
+
+#: strings.php:94
+msgid "Limit:"
+msgstr ""
+
+#: strings.php:95
+msgid "0 = Show all events in given time span"
+msgstr ""
+
+#: strings.php:96
+msgid "Time Format:"
+msgstr ""
+
+#: strings.php:97 strings.php:99 strings.php:102
+msgid ""
+"See <a href=\"http://php.net/date/\" target=\"_blank\">PHP's Format "
+"Parameters</a> for help."
+msgstr ""
+
+#: strings.php:98
+msgid "Date Format:"
+msgstr ""
+
+#: strings.php:100
+msgid "Date Template:"
+msgstr ""
+
+#: strings.php:101
+msgid "Month Format:"
+msgstr ""
+
+#: strings.php:103
+msgid "Month Template:"
+msgstr ""
+
+#: strings.php:104
+msgid "Event Template:"
+msgstr ""
+
+#: strings.php:105
+msgid "Hide Duplicates?"
+msgstr ""
+
+#: strings.php:106
+msgid "Date Template must be blank."
+msgstr ""
