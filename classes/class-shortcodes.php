@@ -77,12 +77,12 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 				$class = str_replace( ',', ' ', $calendars );
 				
 			}
-				
-			$start_date	= date_i18n( 'Y-m-d' );
+			
+			$start_date	= date_i18n( 'Y-m-d H:i:s' );
 			$end_date 	= date_i18n( 'Y-m-d', strtotime( $span ) );
 				
-			$cal_data_arr = $ft_cal_calendars->get_ftcal_data_ids( $start_date, $end_date, $calendars );
-			$cal_entries = $this->parse_calendar_data( $start_date, $end_date, $cal_data_arr );
+			$cal_data_arr = $ft_cal_calendars->get_ftcal_data_ids( $start_date, $end_date, $calendars, false );
+			$cal_entries = $this->parse_calendar_data( $start_date, $end_date, $cal_data_arr, false );
 				
 			if ( ! empty( $cal_entries ) ) {
 				
@@ -1077,7 +1077,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 		 * @TODO There might be a better way to do non-repeating events...
 		 * @since 0.3
 		 */
-		function parse_calendar_data( $start_date, $end_date, $cal_data_arr = array() ) {
+		function parse_calendar_data( $start_date, $end_date, $cal_data_arr = array(), $start_at_midnight = true, $end_at_midnight = true ) {
 			
 			if ( function_exists( 'date_default_timezone_get' ) && function_exists( 'date_default_timezone_set' ) ) {
 				$tz = date_default_timezone_get();
@@ -1085,10 +1085,13 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 				$set_timezone = true;
 			}
 			
-			$cal_entries = false;
+			$cal_entries = array();
 			
-			$start_date .= " 00:00:00";	// add Midnight in start date
-			$end_date .= " 23:59:59";	// add 1 second before the next day in end date
+			if ( $start_at_midnight )
+				$start_date .= " 00:00:00";	// add Midnight in start date
+				
+			if ( $end_at_midnight )
+				$end_date .= " 23:59:59";	// add 1 second before the next day in end date
 			
 			$str_start_date = floor( strtotime( $start_date ) / 86400 ); // 24 days * 60 minutes * 60 seconds
 			$str_end_date = floor( strtotime( $end_date ) / 86400 );
@@ -1106,6 +1109,9 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 						$str_rsdate = floor( $str_rsdatetime / 86400 );
 						$rsdate = date_i18n( 'Y-m-d', $str_rsdatetime );
 						$rstime = date_i18n( 'Hi', $str_rsdatetime );
+						
+						if ( $i == $str_start_date && $rstime < date_i18n( 'Hi', strtotime( $start_date ) ) )
+						continue;
 						
 						if ( 1 == $cal_data->r_end ) {
 							
@@ -1133,7 +1139,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 									break;
 								
 								case 'weekdays' :
-									if ( in_array( date_i18n( 'D', $strdate ), array( 'Mon', 'Tue', 'Wed', 'Thu', 'Fri' ) ) ) {
+									if ( in_array( date_i18n( 'w', $strdate ), array( 1, 2, 3, 4, 5 ) ) ) {
 										
 										$cal_entries[date_i18n( 'Y-m-d', $strdate )][$rstime][] = $cal_data->id;
 										
@@ -1141,7 +1147,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 									break;
 								
 								case 'mwf' :
-									if ( in_array( date_i18n( 'D', $strdate ), array( 'Mon', 'Wed', 'Fri' ) ) ) {
+									if ( in_array( date_i18n( 'w', $strdate ), array( 1, 3, 5 ) ) ) {
 										
 										$cal_entries[date_i18n( 'Y-m-d', $strdate )][$rstime][] = $cal_data->id;
 										
@@ -1149,7 +1155,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 									break;
 								
 								case 'tt':
-									if ( in_array( date_i18n( 'D', $strdate ), array( 'Tue', 'Thu' ) ) ) {
+									if ( in_array( date_i18n( 'w', $strdate ), array( 2, 4 ) ) ) {
 										
 										$cal_entries[date_i18n( 'Y-m-d', $strdate )][$rstime][] = $cal_data->id;
 										
@@ -1162,7 +1168,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 									$dow = array();	//track days of week and numeric days that event falls on
 									$days = array();
 									
-									$days_of_week = array( 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' );
+									$days_of_week = array( 0, 1, 2, 3, 4, 5, 6 );
 									for ( $x = 0; $x < 7; $x++) {
 										
 										if ( 1 == substr( $cal_data->r_on, $x, 1 ) ) {
@@ -1174,7 +1180,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 										
 									}
 								
-									if ( in_array( date_i18n( 'D', $strdate ), $dow ) 
+									if ( in_array( date_i18n( 'w', $strdate ), $dow ) 
 											&& in_array( ( $i - $str_rsweek ) % ( $cal_data->r_every * 7 ), $days ) ) {
 												
 										$cal_entries[date_i18n( 'Y-m-d', $strdate )][$rstime][] = $cal_data->id;
@@ -1202,7 +1208,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 											
 										} else { // by day of week
 										
-											if ( date_i18n( 'D', $strdate ) == date_i18n( 'D', strtotime( $cal_data->r_start_datetime ) ) ) {
+											if ( date_i18n( 'w', $strdate ) == date_i18n( 'w', strtotime( $cal_data->r_start_datetime ) ) ) {
 												
 												$dom = $this->get_nth_weekday_of_month( strtotime( $cal_data->r_start_datetime ) );
 												$cdom = $this->get_nth_weekday_of_month( $strdate );
@@ -1243,6 +1249,9 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 						$str_sdatetime = strtotime( $cal_data->start_datetime );
 						$str_sdays = floor( $str_sdatetime / 86400 );
 						$stime = date_i18n( 'Hi', $str_sdatetime );
+						
+						if ( $i == $str_start_date && $stime < date_i18n( 'Hi', strtotime( $start_date ) ) )
+							continue;
 						
 						if ( $i >= $str_sdays && $i <= $str_sdays )
 							$cal_entries[date_i18n( 'Y-m-d', $str_sdatetime )][$stime][] = $cal_data->id;

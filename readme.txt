@@ -54,6 +54,12 @@ You must have:
 * FT Calendar is GPL
 
 == Changelog ==
+= 1.0.4.1 =
+* General code cleanup
+* Changed Upcoming Event Lists to pay attention to TIME not just DAY, so events that happened minutes ago do not appear
+* Fixed internationalization bug
+* Fixed Widget ID tags
+
 = 1.0.4.0 =
 * Add POT file for language translations, hopefully will be getting some soon
 

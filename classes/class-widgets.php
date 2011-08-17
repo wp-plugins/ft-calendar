@@ -141,39 +141,39 @@ class FT_CAL_Event_List extends WP_Widget {
 			</p>
 			<p>
 	        	<label for="<?php echo $this->get_field_id( 'limit' ); ?>"><?php _e( 'Limit:', 'ftcalendar' ); ?></label>
-	            <input type="text" value="<?php echo esc_attr( $limit ); ?>" name="<?php echo $this->get_field_name( 'limit' ); ?>" id="<?php echo esc_attr( $limit ); ?>" />
+	            <input type="text" value="<?php echo esc_attr( $limit ); ?>" name="<?php echo $this->get_field_name( 'limit' ); ?>" id="<?php echo $this->get_field_id( 'limit' ); ?>" />
 				<br />
 				<small><?php _e( '0 = Show all events in given time span', 'ftcalendar' ); ?></small>
 			</p>
 	        <p>
 	        	<label for="<?php echo $this->get_field_id( 'timeformat' ); ?>"><?php _e( 'Time Format:', 'ftcalendar' ); ?></label>
-	            <input type="text" value="<?php echo esc_attr( strip_tags( $timeformat ) ); ?>" name="<?php echo $this->get_field_name( 'timeformat' ); ?>" id="<?php echo esc_attr( strip_tags( $timeformat ) ); ?>" class="widefat" />
+	            <input type="text" value="<?php echo esc_attr( strip_tags( $timeformat ) ); ?>" name="<?php echo $this->get_field_name( 'timeformat' ); ?>" id="<?php echo $this->get_field_id( 'timeformat' ); ?>" class="widefat" />
 				<br />
 	            <small><?php _e( 'See <a href="http://php.net/date/" target="_blank">PHP\'s Format Parameters</a> for help.', 'ftcalendar' ); ?></small>        
 			</p>
 	        <p>
 	        	<label for="<?php echo $this->get_field_id('dateformat'); ?>"><?php _e( 'Date Format:', 'ftcalendar' ); ?></label>
-	            <input type="text" value="<?php echo esc_attr( strip_tags( $dateformat ) ); ?>" name="<?php echo $this->get_field_name( 'dateformat' ); ?>" id="<?php echo esc_attr( strip_tags( $dateformat ) ); ?>" class="widefat" />
+	            <input type="text" value="<?php echo esc_attr( strip_tags( $dateformat ) ); ?>" name="<?php echo $this->get_field_name( 'dateformat' ); ?>" id="<?php echo $this->get_field_id( 'dateformat' ); ?>" class="widefat" />
 				<br />
 	            <small><?php _e( 'See <a href="http://php.net/date/" target="_blank">PHP\'s Format Parameters</a> for help.', 'ftcalendar' ); ?></small>        
 			</p>
 	        <p>
 	        	<label for="<?php echo $this->get_field_id( 'date_template' ); ?>"><?php _e( 'Date Template:', 'ftcalendar' ); ?></label>
-	            <input type="text" value="<?php echo esc_attr( $date_template ); ?>" name="<?php echo $this->get_field_name( 'date_template' ); ?>" id="<?php echo esc_attr( $date_template ); ?>" class="widefat" />   
+	            <input type="text" value="<?php echo esc_attr( $date_template ); ?>" name="<?php echo $this->get_field_name( 'date_template' ); ?>" id="<?php echo $this->get_field_id( 'date_template' ); ?>" class="widefat" />   
 			</p>
 	        <p>
 	        	<label for="<?php echo $this->get_field_id( 'monthformat '); ?>"><?php _e( 'Month Format:', 'ftcalendar' ); ?></label>
-	            <input type="text" value="<?php echo esc_attr( strip_tags( $monthformat ) ); ?>" name="<?php echo $this->get_field_name( 'monthformat' ); ?>" id="<?php echo esc_attr( strip_tags( $monthformat ) ); ?>" class="widefat" />
+	            <input type="text" value="<?php echo esc_attr( strip_tags( $monthformat ) ); ?>" name="<?php echo $this->get_field_name( 'monthformat' ); ?>" id="<?php echo $this->get_field_id( 'monthformat' ); ?>" class="widefat" />
 				<br />
 	            <small><?php _e( 'See <a href="http://php.net/date/" target="_blank">PHP\'s Format Parameters</a> for help.', 'ftcalendar' ); ?></small>        
 			</p>
 	        <p>
 	        	<label for="<?php echo $this->get_field_id( 'month_template' ); ?>"><?php _e( 'Month Template:', 'ftcalendar' ); ?></label>
-	            <input type="text" value="<?php echo esc_attr( $month_template ); ?>" name="<?php echo $this->get_field_name( 'month_template' ); ?>" id="<?php echo esc_attr( $month_template ); ?>" class="widefat" />   
+	            <input type="text" value="<?php echo esc_attr( $month_template ); ?>" name="<?php echo $this->get_field_name( 'month_template' ); ?>" id="<?php echo $this->get_field_id( 'month_template' ); ?>" class="widefat" />   
 			</p>
 	        <p>
 	        	<label for="<?php echo $this->get_field_id( 'event_template' ); ?>"><?php _e( 'Event Template:', 'ftcalendar' ); ?></label>
-	            <input type="text" value="<?php echo esc_attr( $event_template ); ?>" name="<?php echo $this->get_field_name( 'event_template' ); ?>" id="<?php echo esc_attr( $event_template ); ?>" class="widefat" />   
+	            <input type="text" value="<?php echo esc_attr( $event_template ); ?>" name="<?php echo $this->get_field_name( 'event_template' ); ?>" id="<?php echo $this->get_field_id( 'event_template' ); ?>" class="widefat" />   
 			</p>
         	<?php 
         
