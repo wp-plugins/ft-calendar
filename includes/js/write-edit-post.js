@@ -1,4 +1,6 @@
-jQuery(document).ready(function($) {
+var $ftjquery = jQuery.noConflict();
+
+$ftjquery(document).ready(function($) {
 	$( 'input#event_date_start' ).datepicker({
 		beforeShow : function(input, inst) {
 			// days since epoch, used for calculating difference from start date and end date
@@ -108,7 +110,21 @@ jQuery(document).ready(function($) {
 		var date_until = $( 'input#range_end' ).val();
 		
 		if ( '' != date_until ) {
-			$( '.date_until' ).text(', until ' + $.datepicker.formatDate( 'MM dd, yy', $( 'input#range_end' ).datepicker( 'getDate' ) ) ).show()
+			$( '.date_until' ).text(', {until} '.replace( '{until}', objectL10n.until ) + $.datepicker( 
+				{ monthNames: [
+					'{January}'.replace( '{January}', objectL10n.January ), 
+					'{February}'.replace( '{February}', objectL10n.February ), 
+					'{March}'.replace( '{March}', objectL10n.March ), 
+					'{April}'.replace( '{April}', objectL10n.April ), 
+					'{May}'.replace( '{May}', objectL10n.May ), 
+					'{June}'.replace( '{June}', objectL10n.June ), 
+					'{July}'.replace( '{July}', objectL10n.July ), 
+					'{August}'.replace( '{August}', objectL10n.August ), 
+					'{September}'.replace( '{September}', objectL10n.September ), 
+					'{October}'.replace( '{October}', objectL10n.October ), 
+					'{November}'.replace( '{November}', objectL10n.November ), 
+					'{December}'.replace( '{December}', objectL10n.December ) 
+				] } ).formatDate( 'MM dd, yy', $( 'input#range_end' ).datepicker( 'getDate' ) ) ).show()
 		} else {
 			$( '.date_until' ).hide();
 		}
@@ -118,11 +134,11 @@ jQuery(document).ready(function($) {
 			case 'daily' :
 				// Set repeats label
 				if ( repeats_every_select == 1 ) {
-					$( '#repeats_daily_label' ).text('Daily').show()
-					$( '#repeats_every_label' ).text('day').show()
+					$( '#repeats_daily_label' ).text('{Daily}'.replace( '{Daily}', objectL10n.Daily )).show()
+					$( '#repeats_every_label' ).text('{day}'.replace( '{day}', objectL10n.day )).show()
 				} else {
-					$( '#repeats_daily_label' ).text( 'Every ' + repeats_every_select + ' days' ).show();
-					$( '#repeats_every_label' ).text('days').show()
+					$( '#repeats_daily_label' ).text( '{Every} '.replace( '{Every}', objectL10n.Every ) + repeats_every_select + ' {days}'.replace( '{days}', objectL10n.days ) ).show();
+					$( '#repeats_every_label' ).text('{days}'.replace( '{days}', objectL10n.days )).show()
 				}
 				$( '#repeats_daily_p, #repeats_every, #repeats_range' ).show();
 				break;
@@ -141,16 +157,16 @@ jQuery(document).ready(function($) {
 			case 'weekly' :
 				// Set repeats label
 				if ( repeats_every_select == 1 ) {
-					$( '#repeats_weekly_label' ).text('Weekly').show()
-					$( '#repeats_every_label' ).text('week').show()
+					$( '#repeats_weekly_label' ).text('{Weekly}'.replace( '{Weekly}', objectL10n.Weekly )).show()
+					$( '#repeats_every_label' ).text('{week}'.replace( '{week}', objectL10n.week )).show()
 				} else {
-					$( '#repeats_weekly_label' ).text( 'Every ' + repeats_every_select + ' weeks' ).show();
-					$( '#repeats_every_label' ).text( 'weeks' ).show();
+					$( '#repeats_weekly_label' ).text( '{Every} '.replace( '{Every}', objectL10n.Every ) + repeats_every_select + ' {weeks}'.replace( '{weeks}', objectL10n.weeks ) ).show();
+					$( '#repeats_every_label' ).text( '{weeks}'.replace( '{weeks}', objectL10n.weeks ) ).show();
 				}
 				
 				checked = new Array();
 				$( '.repeats_on' ).each( function() {
-					if ( true == $( this ).attr( 'checked' ) ) {
+					if ( true == $( this ).attr( 'checked' ) || 'checked' == $( this ).attr( 'checked' ) ) {
 						var str = $( this ).val();
 						str = str.charAt(0).toUpperCase() + str.slice(1);
 						checked[ checked.length ] = str;
@@ -158,9 +174,9 @@ jQuery(document).ready(function($) {
 				});
 				
 				if ( 7 <= checked.length ) {
-					$( '#repeats_weekly_on' ).text( ' every day' );
+					$( '#repeats_weekly_on' ).text( ' {every day}'.replace( '{every day}', objectL10n.everyday ) );
 				} else {
-					$( '#repeats_weekly_on' ).text( ' on ' + checked.join( ', ' ) );
+					$( '#repeats_weekly_on' ).text( ' {on} '.replace( '{on}', objectL10n.on ) + checked.join( ', ' ) );
 				}
 				
 				// Show fields
@@ -178,11 +194,11 @@ jQuery(document).ready(function($) {
 					var label_out = 'on day ' + daynumber;
 									
 				if ( repeats_every_select == 1 ) {
-					$( '#repeats_monthly_label' ).text('Monthly ' + label_out ).show()		
-					$( '#repeats_every_label' ).text( 'month' ).show();
+					$( '#repeats_monthly_label' ).text('{Monthly} '.replace( '{Monthly}', objectL10n.Monthly ) + label_out ).show()		
+					$( '#repeats_every_label' ).text( '{month}' ).replace( '{month}', objectL10n.month ).show();
 				} else {
-					$( '#repeats_monthly_label' ).text( 'Every ' + repeats_every_select + ' months ' + label_out ).show();		
-					$( '#repeats_every_label' ).text( 'months' ).show();
+					$( '#repeats_monthly_label' ).text( '{Every} '.replace( '{Every}', objectL10n.Every ) + repeats_every_select + ' {months} '.replace( '{months}', objectL10n.months ) + label_out ).show();		
+					$( '#repeats_every_label' ).text( '{months}'.replace( '{months}', objectL10n.months ) ).show();
 				}
 				
 				// Show fields
@@ -190,14 +206,28 @@ jQuery(document).ready(function($) {
 				break;
 			case 'yearly' :
 				// Set repeats label
-				var start_date  = $.datepicker.formatDate( 'MM dd', $( '#event_date_start' ).datepicker( 'getDate' ) );
+				var start_date  = $.datepicker( { 
+					monthNames: [
+						'{January}'.replace( '{January}', objectL10n.January ), 
+						'{February}'.replace( '{February}', objectL10n.February ), 
+						'{March}'.replace( '{March}', objectL10n.March ), 
+						'{April}'.replace( '{April}', objectL10n.April ), 
+						'{May}'.replace( '{May}', objectL10n.May ), 
+						'{June}'.replace( '{June}', objectL10n.June ), 
+						'{July}'.replace( '{July}', objectL10n.July ), 
+						'{August}'.replace( '{August}', objectL10n.August ), 
+						'{September}'.replace( '{September}', objectL10n.September ), 
+						'{October}'.replace( '{October}', objectL10n.October ), 
+						'{November}'.replace( '{November}', objectL10n.November ), 
+						'{December}'.replace( '{December}', objectL10n.December ) 
+					] } ).formatDate( 'MM dd', $( '#event_date_start' ).datepicker( 'getDate' ) );
 			
 				if ( repeats_every_select == 1 ) {
-					$( '#repeats_yearly_label' ).text('Annually on ' + start_date ).show();
-					$( '#repeats_every_label' ).text( 'year' ).show();
+					$( '#repeats_yearly_label' ).text('{Annually on} '.replace( '{Annually on}', objectL10n.AnnuallyOn ) + start_date ).show();
+					$( '#repeats_every_label' ).text( 'year'.replace( '{year}', objectL10n.year ) ).show();
 				} else {
-					$( '#repeats_yearly_label' ).text( 'Every ' + repeats_every_select + ' years on ' + start_date ).show();
-					$( '#repeats_every_label' ).text( 'years' ).show();
+					$( '#repeats_yearly_label' ).text( 'Every '.replace( '{Every}', objectL10n.Every ) + repeats_every_select + ' years on '.replace( '{years on}', objectL10n.yearson ) + start_date ).show();
+					$( '#repeats_every_label' ).text( 'years'.replace( '{years}', objectL10n.years ) ).show();
 				}
 
 				// Show fields
@@ -212,20 +242,20 @@ jQuery(document).ready(function($) {
 	// Returns the string for the nth dayoftheweek of every month
 	function get_nth_weekday_of_month( date ) {
 		var englishdays = new Array();
-			englishdays[1] = 'Sunday';
-			englishdays[2] = 'Monday';
-			englishdays[3] = 'Tuesday';
-			englishdays[4] = 'Wednesday';
-			englishdays[5] = 'Thursday';
-			englishdays[6] = 'Friday';
-			englishdays[7] = 'Saturday';
+			englishdays[1] = '{Sunday}'.replace( '{Sunday}', objectL10n.Sunday );
+			englishdays[2] = '{Monday}'.replace( '{Monday}', objectL10n.Monday );
+			englishdays[3] = '{Tuesday}'.replace( '{Tuesday}', objectL10n.Tuesday );
+			englishdays[4] = '{Wednesday}'.replace( '{Wednesday}', objectL10n.Wednesday );
+			englishdays[5] = '{Thursday}'.replace( '{Thursday}', objectL10n.Thursday );
+			englishdays[6] = '{Friday}'.replace( '{Friday}', objectL10n.Friday );
+			englishdays[7] = '{Saturday}'.replace( '{Saturday}', objectL10n.Saturday );
 		
 		var englishnumber = new Array();
-			englishnumber[0] = 'first';
-			englishnumber[1] = 'second';
-			englishnumber[2] = 'third';
-			englishnumber[3] = 'fourth';
-			englishnumber[4] = 'fifth';
+			englishnumber[0] = '{first}'.replace( '{first}', objectL10n.first );
+			englishnumber[1] = '{second}'.replace( '{second}', objectL10n.second );
+			englishnumber[2] = '{third}'.replace( '{third}', objectL10n.third );
+			englishnumber[3] = '{fourth}'.replace( '{fourth}', objectL10n.fourth );
+			englishnumber[4] = '{fifth}'.replace( '{fifth}', objectL10n.fifth );
 
 		var currentdate	= date.getDate(); 		// Returns the day of the month (from 1-31)
 		var currentday	= date.getDay() + 1; 	// Returns the day of the week (from 0-6)
@@ -237,11 +267,11 @@ jQuery(document).ready(function($) {
 					i--; // If first day of week is greater than the current day of week, we need to substract a week
 				}
 				
-				return ' on the ' + englishnumber[i] + ' ' + englishdays[currentday] + ' of the month';
+				return ' on the '.replace( '{on the}', objectL10n.onthe ) + englishnumber[i] + ' ' + englishdays[currentday] + ' {of the month}'.replace( '{of the month}', objectL10n.ofthemonth );
 			}
 		}
 		
-		return ' unable to determine date.';
+		return ' {unable to determine date.}'.replace( '{unable to determine date.}', objectL10n.unabletodeterminedate );
 	}
 	
 	$( 'input#ft_cal_clear_event' ).click( function() {
@@ -255,7 +285,7 @@ jQuery(document).ready(function($) {
 	
 	$('input#ft_cal_save_event').click(function() {
 		if ( $('.ft_cal_error').length ) {
-			alert( 'Errors found, please correct before attempting to save.' );
+			alert( '{Errors found, please correct before attempting to save.}'.replace( '{Errors found, please correct before attempting to save.}', objectL10n.errorsfound ) );
 			return false;
 		}
 												
@@ -295,9 +325,9 @@ jQuery(document).ready(function($) {
 			_wpnonce: 		$('input#save_ftcal_data_nonce').val()
 		};
 		
-		jQuery.post(ajaxurl, data, function(response) {
+		$ftjquery.post(ajaxurl, data, function(response) {
 			if ( "unsuccess" == response ){
-				alert( "Error Adding New Event, Please contact support@ftcalendar.com for assistance." );
+				alert( '{Error Adding New Event, Please contact support@ftcalendar.com for assistance.}'.replace( '{Error Adding New Event, Please contact support@ftcalendar.com for assistance.}', objectL10n.erroradding ) );
 			} else {
 				$( 'div#ftcal_existing' ).html( response );
 			}
@@ -312,7 +342,7 @@ jQuery(document).ready(function($) {
 	});
 	
 	$('input#ft_cal_delete_events').live('click', function() {
-		if ( confirm("Are you sure you want to delete these events?") ) {
+		if ( confirm( '{Are you sure you want to delete these events?}'.replace( '{Are you sure you want to delete these events?}', objectL10n.areyousureaddevents ) ) ) {
 			var data = {
 				action: 		'delete_ftcal_data',
 				post_ID:  		$('input#post_ID').val(),
@@ -320,7 +350,7 @@ jQuery(document).ready(function($) {
 				_wpnonce: 		$('input#delete_ftcal_data_nonce').val()
 			};
 			
-			jQuery.post(ajaxurl, data, function(response) {
+			$ftjquery.post(ajaxurl, data, function(response) {
 				$( 'div#ftcal_existing' ).html( response );
 			});
 			

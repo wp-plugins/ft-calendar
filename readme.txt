@@ -54,6 +54,15 @@ You must have:
 * FT Calendar is GPL
 
 == Changelog ==
+= 1.0.5 =
+* General Code Cleanup
+* Added functionality to ftcalendar_list shortcode/widget, so it displays events that are current (not yet ended)
+* Updated ftcalendar_list widget to include "0" in the timespan, for "today" events displays (e.g. +0 days)
+* Added Dutch tranlsation files (nl_NL) thanks to Helma Paternostre of [paternostre.nl](http://paternostre.nl)
+* Added German tranlsation files (de_DE) thanks to Nathaniel Stott of [stott.nl](http://stott.nl)
+* Added text to Calendar Data meta box to state which calendar a specific event is listed in
+* Localized Javascript files
+
 = 1.0.4.1 =
 * General code cleanup
 * Changed Upcoming Event Lists to pay attention to TIME not just DAY, so events that happened minutes ago do not appear

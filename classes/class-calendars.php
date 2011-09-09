@@ -274,16 +274,13 @@ if ( !class_exists( 'FT_Cal_Calendars' ) ) {
 		 * @param string $end_Date SQL format
 		 * @returns obj
 		 */
-		function get_ftcal_data_ids( $start_date, $end_date, $calendar = 'all', $start_at_midnight = true, $end_at_midnight = true ) {
+		function get_ftcal_data_ids( $start_date, $end_date, $calendar = 'all' ) {
 		
 			global $wpdb;
 			global $ft_cal_options;
 			
-			if ( $start_at_midnight )
-				$start_date .= " 00:00:00";	// add Midnight in start date
-				
-			if ( $end_at_midnight )
-				$end_date .= " 23:59:59";	// add 1 second before the next day in end date
+			$start_date .= " 00:00:00";	// add Midnight in start date
+			$end_date .= " 23:59:59";	// add 1 second before the next day in end date
 			
 			$select = 	"SELECT ftc.* FROM " . $wpdb->prefix . "ftcalendar_events as ftc ";
 			$join =		"JOIN " . $wpdb->posts . " as posts on posts.ID = ftc.post_parent ";
@@ -327,7 +324,7 @@ if ( !class_exists( 'FT_Cal_Calendars' ) ) {
 			$orderby	= apply_filters( 'ftc_orderby',	$orderby );
 					
 			$sql = $select . $join . $where . $orderby; 
-			
+						
 			$results = $wpdb->get_results( $wpdb->prepare( $sql ), OBJECT_K );
 			
 			return $results;
@@ -372,7 +369,7 @@ if ( !class_exists( 'FT_Cal_Calendars' ) ) {
 			if ( 'ftcalendar' == $taxonomy ) {
 				
 				if ( 0 == strcasecmp( 'all', $term ) )		
-					return new WP_Error( 'reserved_term_all', __( '"' . $term . '" is a reserved term in FT Calendar' ) );
+					return new WP_Error( 'reserved_term_all', printf( __( '"%s" is a reserved term in FT Calendar' ), $term ) );
 			
 			}
 			

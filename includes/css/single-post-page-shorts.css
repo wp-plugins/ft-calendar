@@ -8,6 +8,40 @@
 	position: relative;
 }
 
+#ftcalendar-feeds {
+	height: 10px;
+    position: relative;
+    text-align: right;
+    width: 100%;
+}
+
+#ftcalendar-feeds a.ftcal-rss-icon {
+	background: url("../images/feed-icon-14x14.png") no-repeat scroll 0 0 transparent;
+    display: block;
+    height: 14px;
+    width: 14px;
+	float: right;
+}
+
+#ftcalendar-feeds a.ftcal-ical-icon {
+	background: url("../images/ical-feed-icon-34x14.png") no-repeat scroll 0 0 transparent;
+    display: block;
+    height: 14px;
+    width: 34px;
+	float: right;
+	padding-left: 2px;
+}
+
+.tooltip {
+	display:none;
+	background-color:#ffa;
+	border:1px solid #cc9;
+	padding:3px;
+	font-size:13px;
+	-moz-box-shadow: 2px 2px 11px #666;
+	-webkit-box-shadow: 2px 2px 11px #666;
+}
+
 #ftcalendar-nav {
 	text-align: left;
 	height: 30px;
@@ -207,8 +241,8 @@
 	display: none;
 	border: 1px solid black;
 	position: absolute;
-	width: 100%;
-	height: 100%;
+	width: 200px;
+	height: 200px;
 	left: 0;
 	top: 0;
 	background-color: #E3E9FF;
@@ -345,4 +379,17 @@ div.ftcalendar-event {
 	font-size: 10pt;
 	height: 20px;
 	padding-left: 10px;
+}
+
+div#ftcal_post_schedule {
+	border: 1px solid #F96;
+	background: #FFC;
+	width: 100%;
+	padding: 5px;
+	margin: 5px;
+}
+
+div#ftcal_post_schedule span {
+	display: block;
+	clear: both;	
 }

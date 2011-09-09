@@ -53,7 +53,7 @@ if ( !class_exists( 'FT_CAL_Admin' ) ) {
 				add_submenu_page( 'ftcalendar-general', __( 'FullThrottle Calendar General Settings', 'ftcalendar' ), __( 'FT Calendar', 'ftcalendar' ), 'install_plugins', 'ftcalendar-general', array( &$this, 'options_page' ) );
 			
 			// ftcalendar taxonomy
-			add_submenu_page( 'ftcalendar-general', __( 'Manage ' . ucwords( $ft_cal_options->calendar_options['calendar_label_plural'] ), 'ftcalendar' ) , __( ucwords( $ft_cal_options->calendar_options['calendar_label_plural'] ), 'ftcalendar' ), 'install_plugins', 'edit-tags.php?taxonomy=ftcalendar' );
+			add_submenu_page( 'ftcalendar-general', __( 'Manage ', 'ftcalendar' ) . ucwords( $ft_cal_options->calendar_options['calendar_label_plural'] ), __( ucwords( $ft_cal_options->calendar_options['calendar_label_plural'] ), 'ftcalendar' ), 'install_plugins', 'edit-tags.php?taxonomy=ftcalendar' );
 
 			// Help Page
 			add_submenu_page( 'ftcalendar-general', __( 'FullThrottle Calendar Help', 'ftcalendar' ), __( 'FT Calendar Help', 'ftcalendar' ), 'install_plugins', 'ftcalendar-help', array( &$this, 'help_page' ) );
@@ -178,6 +178,8 @@ if ( !class_exists( 'FT_CAL_Admin' ) ) {
                             </div> <!-- postbox -->
                         
                         </div> <!-- meta-box-sortables -->
+
+
                         
                         <?php /* PREMIUM */ ?>
                         <div id='available-widgets' class='widgets-holder-wrap ui-droppable'>
@@ -369,6 +371,8 @@ legend: on | off (turns off ftcalendar-legend &lt;div&gt;)
 types: on | off (turns off ftcalendar-types -- Day, Week, Month)
 dateformat: Date format string from <a href="http://php.net/date/" target="_blank">PHP's date() parameters</a>
 timeformat: Time format string from <a href="http://php.net/date/" target="_blank">PHP's date() parameters</a>
+show_rss_feed: on | off (turns off rss feed icon)
+show_ical_feed: on | off (turns off ical feed icon)
 
 Examples:
 
@@ -857,9 +861,9 @@ See <a href="http://php.net/date/" target="_blank">PHP's Format Parameters</a> f
 		 */
 		function ftcal_discount_notice() {
 		
-			$link = 'http://calendar-plugin.com/?coupon=10off';
+			$link = 'http://calendar-plugin.com/?coupon=5off';
 			$no_thanks = 'plugins.php?remove_ftcal_discount';
-			echo "<div class='update-nag'>" . sprintf( __( "Thanks for upgrading FT Calendar! Act now and get a $10.00 discount on our premium features and support. Use coupon code: '10off'?<br /><a href='%s' target='_blank'>Yes, I want the discount!</a> | <a href='%s'>No thanks</a>." ), $link, $no_thanks ) . "</div>";
+			echo "<div class='update-nag'>" . sprintf( __( "Thanks for upgrading FT Calendar! Act now and get a $5.00 discount on our premium features and support. Use coupon code: '5off'?<br /><a href='%s' target='_blank'>Yes, I want the discount!</a> | <a href='%s'>No thanks</a>." ), $link, $no_thanks ) . "</div>";
 		 
 		}
 		

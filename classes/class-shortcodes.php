@@ -88,7 +88,9 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 				
 				$break = false;
 				$count = 1;
-				$list .= "<ul>";
+				//$list .= "<ul>";
+				$list .= "<div id='ftcalendar-list-div' class='ftcalendar ftlistcalendar " . $class . " " . $type . "'>";
+		
 				$last_month = 0;
 				foreach ( (array)$cal_entries as $date => $times ) {
 					
@@ -132,6 +134,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 							$data = array();
 							
 							$post = &get_post( $cal_data_arr[$event_id]->post_parent );
+							setup_postdata( $post );
 								
 							if ( $cal_data_arr[$event_id]->all_day )
 								$data['TIME'] 	= __( 'all day' );
@@ -182,7 +185,8 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 				if ( isset( $event_month ) )
 					$list .= "</ul>";
 				
-				$list .= "</ul>";
+				//$list .= "</ul>";
+				$list .= "</div>";
 				
 			}
 			
@@ -233,7 +237,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 		 */
 		function do_ftcal_large_calendar( $atts ) {
 			
-			global $ft_cal_calendars;
+			global $ft_cal_calendars, $ft_cal_options, $wp_rewrite;
 			
 			$dateformat = get_option('date_format');
 			$timeformat = get_option('time_format');
@@ -294,12 +298,17 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 		 */
 		function get_day_calendar( $args ) {
 			
-			global $ft_cal_calendars, $ft_cal_options;
+			global $ft_cal_calendars, $ft_cal_options, $wp_rewrite;
 			
 			$ftcal_meta 	= get_option( 'ftcalendar_meta' );
 			$ftcal_options	= $ft_cal_options->get_calendar_options();
 			$current_offset = get_option( 'gmt_offset' );
 			$permalink 		= get_permalink();
+			
+			if ( !$wp_rewrite->using_permalinks() && !is_front_page() )
+				$sep = "&";
+			else
+				$sep = "?";
 			
 			// Merge defaults with passed atts
 			// Extract (make each array element its own PHP var
@@ -348,17 +357,17 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			$table  .= "<input type='hidden' id='largecalendar-timeformat' value='" . $timeformat . "' />";
 			
 			$table  .= "<div id='ftcalendar-nav'>";
-			$table  .= "<span id='ftcalendar-prev'><a class='large-prev' ref='" . $prev_date . "' href='" . $permalink . "?type=day&date=" . $prev_date . "'>" . apply_filters( 'ftcalendar-prev-arrow', '&lArr;' ) . "</a></span>";
+			$table  .= "<span id='ftcalendar-prev'><a class='large-prev' ref='" . $prev_date . "' href='" . $permalink . $sep . "type=day&date=" . $prev_date . "'>" . apply_filters( 'ftcalendar-prev-arrow', '&lArr;' ) . "</a></span>";
 			$table	.= "&nbsp;";
-			$table  .= "<span id='ftcalendar-next'><a class='large-next' ref='" . $next_date . "' href='" . $permalink . "?type=day&date=" . $next_date . "'>" . apply_filters( 'ftcalendar-next-arrow', '&rArr;' ) . "</a></span>";
+			$table  .= "<span id='ftcalendar-next'><a class='large-next' ref='" . $next_date . "' href='" . $permalink .  $sep . "type=day&date=" . $next_date . "'>" . apply_filters( 'ftcalendar-next-arrow', '&rArr;' ) . "</a></span>";
 			$table  .= "<span id='ftcalendar-current'>" .  date_i18n( $dateformat, $str_start_date ) . "</span>";
 			
 			if ( 'on' == $types ) {
 				
 				$table .= "<span id='ftcalendar-types'>";
-				$table .= '<a href="' . $permalink . '?type=day">' . __('Day') . '</a> ' .
-							'<a href="' . $permalink . '?type=week">' . __('Week') . '</a> ' .
-							'<a href="' . $permalink . '?type=month">' . __('Month') . '</a>';
+				$table .= '<a href="' . $permalink . $sep . 'type=day">' . __('Day') . '</a> ' .
+							'<a href="' . $permalink . $sep . 'type=week">' . __('Week') . '</a> ' .
+							'<a href="' . $permalink . $sep . 'type=month">' . __('Month') . '</a>';
 				$table .= "</span>";
 			
 			}
@@ -424,11 +433,16 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 		
 		function get_week_calendar( $args ) {
 			
-			global $ft_cal_calendars, $ft_cal_options;
+			global $ft_cal_calendars, $ft_cal_options, $wp_rewrite;
 			
 			$ftcal_meta 	= get_option( 'ftcalendar_meta' );
 			$ftcal_options	= $ft_cal_options->get_calendar_options();
 			$permalink = get_permalink();
+			
+			if ( !$wp_rewrite->using_permalinks() && !is_front_page() )
+				$sep = "&";
+			else
+				$sep = "?";
 			
 			// Merge defaults with passed atts
 			// Extract (make each array element its own PHP var
@@ -488,17 +502,17 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			$table .= "<input type='hidden' id='largecalendar-timeformat' value='" . $timeformat . "' />";
 			
 			$table .= "<div id='ftcalendar-nav'>";
-			$table .= "<span id='ftcalendar-prev'><a class='large-prev' ref='" . $prev_week . "' href='" . $permalink . "?type=week&date=" . $prev_week . "'>" . apply_filters( 'ftcalendar-prev-arrow', '&lArr;' ) . "</a></span>";
+			$table .= "<span id='ftcalendar-prev'><a class='large-prev' ref='" . $prev_week . "' href='" . $permalink . $sep . "type=week&date=" . $prev_week . "'>" . apply_filters( 'ftcalendar-prev-arrow', '&lArr;' ) . "</a></span>";
 			$table	.= "&nbsp;";
-			$table .= "<span id='ftcalendar-next'><a class='large-next' ref='" . $next_week . "' href='" . $permalink . "?type=week&date=" . $next_week . "'>" . apply_filters( 'ftcalendar-next-arrow', '&rArr;' ) . "</a></span>";
+			$table .= "<span id='ftcalendar-next'><a class='large-next' ref='" . $next_week . "' href='" . $permalink . $sep . "type=week&date=" . $next_week . "'>" . apply_filters( 'ftcalendar-next-arrow', '&rArr;' ) . "</a></span>";
 			$table .= "<span id='ftcalendar-current'>" .  date_i18n( $dateformat, $str_start_date ) . ' - ' . date_i18n( $dateformat, $str_end_date ) . "</span>";
 			
 			if ( 'on' == $types ) {
 			
 				$table .= "<span id='ftcalendar-types'>";
-				$table .= '<a href="' . $permalink . '?type=day">' . __('Day') . '</a> ' .
-							'<a href="' . $permalink . '?type=week">' . __('Week') . '</a> ' .
-							'<a href="' . $permalink . '?type=month">' . __('Month') . '</a>';
+				$table .= '<a href="' . $permalink . $sep . 'type=day">' . __('Day') . '</a> ' .
+							'<a href="' . $permalink . $sep . 'type=week">' . __('Week') . '</a> ' .
+							'<a href="' . $permalink . $sep . 'type=month">' . __('Month') . '</a>';
 				$table .= "</span>";
 			
 			}
@@ -548,7 +562,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 				
 				if ( 'on' == $types ) {
 					
-					$link = "<a href='" . $permalink . "?type=day&date=" . $fordate . "'>";
+					$link = "<a href='" . $permalink . $sep . "type=day&date=" . $fordate . "'>";
 					$link_end = "</a>";
 				
 				}
@@ -612,13 +626,18 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 		 */
 		function get_month_calendar( $args ) {
 			
-			global $ft_cal_calendars, $ft_cal_options;
+			global $ft_cal_calendars, $ft_cal_options, $wp_rewrite;
 			
 			$ftcal_meta 	= get_option( 'ftcalendar_meta' );
 			$ftcal_options	= $ft_cal_options->get_calendar_options();
 			$dateformat		= get_option( 'date_format' );
 			$timeformat		= get_option( 'time_format' );
 			$permalink 		= get_permalink();
+			
+			if ( !$wp_rewrite->using_permalinks() && !is_front_page() )
+				$sep = "&";
+			else
+				$sep = "?";
 			
 			// Merge defaults with passed atts
 			// Extract (make each array element its own PHP var
@@ -685,17 +704,17 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			
 			
 			$table .= "<div id='ftcalendar-nav'>";
-			$table .= "<span id='ftcalendar-prev'><a class='large-prev' ref='" . $prev_month . "' href='" . $permalink . "?type=month&date=" . $prev_month . "'>" . apply_filters( 'ftcalendar-prev-arrow', '&lArr;' ) . "</a></span>";
+			$table .= "<span id='ftcalendar-prev'><a class='large-prev' ref='" . $prev_month . "' href='" . $permalink . $sep . "type=month&date=" . $prev_month . "'>" . apply_filters( 'ftcalendar-prev-arrow', '&lArr;' ) . "</a></span>";
 			$table	.= "&nbsp;";
-			$table .= "<span id='ftcalendar-next'><a class='large-next' ref='" . $next_month . "' href='" . $permalink . "?type=month&date=" . $next_month . "'>" . apply_filters( 'ftcalendar-next-arrow', '&rArr;' ) . "</a></span>";
+			$table .= "<span id='ftcalendar-next'><a class='large-next' ref='" . $next_month . "' href='" . $permalink . $sep . "type=month&date=" . $next_month . "'>" . apply_filters( 'ftcalendar-next-arrow', '&rArr;' ) . "</a></span>";
 			$table .= "<span id='ftcalendar-current'>" .  date_i18n( 'F Y', $str_date ) . "</span>";
 			
 			if ( 'on' == $types ) {
 				
 				$table .= "<span id='ftcalendar-types'>";
-				$table .= '<a href="' . $permalink . '?type=day">' . __('Day') . '</a> ' .
-							'<a href="' . $permalink . '?type=week">' . __('Week') . '</a> ' .
-							'<a href="' . $permalink . '?type=month">' . __('Month') . '</a>';
+				$table .= '<a href="' . $permalink . $sep . 'type=day">' . __('Day') . '</a> ' .
+							'<a href="' . $permalink . $sep . 'type=week">' . __('Week') . '</a> ' .
+							'<a href="' . $permalink . $sep . 'type=month">' . __('Month') . '</a>';
 				$table .= "</span>";
 			
 			}
@@ -741,7 +760,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 				$table .= "<td class='" . $current_day_class . "'>";
 				
 				if ( 'on' == $types ) {
-					$link = "<a href='" . $permalink . "?type=day&date=" . $fordate . "'>";
+					$link = "<a href='" . $permalink . $sep . "type=day&date=" . $fordate . "'>";
 					$link_end = "</a>";
 				}
 				
@@ -852,7 +871,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 		 */
 		function do_ftcal_thumb_calendar( $atts ) {
 			
-			global $ft_cal_calendars, $ft_cal_options;
+			global $ft_cal_calendars, $ft_cal_options, $wp_rewrite;
 			
 			$ftcal_meta 	= get_option( 'ftcalendar_meta' );
 			$ftcal_options	= $ft_cal_options->get_calendar_options();
@@ -1026,8 +1045,16 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 		 */
 		function get_legend( $type = 'month', $date = null ) {
 			
+			global $wp_rewrite;
+			
 			$ftcal_meta = get_option('ftcalendar_meta');
 			$permalink	= get_permalink();
+			
+			if ( !$wp_rewrite->using_permalinks() && !is_front_page() )
+				$sep = "&";
+			else
+				$sep = "?";
+				
 			$table = "<div id='ftcalendar-legend'>";
 			
 			if ( isset( $_GET['cal'] ) )
@@ -1040,11 +1067,11 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			
 				foreach ( (array)$available_calendars as $key => $calendar ) :
 					$style = 'background-color: #' . $ftcal_meta['ftcal-bg-color-' . $calendar->term_id] . '; border-color: #' . $ftcal_meta['ftcal-border-color-' . $calendar->term_id] . ';';
-					$table .= "<div style='" . $style . "' class='ftcalendar-event'><div style='" . $style . "' ><a href='" . $permalink . "?type=" . $type . "&date=" . $date . "&cal=" . $calendar->slug . "'>" . $calendar->name . "</a></div></div>";
+					$table .= "<div style='" . $style . "' class='ftcalendar-event'><div style='" . $style . "' ><a href='" . $permalink . $sep . "type=" . $type . "&date=" . $date . "&cal=" . $calendar->slug . "'>" . $calendar->name . "</a></div></div>";
 				endforeach;
 				
 				if ( isset( $_GET['cal'] ) )
-					$table .= "<a href='" . $permalink . "?type=" . $type . "&date=" . $date . "'>( Unhide Calendars )</a>";
+					$table .= "<a href='" . $permalink . $sep . "type=" . $type . "&date=" . $date . "'>( Unhide Calendars )</a>";
 			
 			} else {
 				
@@ -1080,9 +1107,11 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 		function parse_calendar_data( $start_date, $end_date, $cal_data_arr = array(), $start_at_midnight = true, $end_at_midnight = true ) {
 			
 			if ( function_exists( 'date_default_timezone_get' ) && function_exists( 'date_default_timezone_set' ) ) {
+				
 				$tz = date_default_timezone_get();
 				date_default_timezone_set( 'UTC' );
 				$set_timezone = true;
+				
 			}
 			
 			$cal_entries = array();
@@ -1093,11 +1122,14 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			if ( $end_at_midnight )
 				$end_date .= " 23:59:59";	// add 1 second before the next day in end date
 			
-			$str_start_date = floor( strtotime( $start_date ) / 86400 ); // 24 days * 60 minutes * 60 seconds
-			$str_end_date = floor( strtotime( $end_date ) / 86400 );
+			$str_start_date = strtotime( $start_date );
+			$str_start_date_day = floor( $str_start_date / 86400 ); // 24 days * 60 minutes * 60 seconds
+			
+			$str_end_date = strtotime( $end_date );
+			$str_end_date_day = floor( $str_end_date / 86400 );
 		
 			// 86400 = 24 hours (1 Day) in seconds
-			for ( $i = $str_start_date; $i <= $str_end_date; $i++ ) {
+			for ( $i = $str_start_date_day; $i <= $str_end_date_day; $i++ ) {
 				
 				$strdate = $i * 86400; // 24 days * 60 minutes * 60 seconds
 			
@@ -1110,19 +1142,25 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 						$rsdate = date_i18n( 'Y-m-d', $str_rsdatetime );
 						$rstime = date_i18n( 'Hi', $str_rsdatetime );
 						
-						if ( $i == $str_start_date && $rstime < date_i18n( 'Hi', strtotime( $start_date ) ) )
-						continue;
-						
 						if ( 1 == $cal_data->r_end ) {
 							
 							$str_redatetime = strtotime( $cal_data->r_end_datetime );
 							$str_redate = floor( $str_redatetime / 86400 );
 							$redate = date_i18n( 'Y-m-d', $str_redatetime );
-							
+							$retime = date_i18n( 'Hi', $str_redatetime );
+								
 						} else {
 							
-							$str_redate = $str_end_date;
-							$redate = date_i18n( 'Y-m-d', strtotime( $end_date ) );
+							$str_redatetime = strtotime( $cal_data->end_datetime );
+							$str_redate = $str_end_date_day;
+							$redate = date_i18n( 'Y-m-d', $str_end_date );
+							$retime = date_i18n( 'Hi', $str_redatetime );
+								
+						}
+						
+						if ( $i == $str_start_date_day && $rstime < date_i18n( 'Hi', $str_start_date ) && $retime < date_i18n( 'Hi', $str_start_date ) ) {
+						
+							continue;
 							
 						}
 		
@@ -1250,7 +1288,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 						$str_sdays = floor( $str_sdatetime / 86400 );
 						$stime = date_i18n( 'Hi', $str_sdatetime );
 						
-						if ( $i == $str_start_date && $stime < date_i18n( 'Hi', strtotime( $start_date ) ) )
+						if ( $i == $str_start_date_day && $stime < date_i18n( 'Hi', strtotime( $start_date ) ) )
 							continue;
 						
 						if ( $i >= $str_sdays && $i <= $str_sdays )

@@ -451,6 +451,10 @@ if ( !class_exists( 'FT_CAL_Events' ) ) {
 						$output .= $start_date . " " . $start_time . " " . __( "to" ) . " " . $end_date . " " . $end_time;
 					
 					}
+					
+					$calendar_term = get_term_by( 'id', $entry->calendar_id, 'ftcalendar' );
+					
+					$output .= " (" . $calendar_term->name . ")";
 						
 					if ( $entry->repeating )
 						$output .= "<br /><span style='margin-left: 20px;'>(" . __( "Repeating" ) . " " . $entry->r_label . ")</span>";
@@ -526,6 +530,55 @@ if ( !class_exists( 'FT_CAL_Events' ) ) {
 				if ( $post_type == $current_screen->post_type ) {
 					
 					wp_enqueue_script( 'write-edit-post', FT_CAL_URL . '/includes/js/write-edit-post.js' );
+					wp_localize_script( 'write-edit-post', 'objectL10n', 
+									array(
+										'until' 		=> __( 'until' ),
+										'Daily' 		=> __( 'Daily' ),
+										'day' 			=> __( 'day' ),
+										'Every' 		=> __( 'Every' ),
+										'days' 			=> __( 'days' ),
+										'Weekly' 		=> __( 'Weekly' ),
+										'week' 			=> __( 'week' ),
+										'weeks' 		=> __( 'weeks' ),
+										'everyday' 		=> __( 'every day' ),
+										'on' 			=> __( 'on' ),
+										'Monthly' 		=> __( 'Monthly' ),
+										'month' 		=> __( 'month' ),
+										'months' 		=> __( 'months' ),
+										'AnnuallyOn' 	=> __( 'Annually On' ),
+										'year' 			=> __( 'year' ),
+										'yearson' 		=> __( 'years on' ),
+										'January' 		=> __( 'January' ),
+										'February' 		=> __( 'February' ),
+										'March' 		=> __( 'March' ),
+										'April' 		=> __( 'April' ),
+										'May' 			=> __( 'May' ),
+										'June' 			=> __( 'June' ),
+										'July' 			=> __( 'July' ),
+										'August' 		=> __( 'August' ),
+										'September' 	=> __( 'September' ),
+										'October' 		=> __( 'October' ),
+										'November' 		=> __( 'November' ),
+										'December' 		=> __( 'December' ),
+										'Sunday' 		=> __( 'Sunday' ),
+										'Monday' 		=> __( 'Monday' ),
+										'Tuesday' 		=> __( 'Tuesday' ),
+										'Wednesday' 	=> __( 'Wednesday' ),
+										'Thursday' 		=> __( 'Thursday' ),
+										'Friday' 		=> __( 'Friday' ),
+										'Saturday' 		=> __( 'Saturday' ),
+										'first' 		=> __( 'first' ),
+										'second' 		=> __( 'second' ),
+										'third' 		=> __( 'third' ),
+										'fourth' 		=> __( 'fourth' ),
+										'fifth' 		=> __( 'fifth' ),
+										'onthe' 		=> __( 'on the' ),
+										'ofthemonth' 	=> __( 'of the month' ),
+										'unabletodeterminedate' => __( 'unable to determine date.' ),
+										'errorsfound' 	=> __( 'Errors found, please correct before attempting to save.' ),
+										'erroradding' 	=> __( 'Error Adding New Event, Please contact support@ftcalendar.com for assistance.' ),
+										'areyousureaddevents' 	=> __( 'Are you sure you want to delete these events?' )
+									) );
 					wp_enqueue_script( 'ui-datepicker', FT_CAL_URL . '/includes/js/ui.datepicker.min.js' );
 					wp_enqueue_script( 'jquery-timepicker', FT_CAL_URL . '/includes/js/jquery.timePicker.min.js' );
 				

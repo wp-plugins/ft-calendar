@@ -29,15 +29,12 @@ class FT_CAL_Event_List extends WP_Widget {
 	 * @since 0.3
 	 */
 	function widget( $args, $instance ) {
+		
 		global $ft_cal_shortcodes;
 		
 		extract( $args );
 
 		$title = apply_filters('widget_title', empty( $instance['title'] ) ? __( 'Upcoming Events' ) : $instance['title'], $instance, $this->id_base);
-		
-		if ( $term = get_term_by( 'name', $instance['calendars'], 'ftcalendar' ) ) {
-			$instance['calendars'] = $term->slug;
-		}
 		
 		$out = $ft_cal_shortcodes->do_ftcal_event_list( $instance );
 		
@@ -68,7 +65,7 @@ class FT_CAL_Event_List extends WP_Widget {
 		$instance['span'] 			= "+" . $new_instance['number_of'] . " " . $new_instance['date_types'];
 		$instance['number_of'] 		= $new_instance['number_of'];
 		$instance['date_types'] 	= $new_instance['date_types'];
-		$instance['calendars'] 		= strip_tags($new_instance['calendars']);
+		$instance['calendars'] 		= strip_tags( implode( ',', $new_instance['calendars'] ) );
 		$instance['limit'] 			= strip_tags($new_instance['limit']);
 		$instance['dateformat'] 	= strip_tags($new_instance['dateformat']);
 		$instance['timeformat'] 	= strip_tags($new_instance['timeformat']);
@@ -110,6 +107,8 @@ class FT_CAL_Event_List extends WP_Widget {
 		
 		extract( wp_parse_args( (array) $instance, $defaults ) );
 	
+		$checked_calendars = explode( ',', $calendars );
+	
 		if ( ! empty( $available_calendars ) ) : 
 			?>
 			<p>
@@ -119,16 +118,19 @@ class FT_CAL_Event_List extends WP_Widget {
 			<p>
 	        	<label for="<?php echo $this->get_field_id('calendars'); ?>"><?php _e( 'Calendars:', 'ftcalendar' ); ?></label>
 	            <br />
-	            <input type="radio" value="all" name="<?php echo $this->get_field_name( 'calendars' ) ?>" id="calendars" <?php checked( $calendars, "all" ) ?> class="checkbox" /> <label for="<?php echo $this->get_field_id( 'calendars '); ?>"><?php _e( 'All Calendars', 'ftcalendar' ); ?></label>
+                <?php /* This is a little tricksy, the get_field_name function gets a really long field name encapsulated with brackets, but this is a form that needs an HTML array... so I trick the fieldname into included an ending []... it's hacky but it works. */ ?>
+	            <input type="checkbox" value="all" name="<?php echo $this->get_field_name('calendars]['); ?>" id="<?php echo $this->get_field_id( $calendar->slug ); ?>" <?php checked( in_array( 'all', $checked_calendars ) ) ?> class="checkbox" />
+                <label for="<?php echo $this->get_field_id( $calendar->slug ); ?>"><?php _e( 'All Calendars', 'ftcalendar' ); ?></label>
 				<?php foreach ( (array)$available_calendars as $key => $calendar ) : ?>
 	                <br />
-	                <input type="radio" value="<?php echo $calendar->slug ?>" name="<?php echo $this->get_field_name( 'calendars' ) ?>" id="calendars" <?php checked( $calendars, $calendar->slug ) ?> class="checkbox" /> <label for="<?php echo $this->get_field_id( 'calendars' ); ?>"><?php echo $calendar->name ?></label>
+	                <input type="checkbox" value="<?php echo $calendar->slug; ?>" name="<?php echo $this->get_field_name('calendars]['); ?>" id="<?php echo $this->get_field_id( $calendar->slug ); ?>" <?php checked( in_array( $calendar->slug, $checked_calendars ) ) ?> class="checkbox" /> 
+                    <label for="<?php echo $this->get_field_id( $calendar->slug ); ?>"><?php echo $calendar->name ?></label>
 	            <?php endforeach; ?>
 			</p>
 			<p>
 				<label for="<?php echo $this->get_field_id( 'span' ); ?>"><?php _e( 'Time Span:', 'ftcalendar' ); ?></label>
 				+<select name="<?php echo $this->get_field_name( 'number_of' ); ?>" id="<?php echo $this->get_field_id( 'number_of' ); ?>">
-	            <?php for ( $i = 1; $i <= 30; $i++ ) { ?>
+	            <?php for ( $i = 0; $i <= 30; $i++ ) { ?>
 					<option value="<?php echo $i; ?>" <?php selected( $number_of, $i ); ?>><?php echo $i; ?></option>
 	            <?php } ?>
 				</select>
@@ -152,7 +154,7 @@ class FT_CAL_Event_List extends WP_Widget {
 	            <small><?php _e( 'See <a href="http://php.net/date/" target="_blank">PHP\'s Format Parameters</a> for help.', 'ftcalendar' ); ?></small>        
 			</p>
 	        <p>
-	        	<label for="<?php echo $this->get_field_id('dateformat'); ?>"><?php _e( 'Date Format:', 'ftcalendar' ); ?></label>
+	        	<label for="<?php echo $this->get_field_id( 'dateformat' ); ?>"><?php _e( 'Date Format:', 'ftcalendar' ); ?></label>
 	            <input type="text" value="<?php echo esc_attr( strip_tags( $dateformat ) ); ?>" name="<?php echo $this->get_field_name( 'dateformat' ); ?>" id="<?php echo $this->get_field_id( 'dateformat' ); ?>" class="widefat" />
 				<br />
 	            <small><?php _e( 'See <a href="http://php.net/date/" target="_blank">PHP\'s Format Parameters</a> for help.', 'ftcalendar' ); ?></small>        
@@ -165,8 +167,8 @@ class FT_CAL_Event_List extends WP_Widget {
 	        	<label for="<?php echo $this->get_field_id( 'monthformat '); ?>"><?php _e( 'Month Format:', 'ftcalendar' ); ?></label>
 	            <input type="text" value="<?php echo esc_attr( strip_tags( $monthformat ) ); ?>" name="<?php echo $this->get_field_name( 'monthformat' ); ?>" id="<?php echo $this->get_field_id( 'monthformat' ); ?>" class="widefat" />
 				<br />
-	            <small><?php _e( 'See <a href="http://php.net/date/" target="_blank">PHP\'s Format Parameters</a> for help.', 'ftcalendar' ); ?></small>        
-			</p>
+	            <small><?php _e( 'See <a href="http://php.net/date/" target="_blank">PHP\'s Format Parameters</a> for help.', 'ftcalendar' ); ?></small>
+            </p>
 	        <p>
 	        	<label for="<?php echo $this->get_field_id( 'month_template' ); ?>"><?php _e( 'Month Template:', 'ftcalendar' ); ?></label>
 	            <input type="text" value="<?php echo esc_attr( $month_template ); ?>" name="<?php echo $this->get_field_name( 'month_template' ); ?>" id="<?php echo $this->get_field_id( 'month_template' ); ?>" class="widefat" />   
@@ -217,10 +219,6 @@ class FT_CAL_Thumb_Calendar extends WP_Widget {
 
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Calendar of Events' ) : $instance['title'], $instance, $this->id_base );
 		
-		if ( $term = get_term_by( 'name', $instance['calendars'], 'ftcalendar' ) ) {
-			$instance['calendars'] = $term->slug;
-		}
-		
 		$out = $ft_cal_shortcodes->do_ftcal_thumb_calendar( $instance );
 		
 		if ( !empty( $out ) ) {
@@ -243,9 +241,9 @@ class FT_CAL_Thumb_Calendar extends WP_Widget {
 	 */
 	function update( $new_instance, $old_instance ) {
 		
-		$instance 				= $old_instance;
-		$instance['title'] 		= strip_tags($new_instance['title']);
-		$instance['calendars'] 	= strip_tags($new_instance['calendars']);
+		$instance 					= $old_instance;
+		$instance['title'] 			= strip_tags($new_instance['title']);
+		$instance['calendars'] 		= strip_tags( implode( ',', $new_instance['calendars'] ) );
 	
 		return $instance;
 	
@@ -270,6 +268,8 @@ class FT_CAL_Thumb_Calendar extends WP_Widget {
 		
 		extract( wp_parse_args( (array) $instance, $defaults ) );
 	
+		$checked_calendars = explode( ',', $calendars );
+	
 		if ( !empty( $available_calendars ) ) : 
 			?>
 			<p>
@@ -279,10 +279,13 @@ class FT_CAL_Thumb_Calendar extends WP_Widget {
 			<p>
 	        	<label for="<?php echo $this->get_field_id( 'calendars' ); ?>"><?php _e( 'Calendars:', 'ftcalendar' ); ?></label>
 	            <br />
-	            <input type="radio" value="all" name="<?php echo $this->get_field_name( 'calendars' ) ?>" id="calendars" <?php checked( $calendars, "all" ) ?> class="checkbox" /> <label for="<?php echo $this->get_field_id( 'calendars' ); ?>"><?php _e( 'All Calendars', 'ftcalendar' ); ?></label>
+                <?php /* This is a little tricksy, the get_field_name function gets a really long field name encapsulated with brackets, but this is a form that needs an HTML array... so I trick the fieldname into included an ending []... it's hacky but it works. */ ?>
+	            <input type="checkbox" value="all" name="<?php echo $this->get_field_name('calendars]['); ?>" id="<?php echo $this->get_field_id( $calendar->slug ); ?>" <?php checked( in_array( 'all', $checked_calendars ) ) ?> class="checkbox" />
+                <label for="<?php echo $this->get_field_id( $calendar->slug ); ?>"><?php _e( 'All Calendars', 'ftcalendar' ); ?></label>
 				<?php foreach ( (array)$available_calendars as $key => $calendar ) : ?>
 	                <br />
-	                <input type="radio" value="<?php echo $calendar->slug ?>" name="<?php echo $this->get_field_name( 'calendars' ) ?>" id="calendars" <?php checked( $calendars, $calendar->slug ) ?> class="checkbox" /> <label for="<?php echo $this->get_field_id( 'calendars' ); ?>"><?php echo $calendar->name ?></label>
+	                <input type="checkbox" value="<?php echo $calendar->slug; ?>" name="<?php echo $this->get_field_name('calendars]['); ?>" id="<?php echo $this->get_field_id( $calendar->slug ); ?>" <?php checked( in_array( $calendar->slug, $checked_calendars ) ) ?> class="checkbox" /> 
+                    <label for="<?php echo $this->get_field_id( $calendar->slug ); ?>"><?php echo $calendar->name ?></label>
 	            <?php endforeach; ?>
 			</p>
         	<?php 
