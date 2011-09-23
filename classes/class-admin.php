@@ -660,7 +660,7 @@ See <a href="http://php.net/date/" target="_blank">PHP's Format Parameters</a> f
                                         
                                             <h4><?php printf( __( 'FT Calendar Premium Support Benefits', 'ftcalendar' ), esc_attr( get_option( 'siteurl' ) ) ); ?></h4>
                                             <p>
-                                                <?php printf( __( 'FT Calendar offers a premium support package for the low cost of %s per year per domain.', 'ftcalendar' ), '$49.00 USD' ); ?>
+                                                <?php printf( __( 'FT Calendar offers a premium support package for the low cost of %s per year per domain.', 'ftcalendar' ), '$39.00 USD' ); ?>
                                             </p>
                                             <p>
                                                 <?php _e( 'By signing up for FT Calendar premium support, you help to ensure future enhancements to this excellent project as well as the following benefits:', 'ftcalendar' ); ?>
