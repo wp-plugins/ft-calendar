@@ -54,6 +54,11 @@ You must have:
 * FT Calendar is GPL
 
 == Changelog ==
+= 1.0.6 =
+* Updated get_ftcal_data_ids filter hooks and added select hook
+* Updated POT file
+* Added ftcal_through filter, to replace the "-" with the text/symbol of your choice
+
 = 1.0.5 =
 * General Code Cleanup
 * Added functionality to ftcalendar_list shortcode/widget, so it displays events that are current (not yet ended)

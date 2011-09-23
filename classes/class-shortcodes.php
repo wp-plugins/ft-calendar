@@ -137,7 +137,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 							setup_postdata( $post );
 								
 							if ( $cal_data_arr[$event_id]->all_day )
-								$data['TIME'] 	= __( 'all day' );
+								$data['TIME'] 	= __( 'all day', 'ftcalendar' );
 							else
 								$data['TIME'] 	= date_i18n( $timeformat, strtotime( $time ) );
 							
@@ -224,7 +224,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 				
 			} else {
 			
-				die( __( "ERROR: POST not set..." ) );
+				die( __( 'ERROR: POST not set...', 'ftcalendar' ) );
 			
 			}
 			
@@ -365,9 +365,9 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			if ( 'on' == $types ) {
 				
 				$table .= "<span id='ftcalendar-types'>";
-				$table .= '<a href="' . $permalink . $sep . 'type=day">' . __('Day') . '</a> ' .
-							'<a href="' . $permalink . $sep . 'type=week">' . __('Week') . '</a> ' .
-							'<a href="' . $permalink . $sep . 'type=month">' . __('Month') . '</a>';
+				$table .= '<a href="' . $permalink . $sep . 'type=day">' . __( 'Day', 'ftcalendar' ) . '</a> ' .
+							'<a href="' . $permalink . $sep . 'type=week">' . __( 'Week', 'ftcalendar' ) . '</a> ' .
+							'<a href="' . $permalink . $sep . 'type=month">' . __( 'Month', 'ftcalendar' ) . '</a>';
 				$table .= "</span>";
 			
 			}
@@ -396,7 +396,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 					foreach ( (array)$events as $event_id ) {
 						
 						if ( $cal_data_arr[$event_id]->all_day )
-							$label = __( 'All Day' );
+							$label = __( 'All Day', 'ftcalendar' );
 						else
 							$label = date_i18n( $timeformat, strtotime( $cal_data_arr[$event_id]->start_datetime ) ) . ' - '  . date_i18n( $timeformat, strtotime( $cal_data_arr[$event_id]->end_datetime ) );
 						
@@ -510,9 +510,9 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			if ( 'on' == $types ) {
 			
 				$table .= "<span id='ftcalendar-types'>";
-				$table .= '<a href="' . $permalink . $sep . 'type=day">' . __('Day') . '</a> ' .
-							'<a href="' . $permalink . $sep . 'type=week">' . __('Week') . '</a> ' .
-							'<a href="' . $permalink . $sep . 'type=month">' . __('Month') . '</a>';
+				$table .= '<a href="' . $permalink . $sep . 'type=day">' . __( 'Day', 'ftcalendar' ) . '</a> ' .
+							'<a href="' . $permalink . $sep . 'type=week">' . __( 'Week', 'ftcalendar' ) . '</a> ' .
+							'<a href="' . $permalink . $sep . 'type=month">' . __( 'Month', 'ftcalendar' ) . '</a>';
 				$table .= "</span>";
 			
 			}
@@ -521,7 +521,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			$table .= "<table id='ftcalendar-table' class='ftcalendar " . $class . "' style='" . $style . "'>";
 			
 			// Set table headings
-			$headings = $this->get_headings( $heading_label );
+			$headings = $this->get_headings( $heading_label, $start_of_week );
 			if ( !empty( $headings ) ) {
 			
 				$table .= "<tr>";
@@ -712,9 +712,9 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			if ( 'on' == $types ) {
 				
 				$table .= "<span id='ftcalendar-types'>";
-				$table .= '<a href="' . $permalink . $sep . 'type=day">' . __('Day') . '</a> ' .
-							'<a href="' . $permalink . $sep . 'type=week">' . __('Week') . '</a> ' .
-							'<a href="' . $permalink . $sep . 'type=month">' . __('Month') . '</a>';
+				$table .= '<a href="' . $permalink . $sep . 'type=day">' . __( 'Day', 'ftcalendar' ) . '</a> ' .
+							'<a href="' . $permalink . $sep . 'type=week">' . __( 'Week', 'ftcalendar' ) . '</a> ' .
+							'<a href="' . $permalink . $sep . 'type=month">' . __( 'Month', 'ftcalendar' ) . '</a>';
 				$table .= "</span>";
 			
 			}
@@ -1062,7 +1062,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			else
 				$available_calendars = get_terms( 'ftcalendar', array( 'hide_empty' => false ) );
 			
-			$table .= "<p>" . __( 'Legend' ) . ":</p>";
+			$table .= "<p>" . __( 'Legend', 'ftcalendar' ) . ":</p>";
 			if ( !empty( $available_calendars ) ) {
 			
 				foreach ( (array)$available_calendars as $key => $calendar ) :
@@ -1075,7 +1075,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			
 			} else {
 				
-				$table .= __( 'No calendars to display.' );
+				$table .= __( 'No calendars to display.', 'ftcalendar' );
 			
 			}
 			
@@ -1337,16 +1337,16 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			switch ( $heading_label ) {
 			
 				case 'letter' :
-					$headings = array( __( 'S' ), __( 'M' ), __( 'T' ), __( 'W' ), __( 'T' ), __( 'F' ), __( 'S' ) );
+					$headings = array( __( 'S', 'ftcalendar' ), __( 'M', 'ftcalendar' ), __( 'T', 'ftcalendar' ), __( 'W', 'ftcalendar' ), __( 'T', 'ftcalendar' ), __( 'F', 'ftcalendar' ), __( 'S', 'ftcalendar' ) );
 					break;
 			
 				case 'partial' :
-					$headings = array( __( 'Sun' ), __( 'Mon' ), __( 'Tue' ), __( 'Wed' ), __( 'Thu' ), __( 'Fri' ), __( 'Sat' ) );
+					$headings = array( __( 'Sun', 'ftcalendar' ), __( 'Mon', 'ftcalendar' ), __( 'Tue', 'ftcalendar' ), __( 'Wed', 'ftcalendar' ), __( 'Thu', 'ftcalendar' ), __( 'Fri', 'ftcalendar' ), __( 'Sat', 'ftcalendar' ) );
 					break;
 			
 				case 'full' :
 				default :
-					$headings = array( __( 'Sunday' ), __( 'Monday' ), __( 'Tuesday' ), __( 'Wednesday' ), __( 'Thursday' ), __( 'Friday' ), __( 'Saturday' ) );
+					$headings = array( __( 'Sunday', 'ftcalendar' ), __( 'Monday', 'ftcalendar' ), __( 'Tuesday', 'ftcalendar' ), __( 'Wednesday', 'ftcalendar' ), __( 'Thursday', 'ftcalendar' ), __( 'Friday', 'ftcalendar' ), __( 'Saturday', 'ftcalendar' ) );
 					break;
 			
 			}

@@ -46,7 +46,7 @@ if ( !class_exists( 'FT_CAL_Events' ) ) {
 				
 			foreach ( (array)$event_creation_modes as $mode ) {
 				
-				add_meta_box( 'ftcal_data_meta_box' . $mode, __('Calendar Data'), array( $this, 'add_ftcal_data_meta_box' ), $mode );
+				add_meta_box( 'ftcal_data_meta_box' . $mode, __( 'Calendar Data', 'ftcalendar' ), array( $this, 'add_ftcal_data_meta_box' ), $mode );
 			
 			}
 		}
@@ -187,7 +187,7 @@ if ( !class_exists( 'FT_CAL_Events' ) ) {
                 <!-- Time Start -->
                 <input style='width:70px;' type='text' id='event_time_start' value='<?php echo esc_attr( $time_start ); ?>' />
                     
-                <?php _e( 'to', 'ftcalendar' ); ?> 
+                <?php apply_filters( 'ftcal_through', '-' ); ?> 
                 
                 <!-- Date end -->
                 <input style="width: 85px;" type="text" value='<?php echo esc_attr( $date_end ); ?>' id='event_date_end' />
@@ -441,14 +441,14 @@ if ( !class_exists( 'FT_CAL_Events' ) ) {
 					
 					if ( $entry->all_day ) {
 					
-						$output .= $start_date . " " . __( "to" ) . " " . $end_date;
+						$output .= $start_date . " " . apply_filters( 'ftcal_through', '-' ) . " " . $end_date;
 					
 					} else {
 					
 						$start_time = date_i18n( $timeformat, strtotime( $entry->start_datetime ) );
 						$end_time = date_i18n( $timeformat, strtotime( $entry->end_datetime ) );
 						
-						$output .= $start_date . " " . $start_time . " " . __( "to" ) . " " . $end_date . " " . $end_time;
+						$output .= $start_date . " " . $start_time . " " . apply_filters( 'ftcal_through', '-' ) . " " . $end_date . " " . $end_time;
 					
 					}
 					
@@ -532,52 +532,52 @@ if ( !class_exists( 'FT_CAL_Events' ) ) {
 					wp_enqueue_script( 'write-edit-post', FT_CAL_URL . '/includes/js/write-edit-post.js' );
 					wp_localize_script( 'write-edit-post', 'objectL10n', 
 									array(
-										'until' 		=> __( 'until' ),
-										'Daily' 		=> __( 'Daily' ),
-										'day' 			=> __( 'day' ),
-										'Every' 		=> __( 'Every' ),
-										'days' 			=> __( 'days' ),
-										'Weekly' 		=> __( 'Weekly' ),
-										'week' 			=> __( 'week' ),
-										'weeks' 		=> __( 'weeks' ),
-										'everyday' 		=> __( 'every day' ),
-										'on' 			=> __( 'on' ),
-										'Monthly' 		=> __( 'Monthly' ),
-										'month' 		=> __( 'month' ),
-										'months' 		=> __( 'months' ),
-										'AnnuallyOn' 	=> __( 'Annually On' ),
-										'year' 			=> __( 'year' ),
-										'yearson' 		=> __( 'years on' ),
-										'January' 		=> __( 'January' ),
-										'February' 		=> __( 'February' ),
-										'March' 		=> __( 'March' ),
-										'April' 		=> __( 'April' ),
-										'May' 			=> __( 'May' ),
-										'June' 			=> __( 'June' ),
-										'July' 			=> __( 'July' ),
-										'August' 		=> __( 'August' ),
-										'September' 	=> __( 'September' ),
-										'October' 		=> __( 'October' ),
-										'November' 		=> __( 'November' ),
-										'December' 		=> __( 'December' ),
-										'Sunday' 		=> __( 'Sunday' ),
-										'Monday' 		=> __( 'Monday' ),
-										'Tuesday' 		=> __( 'Tuesday' ),
-										'Wednesday' 	=> __( 'Wednesday' ),
-										'Thursday' 		=> __( 'Thursday' ),
-										'Friday' 		=> __( 'Friday' ),
-										'Saturday' 		=> __( 'Saturday' ),
-										'first' 		=> __( 'first' ),
-										'second' 		=> __( 'second' ),
-										'third' 		=> __( 'third' ),
-										'fourth' 		=> __( 'fourth' ),
-										'fifth' 		=> __( 'fifth' ),
-										'onthe' 		=> __( 'on the' ),
-										'ofthemonth' 	=> __( 'of the month' ),
-										'unabletodeterminedate' => __( 'unable to determine date.' ),
-										'errorsfound' 	=> __( 'Errors found, please correct before attempting to save.' ),
-										'erroradding' 	=> __( 'Error Adding New Event, Please contact support@ftcalendar.com for assistance.' ),
-										'areyousureaddevents' 	=> __( 'Are you sure you want to delete these events?' )
+										'until' 		=> __( 'until', 'ftcalendar' ),
+										'Daily' 		=> __( 'Daily', 'ftcalendar' ),
+										'day' 			=> __( 'day', 'ftcalendar' ),
+										'Every' 		=> __( 'Every', 'ftcalendar' ),
+										'days' 			=> __( 'days', 'ftcalendar' ),
+										'Weekly' 		=> __( 'Weekly', 'ftcalendar' ),
+										'week' 			=> __( 'week', 'ftcalendar' ),
+										'weeks' 		=> __( 'weeks', 'ftcalendar' ),
+										'everyday' 		=> __( 'every day', 'ftcalendar' ),
+										'on' 			=> __( 'on', 'ftcalendar' ),
+										'Monthly' 		=> __( 'Monthly', 'ftcalendar' ),
+										'month' 		=> __( 'month', 'ftcalendar' ),
+										'months' 		=> __( 'months', 'ftcalendar' ),
+										'AnnuallyOn' 	=> __( 'Annually On', 'ftcalendar' ),
+										'year' 			=> __( 'year', 'ftcalendar' ),
+										'yearson' 		=> __( 'years on', 'ftcalendar' ),
+										'January' 		=> __( 'January', 'ftcalendar' ),
+										'February' 		=> __( 'February', 'ftcalendar' ),
+										'March' 		=> __( 'March', 'ftcalendar' ),
+										'April' 		=> __( 'April', 'ftcalendar' ),
+										'May' 			=> __( 'May', 'ftcalendar' ),
+										'June' 			=> __( 'June', 'ftcalendar' ),
+										'July' 			=> __( 'July', 'ftcalendar' ),
+										'August' 		=> __( 'August', 'ftcalendar' ),
+										'September' 	=> __( 'September', 'ftcalendar' ),
+										'October' 		=> __( 'October', 'ftcalendar' ),
+										'November' 		=> __( 'November', 'ftcalendar' ),
+										'December' 		=> __( 'December', 'ftcalendar' ),
+										'Sunday' 		=> __( 'Sunday', 'ftcalendar' ),
+										'Monday' 		=> __( 'Monday', 'ftcalendar' ),
+										'Tuesday' 		=> __( 'Tuesday', 'ftcalendar' ),
+										'Wednesday' 	=> __( 'Wednesday', 'ftcalendar' ),
+										'Thursday' 		=> __( 'Thursday', 'ftcalendar' ),
+										'Friday' 		=> __( 'Friday', 'ftcalendar' ),
+										'Saturday' 		=> __( 'Saturday', 'ftcalendar' ),
+										'first' 		=> __( 'first', 'ftcalendar' ),
+										'second' 		=> __( 'second', 'ftcalendar' ),
+										'third' 		=> __( 'third', 'ftcalendar' ),
+										'fourth' 		=> __( 'fourth', 'ftcalendar' ),
+										'fifth' 		=> __( 'fifth', 'ftcalendar' ),
+										'onthe' 		=> __( 'on the', 'ftcalendar' ),
+										'ofthemonth' 	=> __( 'of the month', 'ftcalendar' ),
+										'unabletodeterminedate' => __( 'unable to determine date.', 'ftcalendar' ),
+										'errorsfound' 	=> __( 'Errors found, please correct before attempting to save.', 'ftcalendar' ),
+										'erroradding' 	=> __( 'Error Adding New Event, Please contact support@ftcalendar.com for assistance.', 'ftcalendar' ),
+										'areyousureaddevents' 	=> __( 'Are you sure you want to delete these events?', 'ftcalendar' )
 									) );
 					wp_enqueue_script( 'ui-datepicker', FT_CAL_URL . '/includes/js/ui.datepicker.min.js' );
 					wp_enqueue_script( 'jquery-timepicker', FT_CAL_URL . '/includes/js/jquery.timePicker.min.js' );

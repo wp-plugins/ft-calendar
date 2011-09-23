@@ -319,8 +319,9 @@ if ( !class_exists( 'FT_Cal_Calendars' ) ) {
 					
 			$orderby = " ORDER BY all_day DESC, start_datetime ASC";
 			
+			$select		= apply_filters( 'ftc_select', $select );
 			$join 		= apply_filters( 'ftc_join', $join );
-			$where 		= apply_filters( 'ftc_where', $where );
+			$where 		= apply_filters( 'ftc_where', $where, $start_date, $end_date, $calendar );
 			$orderby	= apply_filters( 'ftc_orderby',	$orderby );
 					
 			$sql = $select . $join . $where . $orderby; 
