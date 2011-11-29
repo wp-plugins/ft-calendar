@@ -155,9 +155,13 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 							$author = get_userdata( $post->post_author );
 							
 							$data['AUTHOR'] 	= $author->display_name;
+							
+							$data = apply_filters( 'ftc_custom_replacement_tags', $data, $post );
 			
 							$list .= "<li>" . $this->ftc_str_replace( $event_template, $data ) . "</li>";
 							
+							clean_post_cahce( $post->ID );
+
 							if ( 0 != $limit && ++$count > $limit ) {
 								
 								$break = true;
@@ -424,7 +428,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			if ( $ftcal_options['calendar']['show_support'] )
 				$table .= $this->show_support();
 			
-			$table .= "<div class='ftc-clearboth'></div></div>";
+			$table .= "<div class='ftc-clearboth'></div>";
 			$table .= "</div>";
 			
 			return $table;
@@ -612,7 +616,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			if ( $ftcal_options['calendar']['show_support'] )
 				$table .= $this->show_support();
 			
-			$table .= "<div class='ftc-clearboth'></div></div>";
+			$table .= "<div class='ftc-clearboth'></div>";
 			$table .= "</div>";
 			
 			return $table;
@@ -826,7 +830,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			if ( $ftcal_options['calendar']['show_support'] )
 				$table .= $this->show_support();
 			
-			$table .= "<div class='ftc-clearboth'></div></div>";
+			$table .= "<div class='ftc-clearboth'></div>";
 			$table .= "</div>";
 			
 			return $table;
@@ -1078,6 +1082,8 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 				$table .= __( 'No calendars to display.', 'ftcalendar' );
 			
 			}
+			
+			$table .= "</div>";
 			
 			return $table;
 			

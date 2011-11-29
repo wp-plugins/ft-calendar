@@ -110,7 +110,7 @@ $ftjquery(document).ready(function($) {
 		var date_until = $( 'input#range_end' ).val();
 		
 		if ( '' != date_until ) {
-			$( '.date_until' ).text(', {until} '.replace( '{until}', objectL10n.until ) + $.datepicker( 
+			$( '.date_until' ).text(', {until} '.replace( '{until}', objectL10n.until ) + $.datepicker.formatDate( 'MM dd, yy', $( 'input#range_end' ).datepicker( 'getDate' ), 
 				{ monthNames: [
 					'{January}'.replace( '{January}', objectL10n.January ), 
 					'{February}'.replace( '{February}', objectL10n.February ), 
@@ -123,8 +123,8 @@ $ftjquery(document).ready(function($) {
 					'{September}'.replace( '{September}', objectL10n.September ), 
 					'{October}'.replace( '{October}', objectL10n.October ), 
 					'{November}'.replace( '{November}', objectL10n.November ), 
-					'{December}'.replace( '{December}', objectL10n.December ) 
-				] } ).formatDate( 'MM dd, yy', $( 'input#range_end' ).datepicker( 'getDate' ) ) ).show()
+					'{December}'.replace( '{December}', objectL10n.December )
+				] } ) ).show();
 		} else {
 			$( '.date_until' ).hide();
 		}
@@ -194,8 +194,8 @@ $ftjquery(document).ready(function($) {
 					var label_out = 'on day ' + daynumber;
 									
 				if ( repeats_every_select == 1 ) {
-					$( '#repeats_monthly_label' ).text('{Monthly} '.replace( '{Monthly}', objectL10n.Monthly ) + label_out ).show()		
-					$( '#repeats_every_label' ).text( '{month}' ).replace( '{month}', objectL10n.month ).show();
+					$( '#repeats_monthly_label' ).text( '{Monthly} '.replace( '{Monthly}', objectL10n.Monthly ) + label_out ).show()		
+					$( '#repeats_every_label' ).text( '{month}'.replace( '{month}', objectL10n.month ) ).show();
 				} else {
 					$( '#repeats_monthly_label' ).text( '{Every} '.replace( '{Every}', objectL10n.Every ) + repeats_every_select + ' {months} '.replace( '{months}', objectL10n.months ) + label_out ).show();		
 					$( '#repeats_every_label' ).text( '{months}'.replace( '{months}', objectL10n.months ) ).show();
@@ -206,8 +206,8 @@ $ftjquery(document).ready(function($) {
 				break;
 			case 'yearly' :
 				// Set repeats label
-				var start_date  = $.datepicker( { 
-					monthNames: [
+				var start_date  = $.datepicker.formatDate( 'MM dd', $( '#event_date_start' ).datepicker( 'getDate' ), 
+					{ monthNames: [
 						'{January}'.replace( '{January}', objectL10n.January ), 
 						'{February}'.replace( '{February}', objectL10n.February ), 
 						'{March}'.replace( '{March}', objectL10n.March ), 
@@ -219,8 +219,8 @@ $ftjquery(document).ready(function($) {
 						'{September}'.replace( '{September}', objectL10n.September ), 
 						'{October}'.replace( '{October}', objectL10n.October ), 
 						'{November}'.replace( '{November}', objectL10n.November ), 
-						'{December}'.replace( '{December}', objectL10n.December ) 
-					] } ).formatDate( 'MM dd', $( '#event_date_start' ).datepicker( 'getDate' ) );
+						'{December}'.replace( '{December}', objectL10n.December )
+					] } );
 			
 				if ( repeats_every_select == 1 ) {
 					$( '#repeats_yearly_label' ).text('{Annually on} '.replace( '{Annually on}', objectL10n.AnnuallyOn ) + start_date ).show();
@@ -281,6 +281,8 @@ $ftjquery(document).ready(function($) {
 		$( 'input#range_end' ).val( '' );
 		$( 'input#event_time_start, input#event_time_end' ).show();
 		$( 'div#event_recurring_field_options' ).hide();
+		$( 'div#ft_cal_main_recurring' ).hide();
+		$( 'div#ftcal_existing' ).show().html( response );
 	});
 	
 	$('input#ft_cal_save_event').click(function() {
@@ -329,7 +331,8 @@ $ftjquery(document).ready(function($) {
 			if ( "unsuccess" == response ){
 				alert( '{Error Adding New Event, Please contact support@ftcalendar.com for assistance.}'.replace( '{Error Adding New Event, Please contact support@ftcalendar.com for assistance.}', objectL10n.erroradding ) );
 			} else {
-				$( 'div#ftcal_existing' ).html( response );
+				$( 'div#ftcal_existing' ).show().html( response );
+				$( 'div#ft_cal_main_recurring' ).hide();
 			}
 		});
 		
@@ -356,5 +359,11 @@ $ftjquery(document).ready(function($) {
 			
 			$( 'input.delete_event:checked' ).attr('checked', false);
 		}
+	});
+
+	// Show / Toggle add Event div
+	$('input#ft_cal_add_event').live('click', function() {
+		$('#ftcal_existing').hide();
+		$('#ft_cal_main_recurring').show();
 	});
 });

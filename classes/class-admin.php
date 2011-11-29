@@ -25,6 +25,7 @@ if ( !class_exists( 'FT_CAL_Admin' ) ) {
 			if ( is_admin() ) {
 
 				add_action( 'admin_menu', array( $this, 'register_option_pages' ) );
+				add_filter( 'parent_file', array( $this, 'adjust_menu_parents' ) );
 				add_action( 'admin_enqueue_scripts', array( $this, 'ftcalendar_admin_js' ) );
 				/* PREMIUM */
 				add_action( 'admin_init', array( $this, 'ft_call_discount' ) ); 
@@ -59,6 +60,22 @@ if ( !class_exists( 'FT_CAL_Admin' ) ) {
 			add_submenu_page( 'ftcalendar-general', __( 'FullThrottle Calendar Help', 'ftcalendar' ), __( 'FT Calendar Help', 'ftcalendar' ), 'install_plugins', 'ftcalendar-help', array( &$this, 'help_page' ) );
 
 		
+		}
+
+		/**
+		 * Opens the admin menu when on the calendar taxonomy
+		 * 
+		 * @global $current_screen
+		 * @since 1.2.5
+		 */
+		function adjust_menu_parents( $parent ) {
+
+			global $current_screen;
+			if ( is_object( $current_screen ) && isset( $current_screen->taxonomy ) && 'ftcalendar' == $current_screen->taxonomy )
+				$parent = 'ftcalendar-general';
+
+			return $parent;
+
 		}
 		
 		/**
@@ -359,6 +376,8 @@ legend='on'
 types='on'
 dateformat='<?php echo $dateformat; ?>'
 timeformat='<?php echo $timeformat; ?>'
+show_rss_feed='on' (Premium Only)
+show_ical_feed='on' (Premium Only)
 
 Accepted Arguments:
 
@@ -433,6 +452,8 @@ width=''
 height=''
 dateformat='<?php echo $dateformat; ?>'
 timeformat='<?php echo $timeformat; ?>'
+show_rss_feed='on' (Premium Only)
+show_ical_feed='on' (Premium Only)
 
 Accepted Arguments:
 
@@ -442,6 +463,8 @@ width: The integer width of the calendar's ftcalendar-div &lt;div&gt;
 height: The integer height of the calendar's ftcalendar-div &lt;div&gt;
 dateformat: Date format string from <a href="http://php.net/date/" target="_blank">PHP's date() parameters</a>
 timeformat: Time format string from <a href="http://php.net/date/" target="_blank">PHP's date() parameters</a>
+show_rss_feed: on | off (turns off rss feed icon - Premium Only)
+show_ical_feed: on | off (turns off ical feed icon - Premium Only)
 
 Examples:
 
@@ -505,9 +528,14 @@ monthformat='F Y'
 event_template='&lt;a href="%URL%"&gt;%TITLE% (%TIME%)&lt;/a&gt;'
 date_template='%DATE%'
 month_template='%MONTH%'
+show_rss_feed='on' (Premium Only)
+show_ical_feed='on' (Premium Only)
+show_post_schedule='off' (Premium Only)
+hide_duplicates='off' (Premium Only)
 
 Accepted Arguments:
 
+date: Optional argument to set start date; format: MM/DD/YYY; default: BLANK (assumes today's date - Premium Only)
 span: Time string of upcoming events, as a relative string.
 calendars: all,<?php echo $calendar_string; ?> 
 limit: Maximum number of items to display (0 = all)
@@ -517,6 +545,10 @@ monthformat: Time format string from <a href="http://php.net/date/" target="_bla
 event_template: HTML template for displaying the event details
 date_template: HTML template for displaying the date
 month_template: HTML template for displaying the month
+show_rss_feed: on | off (turns off rss feed icon - Premium Only)
+show_ical_feed: on | off (turns off ical feed icon - Premium Only)
+show_post_schedule: on | off (displays the post schedule, if you're using %EXCERPT% or %CONTENT% - Premium Only)
+hide_duplicates: on | off (removes duplicate event listings, event_template must be blank for this to work - Premium Only)
 
 Acceptable Template Replacement Tags:
 
@@ -526,12 +558,14 @@ Acceptable Template Replacement Tags:
 %TITLE% - Title of the event
 %TIME% - Time (fromt he timeformat)
 %AUTHOR% - Author of the event
-%CALNAME% - The name of the current calendar event information being displayed
-%CALSLUG% - The slug of the current calendar event information being displayed
+%FEATUREIMAGE% - Displays the image set as feature image or feature_image meta tag (Premium Only)
+%EXCERPT% - Excerpt from the post (Premium Only)
+%CONTENT% - Content from the post (Premium Only)
 
 Examples:
 
 [ftcalendar_list span='+1 Year' limit='50']
+[ftcalendar_list date='01/01/2011' span='+1 Year' limit='50']
 [ftcalendar_list calendars='<?php echo $single_calendar; ?>' dateformat='d' date_template='' monthformat='F' event_template='%DATE%  -  &lt;a href="%LINK%"&gt;%TITLE%&lt;/a&gt;']
 [ftcalendar_list calendars='<?php echo $calendar_string; ?>' timeformat='g:i']
 

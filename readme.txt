@@ -54,6 +54,15 @@ You must have:
 * FT Calendar is GPL
 
 == Changelog ==
+= 1.0.7 =
+* Code Cleanup
+* Fixed bug in legend="off" setting for large calendar
+* Fixed bug in recurring events datepicker jQuery call
+* Modified submenu to work with WP 3.3
+* Gave the Add Event UI a little bit of love
+* Added clean_post_cache function to event list shortcode/widget, to help reduce PHP memory overhead for large queries.
+* Added beta Italian translation
+
 = 1.0.6 =
 * Updated get_ftcal_data_ids filter hooks and added select hook
 * Updated POT file
