@@ -160,7 +160,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			
 							$list .= "<li>" . $this->ftc_str_replace( $event_template, $data ) . "</li>";
 							
-							clean_post_cahce( $post->ID );
+							clean_post_cache( $post->ID );
 
 							if ( 0 != $limit && ++$count > $limit ) {
 								

@@ -54,6 +54,9 @@ You must have:
 * FT Calendar is GPL
 
 == Changelog ==
+= 1.0.7.1 =
+* Fixed typo
+
 = 1.0.7 =
 * Code Cleanup
 * Fixed bug in legend="off" setting for large calendar
