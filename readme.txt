@@ -2,7 +2,7 @@
 Contributors: layotte, blepoxp, fullthrottledevelopment
 Tags: calendar, dates, events, times, event manager, scheduling, recurring, recurring events, ec3, event, widget, shortcode, AJAX, sidebar, repeating, repeat, recur, custom, post, types
 Requires at least: 3.0
-Tested up to: 3.2
+Tested up to: 3.3
 Stable tag: trunk
 
 A calendar plugin supporting multiple calendars, recurring events, and several different widgets / shortcodes. More info at http://calendar-plugin.com
@@ -54,6 +54,9 @@ You must have:
 * FT Calendar is GPL
 
 == Changelog ==
+= 1.0.7.2 =
+* Fixed script and CSS enqueue for shortcodes in WordPress 3.3
+
 = 1.0.7.1 =
 * Fixed typo
 

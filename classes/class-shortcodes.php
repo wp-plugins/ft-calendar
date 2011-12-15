@@ -20,14 +20,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 		 */
 		function ft_cal_shortcodes() {
 			
-			if ( ! is_admin() ) {
-			
-				wp_enqueue_style( 'ft-cal-single-post-page-shorts', FT_CAL_URL . '/includes/css/single-post-page-shorts.css' );
-				wp_enqueue_script( 'jquery-tooltip', FT_CAL_URL . '/includes/js/jquery.tools.min.js', array( 'jquery' ) );
-				wp_enqueue_script( 'ft-cal-single-post-page-shorts-js', FT_CAL_URL . '/includes/js/single-post-page-shorts.js', array( 'jquery' ) );
-				wp_localize_script( 'ft-cal-single-post-page-shorts-js', 'FTCajax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
-			
-			}
+			add_action( 'wp_enqueue_scripts', array( $this, 'ftcalendar_shortcode_wp_enqueue_scripts' ) );
 				
 			add_action( 'wp_ajax_nopriv_large_calendar_change', array( &$this, 'do_ftcal_large_calendar_change' ) );
 			add_action( 'wp_ajax_large_calendar_change', array( &$this, 'do_ftcal_large_calendar_change' ) );
@@ -38,6 +31,15 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			add_shortcode( 'ftcalendar', array( &$this, 'do_ftcal_large_calendar' ) );
 			add_shortcode( 'ftcalendar_thumb', array( &$this, 'do_ftcal_thumb_calendar' ) );
 		
+		}
+		
+		function ftcalendar_shortcode_wp_enqueue_scripts() {
+		
+			wp_enqueue_style( 'ft-cal-single-post-page-shorts', FT_CAL_URL . '/includes/css/single-post-page-shorts.css' );
+			wp_enqueue_script( 'jquery-tooltip', FT_CAL_URL . '/includes/js/jquery.tools.min.js', array( 'jquery' ) );
+			wp_enqueue_script( 'ft-cal-single-post-page-shorts-js', FT_CAL_URL . '/includes/js/single-post-page-shorts.js', array( 'jquery' ) );
+			wp_localize_script( 'ft-cal-single-post-page-shorts-js', 'FTCajax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
+			
 		}
 		
 		/**
