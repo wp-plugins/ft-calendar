@@ -1,0 +1,388 @@
+# Copyright (C) 2010 
+# This file is distributed under the same license as the  package.
+msgid ""
+msgstr ""
+"Project-Id-Version: ft calendar\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/ft-calendar\n"
+"POT-Creation-Date: 2011-08-08 13:32:24+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2011-09-02 11:26+0100\n"
+"Last-Translator: Helma Paternostre <helma@paternostre.nl>\n"
+"Language-Team: paternostre <info@paternostre.nl>\n"
+"X-Poedit-Language: Dutch\n"
+"X-Poedit-Country: NETHERLANDS\n"
+
+#: strings.php:5
+#: strings.php:6
+msgid "Calendar Label Color"
+msgstr "Kleur kalenderlabel"
+
+#: strings.php:7
+msgid "to"
+msgstr "tot"
+
+#: strings.php:8
+msgid "All day"
+msgstr "Hele dag"
+
+#: strings.php:9
+msgid "Repeats..."
+msgstr "Herhaalt..."
+
+#: strings.php:10
+msgid "Repeats"
+msgstr "Herhaalt"
+
+#: strings.php:11
+msgid "Daily"
+msgstr "Dagelijks"
+
+#: strings.php:12
+msgid "Every weekday"
+msgstr "Elke dag"
+
+#: strings.php:13
+msgid "Every Mon., Wed., and Fri."
+msgstr "Elke ma., wo. en vr."
+
+#: strings.php:14
+msgid "Every Tues., and Thurs."
+msgstr "Elke di. en do."
+
+#: strings.php:15
+msgid "Weekly"
+msgstr "Wekelijks"
+
+#: strings.php:16
+msgid "Monthly"
+msgstr "Maandelijks"
+
+#: strings.php:17
+msgid "Yearly"
+msgstr "Jaarlijks"
+
+#: strings.php:18
+msgid "Weekly on weekdays"
+msgstr "Wekelijks op werkdagen"
+
+#: strings.php:19
+msgid "Weekly on Monday, Wednesday, Friday"
+msgstr "Wekelijks op maandag, woensdag, vrijdag"
+
+#: strings.php:20
+msgid "Weekly on Tuesday, Thursday"
+msgstr "Wekelijks op dinsdag, donderdag"
+
+#: strings.php:21
+msgid "Repeat Every"
+msgstr "Herhaal elke"
+
+#: strings.php:22
+msgid "days"
+msgstr "dagen"
+
+#: strings.php:23
+msgid "Repeat On:"
+msgstr "Herhaal op:"
+
+#: strings.php:24
+#: strings.php:30
+msgid "S"
+msgstr "Z"
+
+#: strings.php:25
+msgid "M"
+msgstr "M"
+
+#: strings.php:26
+#: strings.php:28
+msgid "T"
+msgstr "D"
+
+#: strings.php:27
+msgid "W"
+msgstr "W"
+
+#: strings.php:29
+msgid "F"
+msgstr "V"
+
+#: strings.php:31
+msgid "Repeat By"
+msgstr "Herhaal op"
+
+#: strings.php:32
+msgid "day of the month"
+msgstr "dag van de maand"
+
+#: strings.php:33
+msgid "day of the week"
+msgstr "dag van de week"
+
+#: strings.php:34
+msgid "Starts On"
+msgstr "Begint op:"
+
+#: strings.php:35
+msgid "Ends On:"
+msgstr "Eindigt op:"
+
+#: strings.php:36
+msgid "Never"
+msgstr "Nooit"
+
+#: strings.php:37
+msgid "Until"
+msgstr "Tot"
+
+#: strings.php:39
+msgid "FullThrottle Calendar General Settings"
+msgstr "FullThrottle Calendar Algemenen instellingen"
+
+#: strings.php:40
+msgid "General Options"
+msgstr "Algemene opties"
+
+#: strings.php:41
+#: strings.php:42
+msgid "Enable Calendar items for these post types:"
+msgstr "Kalender-items inschakelen voor deze post types:"
+
+#: strings.php:43
+msgid "Show Support Link:"
+msgstr "Supportlink tonen:"
+
+#: strings.php:44
+msgid "Enable SMART Post Ordering:"
+msgstr "SMART Post Ordering inschakelen:"
+
+#: strings.php:45
+msgid "Include Recurring End Date in SMART Ordering:"
+msgstr "Terugkerende einddatum meenemen in SMART Ordering:"
+
+#: strings.php:46
+msgid "Show Schedule within Post:"
+msgstr "Rooster tonen in Bericht:"
+
+#: strings.php:47
+msgid "Where to Display Schedule?"
+msgstr "Waar moet het rooster getoond worden?"
+
+#: strings.php:48
+msgid "Use Event Date as pubDate in feeds:"
+msgstr "Evenementdatum als pubDate gebruiken in feeds:"
+
+#: strings.php:49
+msgid "Save Changes"
+msgstr "Wijzigingen opslaan"
+
+#: strings.php:50
+#: strings.php:60
+#: strings.php:66
+#: strings.php:83
+msgid "Partners"
+msgstr "Partners"
+
+#: strings.php:51
+msgid "FullThrottle Calendar Import"
+msgstr "FullThrottle Kalender-import"
+
+#: strings.php:52
+#: strings.php:62
+msgid "FullThrottle Calendar"
+msgstr "FullThrottle Kalendar"
+
+#: strings.php:53
+msgid "Select file to import"
+msgstr "Het te importeren bestand selecteren"
+
+#: strings.php:54
+msgid "Delete existing data?"
+msgstr "Bestaande data verwijderen?"
+
+#: strings.php:55
+msgid "Import FullThrottle Calendar Data"
+msgstr "FullThrottle kalenderdata importeren"
+
+#: strings.php:56
+msgid "Event Calendar 3"
+msgstr "Event Calendar 3"
+
+#: strings.php:57
+msgid "Import Event Calendar 3 data to this Calendar"
+msgstr "Event Calendar 3 data naar deze kalender importeren"
+
+#: strings.php:58
+msgid "Import EC3 Data"
+msgstr "EC3-data importeren"
+
+#: strings.php:61
+msgid "FullThrottle Calendar Export"
+msgstr "FullThrottle Calendar exporteren"
+
+#: strings.php:63
+msgid "Select calendar(s) to export"
+msgstr "Te exporteren kalender(s) selecteren"
+
+#: strings.php:64
+#: strings.php:88
+#: strings.php:112
+msgid "All Calendars"
+msgstr "Alle kalenders"
+
+#: strings.php:67
+msgid "FullThrottle Calendar Help"
+msgstr "FullThrottle Calendar Help"
+
+#: strings.php:68
+msgid "[ftcalendar] - Calendar Shortcode"
+msgstr "[ftcalendar] - Kalender Shortcode"
+
+#: strings.php:69
+msgid "[ftcalendar_thumb] - Thumbnail Calendar Shortcode"
+msgstr "[ftcalendar_thumb] - Thumbnailkalendar Shortcode"
+
+#: strings.php:70
+msgid "[ftcalendar_list] - Event List Shortcode"
+msgstr "[ftcalendar_list] - Evenementenlijst Shortcode"
+
+#: strings.php:71
+msgid "Calendar of Events Widget"
+msgstr "Widget Evenementenkalender"
+
+#: strings.php:72
+msgid "Upcoming Events List Widget"
+msgstr "Widget lijst aankomende evenementen"
+
+#: strings.php:73
+msgid "Premium Support and Features"
+msgstr "Premium Support en Features"
+
+#: strings.php:74
+msgid "By signing up for FT Calendar premium support, you help to ensure future enhancements to this excellent project as well as the following benefits:"
+msgstr "Door je aan te melden voor FT Calendar premium support, draag je bij aan het zekerstellen van toekomstige verbeteringen aan dit prima project. Bovendien krijg je de volgende voordelen:"
+
+#: strings.php:75
+msgid "Around the clock access to our knowledge base and support forum from within your WordPress dashboard"
+msgstr "24 uur per dag toegang tot onze kennisbank en supportforum (beide Engelstalig) vanuit je WordPress-dashboard"
+
+#: strings.php:76
+msgid "Professional and timely response times to all your questions from the FT Calendar team"
+msgstr "Professionele en snelle responstijden van het FT Calender-team op al je vragen "
+
+#: strings.php:77
+msgid "A 10% discount for any custom functionality you request from the FT Calendar developers"
+msgstr "10% korting op elke maatwerkfunctionaliteit die je aanvraagt bij de ontwikkelaars van FT Calendar"
+
+#: strings.php:78
+msgid "A 6-12 month advance access to new features integrated into the auto upgrade functionality of WordPress"
+msgstr "Zes tot twaalf maanden vervroegde toegang tot nieuwe features. Deze is geïntegreerd in de automatische upgradefunctionaliteit van WordPress"
+
+#: strings.php:79
+msgid "Ads removed from Calendar Meta Boxes and Control Panels"
+msgstr "Geen advertenties bij de Calendar Meta-velden en Controlepanelen"
+
+#: strings.php:80
+msgid "Signup Now"
+msgstr "Meld je nu aan"
+
+#: strings.php:81
+msgid "Learn More"
+msgstr "Meer informatite"
+
+#: strings.php:82
+msgid "Launch Premium Support widget"
+msgstr "Start Premium Support widget"
+
+#: strings.php:82
+msgid "Visit Premium Support web site"
+msgstr "Bezoek Premium Support website"
+
+#: strings.php:84
+#: strings.php:108
+msgid "Title:"
+msgstr "Titel:"
+
+#: strings.php:85
+#: strings.php:109
+msgid "Show XML Feed?"
+msgstr "XML-feed weergeven?"
+
+#: strings.php:86
+#: strings.php:110
+msgid "Show iCal Feed?"
+msgstr "iCal-feed weergeven?"
+
+#: strings.php:87
+#: strings.php:111
+msgid "Calendars:"
+msgstr "Kalenders:"
+
+#: strings.php:89
+msgid "Time Span:"
+msgstr "Tijdspanne:"
+
+#: strings.php:90
+msgid "Day(s)"
+msgstr "Dag(en)"
+
+#: strings.php:91
+msgid "Week(s)"
+msgstr "Week/Weken"
+
+#: strings.php:92
+msgid "Month(s)"
+msgstr "Maand(en)"
+
+#: strings.php:93
+msgid "Year(s)"
+msgstr "Jaar/Jaren"
+
+#: strings.php:94
+msgid "Limit:"
+msgstr "Limiet:"
+
+#: strings.php:95
+msgid "0 = Show all events in given time span"
+msgstr "0= Alle evenementen binnen de tijdspanne weergeven"
+
+#: strings.php:96
+msgid "Time Format:"
+msgstr "Tijdformat"
+
+#: strings.php:97
+#: strings.php:99
+#: strings.php:102
+msgid "See <a href=\"http://php.net/date/\" target=\"_blank\">PHP's Format Parameters</a> for help."
+msgstr "Ga naar <a href=\"http://php.net/date/\" target=\"_blank\">PHP's Format Parameters</a> voor hulp (Engelstalig)."
+
+#: strings.php:98
+msgid "Date Format:"
+msgstr "Datumformat:"
+
+#: strings.php:100
+msgid "Date Template:"
+msgstr "Datumsjabloon:"
+
+#: strings.php:101
+msgid "Month Format:"
+msgstr "Maandformat:"
+
+#: strings.php:103
+msgid "Month Template:"
+msgstr "Maandsjabloon:"
+
+#: strings.php:104
+msgid "Event Template:"
+msgstr "Evenementsjabloon:"
+
+#: strings.php:105
+msgid "Hide Duplicates?"
+msgstr "Duplicaten verbergen?"
+
+#: strings.php:106
+msgid "Date Template must be blank."
+msgstr "Datumsjabloon moet leeg zijn."
+
