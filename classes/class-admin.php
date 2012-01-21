@@ -216,6 +216,7 @@ if ( !class_exists( 'FT_CAL_Admin' ) ) {
                                     	<p><?php _e( 'These updates are available now by upgrading to Premium Support...' ); ?></p>
                                     
                                     	<ul style='margin-left:25px;list-style-type:disc'>
+                                            <li><?php _e( 'Display Post Schedule inline with post, plus shortcode', 'ftcalendar' ); ?></li>
                                             <li><?php _e( 'Considers "Week Starts On" setting in WordPress', 'ftcalendar' ); ?></li>
                                             <li><?php _e( 'Display schedule information within post content', 'ftcalendar' ); ?></li>
                                             <li><?php _e( 'RSS, ATAM, RFD, and iCal feeds for Calendare vents', 'ftcalendar' ); ?></li>

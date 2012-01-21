@@ -54,6 +54,10 @@ You must have:
 * FT Calendar is GPL
 
 == Changelog ==
+= 1.0.7.3 =
+* Fixed Full Throttle Client compatibility with Simple Maps
+* General code updates
+
 = 1.0.7.2 =
 * Fixed script and CSS enqueue for shortcodes in WordPress 3.3
 

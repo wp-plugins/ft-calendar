@@ -34,7 +34,7 @@ if ( ! class_exists( 'FT_Premium_Support_Client' ) ) {
 			$this->learn_more_link			= isset( $config['learn_more_link'] ) ? $config['learn_more_link'] : false;
 			$this->confirming_request 		= isset( $_GET['ft-ps-confirm-request'] ) ? $_GET['ft-ps-confirm-request'] : false;
 			$this->receiving_sso 			= isset( $_POST['ft-ps-receiving-sso'] ) ? $_POST['ft-ps-receiving-sso'] : false;
-			$this->site_url					= get_option( 'siteurl' );
+			$this->site_url					= site_url();
 
 			// Register actions
 			add_action( 'admin_head', array( &$this, 'init' ) );
@@ -107,7 +107,14 @@ if ( ! class_exists( 'FT_Premium_Support_Client' ) ) {
 
 						// Response found a server, lets see if it hit a script we recognize
 						$response = json_decode( $request['body'] );
-						
+
+						// Set the paypal button
+						if ( ! empty( $response->paypal_button->args ) && ! empty( $response->paypal_button->base) )
+							$this->paypal_button = add_query_arg( get_object_vars( $response->paypal_button->args ), $response->paypal_button->base );
+
+						// Set the expired flag
+						$this->support_expired = isset( $response->support_expired ) ? $response->support_expired : false;
+
 						// Do we have a premium status?
 						if ( isset( $response->support_status ) && $response->support_status ) {
 							
@@ -137,8 +144,7 @@ if ( ! class_exists( 'FT_Premium_Support_Client' ) ) {
 										
 						} else {
 
-							// No premium support so lets fill the paypal button property
-							$this->paypal_button = add_query_arg( get_object_vars( $response->paypal_button->args ), $response->paypal_button->base );
+							// No premium support so lets delete the keys
 							delete_option( 'external_updates-' . $this->plugin_slug );
 							delete_option( $exp_option_key );
 						}
@@ -155,8 +161,38 @@ if ( ! class_exists( 'FT_Premium_Support_Client' ) ) {
 			// Check server for auto update?
 			if ( $this->ps_status )
 				$ft_ps_client_auto_update = new FT_Premium_Support_PluginUpdate_Checker( $this->server_url . '?ft-pss-upgrade-request=1&ft-pss-upgrade-request-product-id=' . $this->product_id . '&ft-pss-upgrade-request-site=' . $this->site_url, $this->plugin_basename, 'ftcalendar', 1 	);
+
+                        // Maybe Nag Renewal
+                        $this->maybe_trigger_renewal_nag(); 
 		
 		}
+
+                function maybe_trigger_renewal_nag() {
+                        // Has support expired?
+                        if ( ! empty( $this->support_expired ) && ! is_object( $this->support_expired ) ) {
+                                add_action( 'admin_notices', array( $this, 'support_expired' ) );
+                                return;
+                        }
+
+                        if ( ! empty( $this->ps_status->exp_date ) ) {
+                                $onemonthout = $this->ps_status->exp_date - 2628000;
+                                // If we are within a month of expiration date
+                                if ( $onemonthout <= strtotime( 'now' ) ) {
+                                       add_action( 'admin_notices', array( $this, 'renew_soon' ) ); 
+                                }
+                        }
+
+                }
+
+                function support_expired() {
+                        $link = ( $this->paypal_button ) ? esc_url( $this->paypal_button ) : 'http://simplemap-plugin.com';
+                        echo "<div class='update-nag'>" . sprintf( __( "<strong style='color:red;'>Your license for SimpleMap has expired!</strong><br />You need to renew your license now for continued support and upgrades: <a href='%s' target='_blank'>Renew my license now</a>." ), $link ) . "</div>";  
+                }
+
+                function renew_soon() {
+                        $link = ( $this->paypal_button ) ? esc_url( $this->paypal_button ) : 'http://simplemap-plugin.com';
+                        echo "<div class='update-nag'>" . sprintf( __( "<strong style='color:red;'>SimpleMap is expiring soon!</strong><br />You will need to renew your license for continued support and upgrades: <a href='%s' target='_blank'>Renew my license now</a>." ), $link ) . "</div>";  
+                }
 		
 	}
 	
@@ -347,7 +383,7 @@ class FT_Premium_Support_PluginUpdate_Checker {
 		
 		if ( ! function_exists( 'get_plugins' ) )
 			require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-											
+
 		$allPlugins = get_plugins();
 
 		if ( array_key_exists( $this->pluginFile, $allPlugins ) && array_key_exists( 'Version', $allPlugins[$this->pluginFile] ) )
@@ -689,104 +725,138 @@ class FT_Premium_Support_PluginUpdate {
 	
 endif;
 
-/**
- * Checks for premium support
- */
-function url_has_ftps_for_item( &$ps_object ) {
+if ( !function_exists( 'url_has_ftps_for_item' ) ) {
 	
-	if ( is_object( $ps_object ) && $ps_object->ps_status )
-		return true;
+	/**
+	 * Checks for premium support
+	 */
+	function url_has_ftps_for_item( &$ps_object ) {
 		
-	return false;
-
-}
-
-/**
- * Return paypal button
- */
-function get_ftps_paypal_button( &$ps_object ) {
-
-	if ( is_object( $ps_object ) && isset( $ps_object->paypal_button ) )
-		return $ps_object->paypal_button;
-		
-	return false;
-}
-
-/**
- * Return learn more link
- */
-function get_ftps_learn_more_link( &$ps_object ) {
-
-	if ( is_object( $ps_object ) && isset( $ps_object->learn_more_link ) )
-		return $ps_object->learn_more_link;
-		
-	return false;
-}
-
-/**
- * Return SSO key
- */
-function get_ftps_sso_key( &$ps_object ) {
-
-	if ( is_object( $ps_object ) && isset( $ps_object->sso_status ) )
-		return $ps_object->sso_status;
-		
-	return false;
-}
-
-/**
- * Return this site URL that has premium support
- */
-function get_ftps_site( &$ps_object ) {
+		if ( is_object( $ps_object ) && $ps_object->ps_status )
+			return true;
+			
+		return false;
 	
-	if ( is_object( $ps_object ) && isset( $ps_object->ps_status->site ) )
-		return $ps_object->ps_status->site;
-		
-	return false;
+	}
+
 }
 
-/**
- * Return purchase date
- */
-function get_ftps_purchase_date( &$ps_object ) {
+if ( !function_exists( 'get_ftps_paypal_button' ) ) {
+	
+	/**
+	 * Return paypal button
+	 */
+	function get_ftps_paypal_button( &$ps_object ) {
+	
+		if ( is_object( $ps_object ) && isset( $ps_object->paypal_button ) )
+			return $ps_object->paypal_button;
+			
+		return false;
+	}
 
-	if ( is_object( $ps_object ) && isset( $ps_object->ps_status->purchase_date ) )
-		return $ps_object->ps_status->purchase_date;
-		
-	return false;
 }
 
-/**
- * Return expiration date
- */
-function get_ftps_exp_date( &$ps_object ) {
+if ( !function_exists( 'get_ftps_learn_more_link' ) ) {
+	
+	/**
+	 * Return learn more link
+	 */
+	function get_ftps_learn_more_link( &$ps_object ) {
+	
+		if ( is_object( $ps_object ) && isset( $ps_object->learn_more_link ) )
+			return $ps_object->learn_more_link;
+			
+		return false;
+	}
 
-	if ( is_object( $ps_object ) && isset( $ps_object->ps_status->exp_date ) )
-		return $ps_object->ps_status->exp_date;
-		
-	return false;
 }
 
-/**
- * Return email of person who purchased premium support
- */
-function get_ftps_email( &$ps_object ) {
+if ( !function_exists( 'get_ftps_sso_key' ) ) {
+	
+	/**
+	 * Return SSO key
+	 */
+	function get_ftps_sso_key( &$ps_object ) {
+	
+		if ( is_object( $ps_object ) && isset( $ps_object->sso_status ) )
+			return $ps_object->sso_status;
+			
+		return false;
+	}
 
-	if ( is_object( $ps_object ) && isset( $ps_object->ps_status->email ) )
-		return $ps_object->ps_status->email;
-		
-	return false;
 }
 
-/**
- * Return name of person who purchased premium support
- */
-function get_ftps_name( &$ps_object ) {
+if ( !function_exists( 'get_ftps_site' ) ) {
 
-	if ( is_object( $ps_object ) && isset( $ps_object->ps_status->name ) )
-		return $ps_object->ps_status->name;
+	/**
+	 * Return this site URL that has premium support
+	 */
+	function get_ftps_site( &$ps_object ) {
 		
-	return false;
+		if ( is_object( $ps_object ) && isset( $ps_object->ps_status->site ) )
+			return $ps_object->ps_status->site;
+			
+		return false;
+	}
+
 }
 
-?>
+if ( !function_exists( 'get_ftps_purchase_date' ) ) {
+	
+	/**
+	 * Return purchase date
+	 */
+	function get_ftps_purchase_date( &$ps_object ) {
+	
+		if ( is_object( $ps_object ) && isset( $ps_object->ps_status->purchase_date ) )
+			return $ps_object->ps_status->purchase_date;
+			
+		return false;
+	}
+
+}
+
+if ( !function_exists( 'get_ftps_exp_date' ) ) {
+		
+	/**
+	 * Return expiration date
+	 */
+	function get_ftps_exp_date( &$ps_object ) {
+	
+		if ( is_object( $ps_object ) && isset( $ps_object->ps_status->exp_date ) )
+			return $ps_object->ps_status->exp_date;
+			
+		return false;
+	}
+
+}
+
+if ( !function_exists( 'get_ftps_email' ) ) {
+
+	/**
+	 * Return email of person who purchased premium support
+	 */
+	function get_ftps_email( &$ps_object ) {
+	
+		if ( is_object( $ps_object ) && isset( $ps_object->ps_status->email ) )
+			return $ps_object->ps_status->email;
+			
+		return false;
+	}
+
+}
+
+if ( !function_exists( 'get_ftps_name' ) ) {
+
+	/**
+	 * Return name of person who purchased premium support
+	 */
+	function get_ftps_name( &$ps_object ) {
+	
+		if ( is_object( $ps_object ) && isset( $ps_object->ps_status->name ) )
+			return $ps_object->ps_status->name;
+			
+		return false;
+	}
+
+}
