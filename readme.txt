@@ -54,6 +54,9 @@ You must have:
 * FT Calendar is GPL
 
 == Changelog ==
+= 1.0.7.4 =
+* Removed invalid reference to premium-only javascript file
+
 = 1.0.7.3 =
 * Fixed Full Throttle Client compatibility with Simple Maps
 * General code updates
