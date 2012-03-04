@@ -1,6 +1,6 @@
 === FT Calendar ===
 Contributors: layotte, blepoxp, fullthrottledevelopment
-Tags: calendar, dates, events, times, event manager, scheduling, recurring, recurring events, ec3, event, widget, shortcode, AJAX, sidebar, repeating, repeat, recur, custom, post, types
+Tags: calendar, events, scheduler, recurring, repeating, ec3, premium, event manager, recurring events, grid calendar, event list, calendar thumbnail
 Requires at least: 3.0
 Tested up to: 3.3
 Stable tag: trunk
