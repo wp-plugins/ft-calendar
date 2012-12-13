@@ -19,6 +19,8 @@ if ( !class_exists( 'FT_CAL_Events' ) ) {
 		 */
 		function ft_cal_events() {
 			
+			global $ft_cal_options;
+			
 			add_action( 'admin_init', 						array( &$this, 'attach_event_boxes_to_post_types' ) );
 			add_action( 'admin_print_styles-edit.php', 		array( &$this, 'enqueue_write_edit_post_css' ) );
 			add_action( 'admin_print_scripts-edit.php', 	array( &$this, 'enqueue_write_edit_post_js' ) );
@@ -28,8 +30,25 @@ if ( !class_exists( 'FT_CAL_Events' ) ) {
 			add_action( 'admin_print_scripts-post-new.php', array( &$this, 'enqueue_write_edit_post_js' ) );
 			add_action( 'wp_ajax_save_ftcal_data', 			array( &$this, 'save_ftcal_data_ajax' ) );
 			add_action( 'wp_ajax_delete_ftcal_data', 		array( &$this, 'delete_ftcal_data_ajax' ) );
-			add_action( 'deleted_post', 					array( $this, 'delete_post_ftcal_data' ) ); //keep an eye on this hook, it's duplicated in wp_delete_post... hook may change in future release of WP
-
+			add_action( 'deleted_post', 					array( &$this, 'delete_post_ftcal_data' ) ); //keep an eye on this hook, it's duplicated in wp_delete_post... hook may change in future release of WP
+			
+			if ( !is_admin() && $ft_cal_options->calendar_options['smart_ordering'] ) {
+				
+				add_filter( 'posts_distinct', 	array( &$this, 'ftcal_posts_distinct' ) );
+				add_filter( 'posts_fields', 	array( &$this, 'ftcal_posts_fields' ) );
+				add_filter( 'posts_join', 		array( &$this, 'ftcal_posts_join' ) );
+				add_filter( 'posts_orderby', 	array( &$this, 'ftcal_posts_orderby' ), 10000 ); // try to be last
+				
+			}
+			
+			if ( !is_admin() && $ft_cal_options->calendar_options['show_post_schedule'] ) {
+				
+				add_filter( 'get_the_excerpt', array( &$this, 'no_duplicate_post_schedule' ), 5 );
+				add_filter( 'the_content', array( &$this, 'get_post_schedule' ) );
+				add_filter( 'the_excerpt', array( &$this, 'get_post_schedule' ) );
+					
+			}
+		
 		}
 				
 		/**
@@ -386,7 +405,7 @@ if ( !class_exists( 'FT_CAL_Events' ) ) {
 				
 				foreach ( (array)$_POST['event_ids'] as $event_id ) {
 					$wpdb->query( $wpdb->prepare( "DELETE FROM " . $wpdb->prefix . "ftcalendar_events" .
-													" WHERE id = " . absint( $event_id['value'] ) . ";\n" ) );
+													" WHERE id = %d", absint( $event_id['value'] ) ) );
 				}
 			
 			}
@@ -486,6 +505,114 @@ if ( !class_exists( 'FT_CAL_Events' ) ) {
 			}
 			
 			return $output;
+			
+		}
+		
+		/**
+		 * Removes the_content filter for get_post_schedule if being called by get_the_excerpt filter to avoid duplicates from wp_trim_exerpt
+		 *
+		 * @since 1.2.3
+		 * @param int content of current post
+		 */	
+		function no_duplicate_post_schedule( $content ) {
+		
+			remove_filter( 'the_content', array( &$this, 'get_post_schedule' ) );
+			return $content;
+			
+		}
+		
+		/**
+		 * Returns post content, with calendar data if applicable
+		 *
+		 * @since 1.1.8
+		 * @param int content of current post
+		 */
+		function get_post_schedule( $content, $atts = array() ) {
+			
+			global $post, $ft_cal_options;
+			
+			$passed = false;
+			
+			$post_id = $post->ID;
+			
+			$defaults = array( 			
+				'dateformat' => get_option('date_format'),
+				'timeformat' => get_option('time_format')
+			);
+			
+			// Merge defaults with passed atts
+			// Extract (make each array element its own PHP var
+			extract( shortcode_atts( $defaults, $atts ) );
+		
+			$output = '';
+			
+			if ( isset( $post_id ) && $ftcal_data = $this->get_ftcal_data( $post_id ) ) {
+				
+				$output = "<div id='ftcal_post_schedule'>";
+				
+				foreach ( (array)$ftcal_data as $entry ) {
+					
+					$current_time = strtotime( date_i18n( 'Y-m-d G:i:s' ) );
+					
+					if ( !$entry->repeating ) {
+						
+						if ( $current_time > strtotime( $entry->end_datetime ) )
+							continue;
+						
+					} else {
+					
+						if ( $entry->r_end && $current_time > strtotime( $entry->r_end_datetime ) )
+							continue;
+						
+					}
+					
+					$passed = true;
+					
+					$start_date = date_i18n( apply_filters( 'post_schedule_start_date_format', $dateformat ), strtotime( $entry->start_datetime ));
+					$end_date = date_i18n( apply_filters( 'post_schedule_end_date_format', $dateformat ), strtotime( $entry->end_datetime ));
+					
+					$output .= "<span id='ftcal-" . $entry->id . "'>";
+					
+					if ( $entry->all_day ) {
+					
+						if ( $start_date == $end_date )
+							$output .= $start_date;
+						else
+							$output .= $start_date . " " . apply_filters( 'ftcal_through', '-' ) . " " . $end_date;
+					
+					} else {
+					
+						$start_time = date_i18n( apply_filters( 'post_schedule_start_time_format', $timeformat ), strtotime( $entry->start_datetime ) );
+						$end_time = date_i18n( apply_filters( 'post_schedule_end_time_format', $timeformat ), strtotime( $entry->end_datetime ) );
+						
+						if ( $start_date == $end_date )
+							$output .= $start_date . ': ' . $start_time . " " . apply_filters( 'ftcal_through', '-' ) . " " . $end_time;
+						else
+							$output .= $start_date . ': ' . $start_time . " " . apply_filters( 'ftcal_through', '-' ) . " " . $end_date . " " . $end_time;
+					
+					}
+						
+					if ( $entry->repeating )
+						$output .= "&nbsp;( " . __ ( 'Repeating', 'ftcalendar' ) . " " . $entry->r_label . " )";
+						
+					$output .= "<br />";
+					
+					$output .= "</span>";
+				}
+
+				$output .= "</div>";
+				
+				if ( !$passed )
+					$output = '';
+			
+				if ( "after" == $ft_cal_options->calendar_options['before_after'] )
+					return $content . $output;
+				else 
+					return $output . $content;
+				
+			}
+				
+			return $content;
 			
 		}
 		
@@ -598,6 +725,98 @@ if ( !class_exists( 'FT_CAL_Events' ) ) {
 				
 			}
 			
+		}
+		
+		/**
+		 * DISTINCT posts, remove duplicate listings
+		 *
+		 * @since 1.1.7
+		 */
+		function ftcal_posts_distinct( $posts_distinct ) {
+			
+			if ( empty( $posts_distinct ) )
+				$posts_distinct = "DISTINCT";
+			
+			return $posts_distinct;
+			
+		}
+		
+		/**
+		 * Edit post fields to WordPress query
+		 *
+		 * @since 1.1.7
+		 *
+		 */
+		function ftcal_posts_fields( $posts_fields ) {
+			
+			global $wpdb;
+			
+			//$posts_fields = $wpdb->prefix . "ftcalendar_events.start_datetime, " . $posts_fields;
+			//$posts_fields = $wpdb->prefix . "ftcalendar_events.end_datetime, " . $posts_fields;
+			//$posts_fields = $wpdb->prefix . "ftcalendar_events.r_end_datetime, " . $posts_fields;
+		
+			return $posts_fields;
+			
+		}
+		
+		/**
+		 * Join FT Calendar table to WordPress query
+		 *
+		 * @since 1.1.7
+		 */
+		function ftcal_posts_join( $posts_join ) {
+			
+			global $wpdb;
+			
+			$posts_join .= "LEFT JOIN " . $wpdb->prefix . "ftcalendar_events ON " . $wpdb->prefix . "ftcalendar_events.post_parent = " . $wpdb->posts . ".ID";
+			
+			return $posts_join;
+			
+		}
+		
+		/**
+		 * Craft new orderby
+		 *
+		 * @since 1.1.7
+		 */
+		function ftcal_posts_orderby( $posts_orderby ) {
+			
+			global $ft_cal_options, $wpdb;
+			
+			$ftc_table = $wpdb->prefix . "ftcalendar_events";
+			
+			
+			if ( preg_match( '/ASC|DESC/i', $posts_orderby ) ) {
+			
+				// Get the position of the last space from the current $post_orderby
+				if ( $last_space = strrpos( $posts_orderby, " " ) ) {
+					
+					// Get the last word from the position of the last space
+					$order_type = substr( $posts_orderby, $last_space );
+					$old_order = substr( $posts_orderby, 0, $last_space );
+					
+				}
+				
+			} else {
+					
+				$old_order = $posts_orderby;
+				$order_type = "DESC";
+				
+			}
+				
+			if ( $ft_cal_options->calendar_options['include_recurring_end'] ) {
+				
+				$new_order[] = $ftc_table . ".r_end_datetime";
+				
+			}
+		
+			$new_order[] = $ftc_table . ".end_datetime";
+			$new_order[] = $ftc_table . ".start_datetime";
+			$new_order[] = $old_order;
+			
+			$posts_orderby = "COALESCE( " . join( ',', $new_order ) . " ) " . $order_type;
+				
+			return $posts_orderby;
 		}
 		
 	}

@@ -12,14 +12,17 @@ jQuery(document).ready(function($) {
 		event.preventDefault();
 		
 		var data = {
-			action: 	'thumb_month_change',
-			date:		$( this ).attr( 'ref' ),
-			calendars: 	$( 'input#thumbcalendar-calendars' ).val(),
-			tableclass: $( 'input#thumbcalendar-class' ).val(),
-			width: 		$( 'input#thumbcalendar-width' ).val(),
-			height: 	$( 'input#thumbcalendar-height' ).val(),
-			dateformat: $( 'input#thumbcalendar-dateformat' ).val(),
-			timeformat: $( 'input#thumbcalendar-timeformat' ).val()
+			action: 		'thumb_month_change',
+			date:			$( this ).attr( 'ref' ),
+			calendars: 		$( 'input#thumbcalendar-calendars' ).val(),
+			tableclass: 	$( 'input#thumbcalendar-class' ).val(),
+			width: 			$( 'input#thumbcalendar-width' ).val(),
+			height: 		$( 'input#thumbcalendar-height' ).val(),
+			dateformat: 	$( 'input#thumbcalendar-dateformat' ).val(),
+			timeformat: 	$( 'input#thumbcalendar-timeformat' ).val(),
+			show_rss_feed: 	$( 'input#thumbcalendar-show_rss_feed' ).val(),
+			show_ical_feed: $( 'input#thumbcalendar-show_ical_feed' ).val(),
+			hide_duplicates: $( 'input#thumbcalendar-hide_duplicates' ).val()
 		};
 			
 		jQuery.post(FTCajax.ajaxurl, data, function(response) {
@@ -42,11 +45,26 @@ jQuery(document).ready(function($) {
 			legend: 		$( 'input#largecalendar-legend' ).val(),
 			types: 			$( 'input#largecalendar-types' ).val(),
 			dateformat: 	$( 'input#largecalendar-dateformat' ).val(),
-			timeformat: 	$( 'input#largecalendar-timeformat' ).val()
+			timeformat: 	$( 'input#largecalendar-timeformat' ).val(),
+			show_rss_feed: 	$( 'input#largecalendar-show_rss_feed' ).val(),
+			show_ical_feed: $( 'input#largecalendar-show_ical_feed' ).val(),
+			hide_duplicates: $( 'input#largecalendar-hide_duplicates' ).val()
 		};
 			
 		jQuery.post(FTCajax.ajaxurl, data, function(response) {
 			$( 'div.ftlargecalendar' ).replaceWith( response );
 		});
 	});
+	
+	$( 'a.ftcal-rss-icon[title]:gt(1)').tooltip({
+		tip: '.tooltip',
+		position: "bottom right",
+		offset: [-50, -80]
+	});
+	
+	$( 'a.ftcal-ical-icon[title]:gt(1)').tooltip({
+		tip: '.tooltip',
+		position: "bottom right",
+		offset: [-50, -80]
+	})
 });

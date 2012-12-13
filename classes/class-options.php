@@ -38,7 +38,35 @@ if ( ! class_exists( 'FT_CAL_Options' ) ) {
 		 *
 		 * @since 0.3.2
 		 */
-		var $show_support			= false;
+		var $show_support			= true;
+		
+		/**
+		 * Boolean to enable SMART ordering for queries
+		 *
+		 * @since 1.1.7
+		 */
+		var $smart_ordering			= true;
+		
+		/**
+		 * Boolean to include Recurring End dates in SMART ordering for queries
+		 *
+		 * @since 1.1.7
+		 */
+		var $include_recurring_end	= false;
+		
+		/**
+		 * Boolean to include event Schedule in the Post
+		 *
+		 * @since 1.1.8
+		 */
+		var $show_post_schedule	= false;
+		
+		/**
+		 * String to tell where the schedule should be displayed within the post content
+		 *
+		 * @since 1.1.8
+		 */
+		var $before_after	= 'before';
 		
 		/**
 		 * PHP Constructor
@@ -50,6 +78,13 @@ if ( ! class_exists( 'FT_CAL_Options' ) ) {
 			$this->set_options();
 		
 		}
+		
+		/**
+		 * Boolean to include event Schedule in the Post
+		 *
+		 * @since 1.1.11
+		 */
+		var $use_event_date_as_pubdate	= false;
 						
 		/**
 		 * Set default options
@@ -111,7 +146,12 @@ if ( ! class_exists( 'FT_CAL_Options' ) ) {
 				'attach_events_to_post_types'	=> array( 'post' ),
 				'calendar_label_singular'		=> __( 'Calendar' ),
 				'calendar_label_plural'			=> __( 'Calendars' ),
-				'show_support'					=> false
+				'show_support'					=> true,
+				'smart_ordering'				=> true,
+				'include_recurring_end'			=> false,
+				'show_post_schedule'			=> false,
+				'before_after'					=> 'before',
+				'use_event_date_as_pubdate'		=> false
 			);
 			$calendar_options = apply_filters( 'ft_cal_calendar_default_options', $calendar_options );
 						
@@ -196,11 +236,33 @@ if ( ! class_exists( 'FT_CAL_Options' ) ) {
 		/**
 		 * Performs any necessary updates
 		 *
-		 * @since 1.0.3.2
+		 * @since 1.1.7
 		 */
 		function do_ftcal_update() {
+		
+			$current_version = get_option( 'ft_cal_version' );
+		
+			if ( version_compare( $current_version, '1.1.7', '<' ) ) {
+				$this->upgrade_to_1_1_7();
+			}
 			
 			update_option( 'ft_cal_version', FT_CAL_VERSION );
+				
+		}
+		
+		/**
+		 * Upgrade for anything below 1.1.7
+		 *
+		 * @since 1.1.7
+		 *
+		 * UPDATE all calendar data, so r_end_datetime is NULL of r_end is 0
+		 *
+		 */
+		function upgrade_to_1_1_7() {
+			
+			global $wpdb;
+			
+			$wpdb->query( "UPDATE " . $wpdb->prefix . "ftcalendar_events SET r_end_datetime = NULL WHERE r_end = 0" );
 				
 		}
 	}

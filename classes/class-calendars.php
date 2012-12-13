@@ -326,7 +326,7 @@ if ( !class_exists( 'FT_Cal_Calendars' ) ) {
 					
 			$sql = $select . $join . $where . $orderby; 
 						
-			$results = $wpdb->get_results( $wpdb->prepare( $sql ), OBJECT_K );
+			$results = $wpdb->get_results( $sql, OBJECT_K );
 			
 			return $results;
 		

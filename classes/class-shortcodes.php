@@ -19,7 +19,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 		 * @since 0.3
 		 */
 		function ft_cal_shortcodes() {
-			
+						
 			add_action( 'wp_enqueue_scripts', array( $this, 'ftcalendar_shortcode_wp_enqueue_scripts' ) );
 				
 			add_action( 'wp_ajax_nopriv_large_calendar_change', array( &$this, 'do_ftcal_large_calendar_change' ) );
@@ -30,12 +30,14 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			add_shortcode( 'ftcalendar_list', array( &$this, 'do_ftcal_event_list' ) );
 			add_shortcode( 'ftcalendar', array( &$this, 'do_ftcal_large_calendar' ) );
 			add_shortcode( 'ftcalendar_thumb', array( &$this, 'do_ftcal_thumb_calendar' ) );
+			add_shortcode( 'ftcalendar_post_schedule', array( &$this, 'do_ftcal_post_schedule' ) );
 		
 		}
 		
 		function ftcalendar_shortcode_wp_enqueue_scripts() {
 		
 			wp_enqueue_style( 'ft-cal-single-post-page-shorts', FT_CAL_URL . '/includes/css/single-post-page-shorts.css' );
+			wp_enqueue_script( 'jquery-tooltip', FT_CAL_URL . '/includes/js/jquery.tools.min.js', array( 'jquery' ) );
 			wp_enqueue_script( 'ft-cal-single-post-page-shorts-js', FT_CAL_URL . '/includes/js/single-post-page-shorts.js', array( 'jquery' ) );
 			wp_localize_script( 'ft-cal-single-post-page-shorts-js', 'FTCajax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 			
@@ -50,22 +52,27 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 		 */
 		function do_ftcal_event_list( $atts ) {
 			
-			global $ft_cal_events, $ft_cal_calendars, $ft_cal_options, $wp_rewrite;
+			global $ft_cal_events, $ft_cal_calendars, $ft_cal_options, $wp_rewrite, $post;
 			$timeformat = get_option( 'time_format' );
-			$permalink 	= get_permalink();
 			$list = "";
 				
 			$defaults = array( 
-				'type'				=> 'list',
-				'span'				=> '+1 Month',
-				'calendars'			=> 'all',
-				'limit'				=> 0,
-				'dateformat'		=> 'jS',
-				'timeformat'		=> $timeformat,
-				'monthformat'		=> 'F Y',
-				'event_template'	=> '<a href="%URL%">%TITLE% (%TIME%)</a>',
-				'date_template'		=> '%DATE%',
-				'month_template'	=> '%MONTH%'
+				'type'					=> 'list',
+				'date'					=> '',
+				'span'					=> '+1 Month',
+				'calendars'				=> 'all',
+				'class'					=> '',
+				'limit'					=> 0,
+				'dateformat'			=> 'jS',
+				'timeformat'			=> $timeformat,
+				'monthformat'			=> 'F Y',
+				'event_template'		=> '<a href="%URL%">%TITLE% (%TIME%)</a>',
+				'date_template'			=> '%DATE%',
+				'month_template'		=> '%MONTH%',
+				'show_rss_feed'			=> 'on',
+				'show_ical_feed'		=> 'on',
+				'show_post_schedule'	=> 'off',
+				'hide_duplicates'		=> 'off'
 			);
 			
 			// Merge defaults with passed atts
@@ -79,19 +86,96 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 				
 			}
 			
-			$start_date	= date_i18n( 'Y-m-d H:i:s' );
-			$end_date 	= date_i18n( 'Y-m-d', strtotime( $span ) );
+			if ( apply_filters( 'ftc_start_at_midnight', false ) ) {
 				
-			$cal_data_arr = $ft_cal_calendars->get_ftcal_data_ids( $start_date, $end_date, $calendars, false );
-			$cal_entries = $this->parse_calendar_data( $start_date, $end_date, $cal_data_arr, false );
+				$start_time = "00:00:00";
+				
+			} else {
+				
+				$start_time = "H:i:s";
+				
+			}
+			
+			if ( apply_filters( 'ftc_end_at_midnight', false ) ) {
+				
+				$end_time = "23:59:59";
+				
+			} else {
+				
+				$end_time = "H:i:s";
+				
+			}
+			
+			if ( isset( $_GET['date'] ) )
+				$date = $_GET['date'];
+			
+			if ( empty( $date ) ) 
+				$start_date	= date_i18n( 'Y-m-d ' . $start_time );
+			else
+				$start_date = date_i18n( 'Y-m-d ' . $start_time, strtotime( $date ) );
+				
+			
+			if ( empty( $date ) ) 
+				$end_date = date_i18n( 'Y-m-d ' . $end_time, strtotime( $span ) );
+			else
+				$end_date = date_i18n( 'Y-m-d ' . $end_time, strtotime( $span, strtotime( $date ) ) );
+				
+			$cal_data_arr = $ft_cal_calendars->get_ftcal_data_ids( $start_date, $end_date, $calendars );
+			$cal_entries = $this->parse_calendar_data( $start_date, $end_date, $cal_data_arr, false, false );
 				
 			if ( ! empty( $cal_entries ) ) {
 				
+				$original_post = $post;
+				
 				$break = false;
 				$count = 1;
-				//$list .= "<ul>";
+				
 				$list .= "<div id='ftcalendar-list-div' class='ftcalendar ftlistcalendar " . $class . " " . $type . "'>";
 		
+				if ( 'on' == $show_rss_feed || 'on' == $show_ical_feed ) {
+					
+					$list .= "<div id='ftcalendar-feeds' style='width: auto; float: right;'>";
+					
+					if ( 'all' === $calendars )
+						$feed_title = __( 'All Calendars', 'ftcalendar' );
+					else
+						$feed_title = $calendars;
+					
+					$site_url = get_bloginfo( 'url' );
+				
+					if ( 'on' == $show_rss_feed ) {
+							
+						if ( $wp_rewrite->using_permalinks() ) {
+							
+							$list .=  '<a class="ftcal-rss-icon" href="' . $site_url . '/calendars/' . $calendars . '/feed/?type=upcoming&span=' . rawurlencode( $span ) . '&limit=' . $limit . '" title="' . __( 'Upcoming Feed for', 'ftcalendar' ) . ' ' . $feed_title . '"></a> ';
+						
+						} else {
+							
+							$list .=  '<a class="ftcal-rss-icon" href="' . $site_url . '/?ftcalendar=' . $calendars . '&feed=' . get_default_feed() . '&type=upcoming&span=' . rawurlencode( $span ) . '&limit=' . $limit . '" title="' . __( 'Upcoming Feed for', 'ftcalendar' ) . ' ' . $feed_title . '"></a> ';
+							
+						}
+								
+					}
+					
+					if ( 'on' == $show_ical_feed ) {
+							
+						if ( $wp_rewrite->using_permalinks() ) {
+							
+							$list .=  '<a class="ftcal-ical-icon" href="' . $site_url . '/calendars/' . $calendars . '/feed/ical/" title="' . __( 'iCal Feed for', 'ftcalendar' ) . ' ' . $feed_title . '"></a> ';
+						
+						} else {
+							
+							$list .=  '<a class="ftcal-ical-icon" href="' . $site_url . '/?ftcalendar=' . $calendars . '&feed=ical" title="' . __('iCal Feed for', 'ftcalendar' ) . ' ' . $feed_title . '"></a> ';
+							
+						}
+								
+					}
+								
+					$list .= "</div>";
+				
+				}
+				
+				//$list .= "<ul>";
 				$last_month = 0;
 				foreach ( (array)$cal_entries as $date => $times ) {
 					
@@ -134,11 +218,11 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 							
 							$data = array();
 							
-							$post = &get_post( $cal_data_arr[$event_id]->post_parent );
+							$post = get_post( $cal_data_arr[$event_id]->post_parent );
 							setup_postdata( $post );
 								
 							if ( $cal_data_arr[$event_id]->all_day )
-								$data['TIME'] 	= __( 'all day', 'ftcalendar' );
+								$data['TIME'] 	= __( 'All day', 'ftcalendar' );
 							else
 								$data['TIME'] 	= date_i18n( $timeformat, strtotime( $time ) );
 							
@@ -148,27 +232,91 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 							$data['URL'] 			= get_permalink( $post->ID );
 							$data['TITLE'] 			= get_the_title( $post->ID );
 							$calendar_term			= get_term_by( 'id', (int)$cal_data_arr[$event_id]->calendar_id, 'ftcalendar' );
+
+							if ( !empty( $calendar_term ) ) {
+								
+								$data['CALNAME']		= $calendar_term->name;
+								$data['CALSLUG']		= $calendar_term->slug;
+								
+							}
 							
-							$data['CALNAME']		= $calendar_term->name;
-							$data['CALSLUG']		= $calendar_term->slug;
+							if ( !( $picture = apply_filters( 'feature_image', get_post_meta( $post->ID, 'feature_image', true ), $post->ID ) ) ) {
+								if ( function_exists('has_post_thumbnail') && has_post_thumbnail( $post->ID ) ) {
+									
+									$feature_image = get_post_thumbnail_id( $post->ID );
+									list( $picture, $width, $height ) = wp_get_attachment_image_src( $feature_image );
+									
+								} 
+								
+							}	
+							
+							if ( !empty( $picture ) )
+								$data['FEATUREIMAGE']	= '<img src="' . $picture . '" class="ft_cal_feature_image" />';							
+							else
+								$data['FEATUREIMAGE'] = '';
+								
+							if ( 'on' == $show_post_schedule ) {
+								
+								add_filter( 'the_content', array( &$ft_cal_events, 'get_post_schedule' ) );
+								add_filter( 'the_excerpt', array( &$ft_cal_events, 'get_post_schedule' ) );
+								
+								$data['CONTENT']		= apply_filters( 'the_content', strip_shortcodes( $post->post_content ) );
+								$data['EXCERPT']		= apply_filters( 'get_the_excerpt', strip_shortcodes( $post->post_excerpt ) );
+								
+								if ( !$ft_cal_options->calendar_options['show_post_schedule'] ) {
+									
+									remove_filter( 'the_content', array( &$ft_cal_events, 'get_post_schedule' ) );
+									remove_filter( 'the_excerpt', array( &$ft_cal_events, 'get_post_schedule' ) );
+									
+								}
+								
+							} else {
+								
+								remove_filter( 'the_content', array( &$ft_cal_events, 'get_post_schedule' ) );
+								remove_filter( 'the_excerpt', array( &$ft_cal_events, 'get_post_schedule' ) );
+								
+								$data['CONTENT']		= apply_filters( 'the_content', strip_shortcodes( $post->post_content ) );
+								$data['EXCERPT']		= apply_filters( 'get_the_excerpt', strip_shortcodes( $post->post_excerpt ) );
+								
+								if ( $ft_cal_options->calendar_options['show_post_schedule'] ) {
+									
+									add_filter( 'the_content', array( &$ft_cal_events, 'get_post_schedule' ) );
+									add_filter( 'the_excerpt', array( &$ft_cal_events, 'get_post_schedule' ) );
+									
+								}
+								
+							}
 							
 							// get author details
 							$author = get_userdata( $post->post_author );
 							
 							$data['AUTHOR'] 	= $author->display_name;
 							
-							$data = apply_filters( 'ftc_custom_replacement_tags', $data, $post );
+							$data = apply_filters( 'ftc_custom_replacement_tags', $data, $post, $cal_data_arr[$event_id] );
 			
-							$list .= "<li>" . $this->ftc_str_replace( $event_template, $data ) . "</li>";
+							$event_li = "<li>" . $this->ftc_str_replace( $event_template, $data ) . "</li>";
+							
+							if ( 'on' == $hide_duplicates && empty( $date_template ) && $last_month == $cur_month
+									&& preg_match( '/' . preg_quote( $event_li, '/' ) . '/', $list ) ) {
+							
+								$list .= '';
+								
+							} else {
+							
+								$list .= $event_li;
+								
+							}
 							
 							clean_post_cache( $post->ID );
-
+							
 							if ( 0 != $limit && ++$count > $limit ) {
 								
 								$break = true;
 								break;
 								
 							}
+							
+							clean_post_cache( $post->ID );
 							
 						}
 						
@@ -177,6 +325,8 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 						if ( $break ) break;
 						
 					}
+					
+					$post = $original_post;
 					
 					$last_month = $cur_month;
 					
@@ -210,17 +360,20 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			if ( isset( $_POST ) ) {
 					
 				$atts = array( 
-					'date'			=> $_POST['date'],
-					'type'			=> $_POST['type'],
-					'heading_label'	=> $_POST['heading_label'],
-					'calendars'		=> $_POST['calendars'],
-					'class'			=> $_POST['tableclass'],
-					'width'			=> $_POST['width'],
-					'height'		=> $_POST['height'],
-					'legend'		=> $_POST['legend'],
-					'types'			=> $_POST['types'],
-					'dateformat'	=> $_POST['dateformat'],
-					'timeformat'	=> $_POST['timeformat']
+					'date'				=> $_POST['date'],
+					'type'				=> $_POST['type'],
+					'heading_label'		=> $_POST['heading_label'],
+					'calendars'			=> $_POST['calendars'],
+					'class'				=> $_POST['tableclass'],
+					'width'				=> $_POST['width'],
+					'height'			=> $_POST['height'],
+					'legend'			=> $_POST['legend'],
+					'types'				=> $_POST['types'],
+					'dateformat'		=> $_POST['dateformat'],
+					'timeformat'		=> $_POST['timeformat'],
+					'show_rss_feed'		=> $_POST['show_rss_feed'],
+					'show_ical_feed'	=> $_POST['show_rss_feed'],
+					'hide_duplicates'	=> $_POST['hide_duplicates']
 				);
 				
 				$table = $this->do_ftcal_large_calendar( $atts );
@@ -248,17 +401,20 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			$timeformat = get_option('time_format');
 			
 			$defaults = array( 
-				'type'			=> 'month',
-				'date'			=> null,
-				'heading_label'	=> 'partial',
-				'calendars'		=> 'all',
-				'class'			=> '',
-				'width'			=> '',
-				'height'		=> '',
-				'legend'		=> 'on',
-				'types'			=> 'on',
-				'dateformat'	=> $dateformat,
-				'timeformat'	=> $timeformat
+				'type'				=> 'month',
+				'date'				=> null,
+				'heading_label'		=> 'partial',
+				'calendars'			=> 'all',
+				'class'				=> '',
+				'width'				=> '',
+				'height'			=> '',
+				'legend'			=> 'on',
+				'types'				=> 'on',
+				'dateformat'		=> $dateformat,
+				'timeformat'		=> $timeformat,
+				'show_rss_feed'		=> 'on',
+				'show_ical_feed'	=> 'on',
+				'hide_duplicates'	=> 'off'
 			);
 		
 			if ( isset( $_GET['cal'] ) )
@@ -267,6 +423,13 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			// Merge defaults with passed atts
 			// Extract (make each array element its own PHP var
 			$args = shortcode_atts( $defaults, $atts );
+			
+			// Set the CLASS to the current calendar name being set.
+			if ( '%CALNAME%' == $args['class'] ) {
+				
+				$args['class'] = str_replace( ',', ' ', $args['calendars'] );
+				
+			}
 			
 			if ( 'on' == $args['types'] ) {
 				
@@ -360,6 +523,52 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			$table  .= "<input type='hidden' id='largecalendar-types' value='" . $types . "' />";
 			$table  .= "<input type='hidden' id='largecalendar-dateformat' value='" . $dateformat . "' />";
 			$table  .= "<input type='hidden' id='largecalendar-timeformat' value='" . $timeformat . "' />";
+			$table  .= "<input type='hidden' id='largecalendar-show_rss_feed' value='" . $show_rss_feed . "' />";
+			$table  .= "<input type='hidden' id='largecalendar-show_ical_feed' value='" . $show_ical_feed . "' />";
+			$table  .= "<input type='hidden' id='largecalendar-hide_duplicates' value='" . $hide_duplicates . "' />";
+			
+			if ( 'on' == $show_rss_feed || 'on' == $show_ical_feed ) {
+				
+				$table .= "<div id='ftcalendar-feeds'>";
+					
+				if ( 'all' === $calendars )
+					$feed_title = __( 'All Calendars', 'ftcalendar' );
+				else
+					$feed_title = $calendars;
+				
+				$site_url = get_bloginfo( 'url' );
+				
+				if ( 'on' == $show_rss_feed ) {
+							
+					if ( $wp_rewrite->using_permalinks() ) {
+						
+						$table .=  '<a class="ftcal-rss-icon" href="' . $site_url . '/calendars/' . $calendars . '/feed/?type=daily" title="' . __( 'Daily Feed for', 'ftcalendar') . ' ' . $feed_title . '"></a> ';
+					
+					} else {
+						
+						$table .=  '<a class="ftcal-rss-icon" href="' . $site_url . '/?ftcalendar=' . $calendars . '&feed=' . get_default_feed() . '&type=daily" title="' . __( 'Daily Feed for', 'ftcalendar' ) . ' ' . $feed_title . '"></a> ';
+						
+					}
+				
+				}
+			
+				if ( 'on' == $show_ical_feed ) {
+						
+					if ( $wp_rewrite->using_permalinks() ) {
+						
+						$table .=  '<a class="ftcal-ical-icon" href="' . $site_url . '/calendars/' . $calendars . '/feed/ical/" title="' . __( 'iCal Feed for', 'ftcalendar' ) . ' ' . $feed_title . '"></a> ';
+					
+					} else {
+						
+						$table .=  '<a class="ftcal-ical-icon" href="' . $site_url . '/?ftcalendar=' . $calendars . '&feed=ical" title="' . __( 'iCal Feed for', 'ftcalendar' ) . ' ' . $feed_title . '"></a> ';
+						
+					}
+							
+				}
+							
+				$table .= "</div>";
+			
+			}
 			
 			$table  .= "<div id='ftcalendar-nav'>";
 			$table  .= "<span id='ftcalendar-prev'><a class='large-prev' ref='" . $prev_date . "' href='" . $permalink . $sep . "type=day&date=" . $prev_date . "'>" . apply_filters( 'ftcalendar-prev-arrow', '&lArr;' ) . "</a></span>";
@@ -398,19 +607,28 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 				
 				foreach ( (array)$cal_entries[$start_date] as $time => $events ) {
 					
+					$duplicate_event_array = array(); //reinitialize for ever day
+					
 					foreach ( (array)$events as $event_id ) {
 						
 						if ( $cal_data_arr[$event_id]->all_day )
-							$label = __( 'All Day', 'ftcalendar' );
+							$label = __( 'All day', 'ftcalendar' );
 						else
 							$label = date_i18n( $timeformat, strtotime( $cal_data_arr[$event_id]->start_datetime ) ) . ' - '  . date_i18n( $timeformat, strtotime( $cal_data_arr[$event_id]->end_datetime ) );
+							
+						$event_title = get_the_title( $cal_data_arr[$event_id]->post_parent );
+							
+						if ( 'on' == $hide_duplicates && in_array( $label . $event_title, $duplicate_event_array ) )
+							continue;
 						
 						$table .= "<tr>";
 						$table .= '<td class="ftcalendar-times">' . $label . '</td>';
 						
 						$style = 'color: #' . $ftcal_meta['ftcal-bg-color-' . $cal_data_arr[$event_id]->calendar_id] . ';';
-						$table .= "<td class='ftcalendar-event'><a style='" . $style . "' href='" . get_permalink( $cal_data_arr[$event_id]->post_parent ) . "'>" . get_the_title( $cal_data_arr[$event_id]->post_parent ) . "</a></td>";
+						$table .= "<td class='ftcalendar-event'><a style='" . $style . "' href='" . get_permalink( $cal_data_arr[$event_id]->post_parent ) . "'>" . $event_title . "</a></td>";
 						$table .= "</tr>";
+						
+						$duplicate_event_array[] = $label . $event_title;
 					
 					}
 				}
@@ -471,7 +689,9 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			$working_month 	= date_i18n( 'm', $str_date );
 			$cur_year		= date_i18n( 'Y' );
 			
-			$str_start_date = strtotime( "-" . $wday . " Day", $str_date );
+			$start_of_week	= get_option('start_of_week');
+			$sow_diff = $wday >= $start_of_week ? $wday - $start_of_week : abs( 7 - $start_of_week + $wday );
+			$str_start_date = strtotime( "-" . $sow_diff . " Day", $str_date );
 			$start_date		= date_i18n( 'Y-m-d', $str_start_date );
 			$first_day		= date_i18n( 'j', $str_start_date );
 			
@@ -505,6 +725,52 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			$table .= "<input type='hidden' id='largecalendar-types' value='" . $types . "' />";
 			$table .= "<input type='hidden' id='largecalendar-dateformat' value='" . $dateformat . "' />";
 			$table .= "<input type='hidden' id='largecalendar-timeformat' value='" . $timeformat . "' />";
+			$table  .= "<input type='hidden' id='largecalendar-show_rss_feed' value='" . $show_rss_feed . "' />";
+			$table  .= "<input type='hidden' id='largecalendar-show_ical_feed' value='" . $show_ical_feed . "' />";
+			$table  .= "<input type='hidden' id='largecalendar-hide_duplicates' value='" . $hide_duplicates . "' />";
+			
+			if ( 'on' == $show_rss_feed || 'on' == $show_ical_feed ) {
+				
+				$table .= "<div id='ftcalendar-feeds'>";
+					
+				if ( 'all' === $calendars )
+					$feed_title = __( 'All Calendars', 'ftcalendar' );
+				else
+					$feed_title = $calendars;
+				
+				$site_url = get_bloginfo( 'url' );
+				
+				if ( 'on' == $show_rss_feed ) {
+						
+					if ( $wp_rewrite->using_permalinks() ) {
+						
+						$table .=  '<a class="ftcal-rss-icon" href="' . $site_url . '/calendars/' . $calendars . '/feed/?type=weekly" title="' . __( 'Weekly Feed for', 'ftcalendar' ) . ' ' . $feed_title . '"></a> ';
+					
+					} else {
+						
+						$table .=  '<a class="ftcal-rss-icon" href="' . $site_url . '/?ftcalendar=' . $calendars . '&feed=' . get_default_feed() . '&type=weekly" title="' . __( 'Weekly Feed for', 'ftcalendar' ) . ' ' . $feed_title . '"></a> ';
+						
+					}
+					
+				}
+			
+				if ( 'on' == $show_ical_feed ) {
+						
+					if ( $wp_rewrite->using_permalinks() ) {
+						
+						$table .=  '<a class="ftcal-ical-icon" href="' . $site_url . '/calendars/' . $calendars . '/feed/ical/" title="' . __( 'iCal Feed for', 'ftcalendar') . ' ' . $feed_title . '"></a> ';
+					
+					} else {
+						
+						$table .=  '<a class="ftcal-ical-icon" href="' . $site_url . '/?ftcalendar=' . $calendars . '&feed=ical" title="' . __( 'iCal Feed for', 'ftcalendar' ) . ' ' . $feed_title . '"></a> ';
+						
+					}
+							
+				}
+							
+				$table .= "</div>";
+			
+			}
 			
 			$table .= "<div id='ftcalendar-nav'>";
 			$table .= "<span id='ftcalendar-prev'><a class='large-prev' ref='" . $prev_week . "' href='" . $permalink . $sep . "type=week&date=" . $prev_week . "'>" . apply_filters( 'ftcalendar-prev-arrow', '&lArr;' ) . "</a></span>";
@@ -582,7 +848,14 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 					
 					foreach ( (array)$cal_entries[$fordate] as $time => $event_ids ) {
 						
+						$duplicate_event_array = array(); //reinitialize for ever day						
+						
 						foreach ( (array)$event_ids as $event_id ) {
+							
+							$event_title = get_the_title( $cal_data_arr[$event_id]->post_parent );
+								
+							if ( 'on' == $hide_duplicates && in_array( $cal_data_arr[$event_id]->start_datetime . $event_title, $duplicate_event_array ) )
+								continue;
 							
 							if ( $cal_data_arr[$event_id]->all_day ) {
 								
@@ -595,6 +868,8 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 								$table .= "<div class='ftcalendar-event'><div><a style='" . $style . "' href='" . get_permalink( $cal_data_arr[$event_id]->post_parent ) . "'><span class='ftcalendar-event-time'>" . date_i18n( $timeformat, strtotime( $cal_data_arr[$event_id]->start_datetime ) ) . "</span> " . get_the_title( $cal_data_arr[$event_id]->post_parent ) . "</a></div></div>";
 							
 							}
+								
+							$duplicate_event_array[] = $cal_data_arr[$event_id]->start_datetime . $event_title;
 						
 						}
 					
@@ -663,14 +938,23 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			$working_month 	= date_i18n( 'm', $str_date );
 			$cur_year 		= date_i18n( 'Y' );
 			
-			$str_start_date = strtotime( "-" . $wday . " Day", $str_date );
+			$start_of_week	= get_option('start_of_week');
+			$sow_diff = $wday >= $start_of_week ? $wday - $start_of_week : abs( 7 - $start_of_week + $wday );
+			$str_start_date = strtotime( "-" . $sow_diff . " Day", $str_date );
 			$start_date		= date_i18n( 'Y-m-d', $str_start_date );
 			$first_day 		= getdate( $str_start_date );
 			$cur_dow 		= $first_day['wday'];
 			
 			$str_last_day	= strtotime( "+1 Month", $str_date ) - 1;
 			$last_wday		= date_i18n( 'w', $str_last_day );
-			$diff			= 6 - $last_wday; //wday is 0 based
+			
+			if ( $last_wday + 1 == $start_of_week ) {
+				$diff = 0;
+			} else if ( $last_wday > $start_of_week ) {
+				$diff = abs( 6 - ( $last_wday - $start_of_week ) );
+			} else {
+				$diff = abs( ( $start_of_week + $last_wday ) - 6 );
+			}
 			
 			$str_end_date 	= strtotime( "+" . $diff . " Days", $str_last_day ) - 1;
 			$end_date		= date_i18n( 'Y-m-d', $str_end_date );
@@ -706,7 +990,52 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			$table .= "<input type='hidden' id='largecalendar-types' value='" . $types . "' />";
 			$table .= "<input type='hidden' id='largecalendar-dateformat' value='" . $dateformat . "' />";
 			$table .= "<input type='hidden' id='largecalendar-timeformat' value='" . $timeformat . "' />";
+			$table  .= "<input type='hidden' id='largecalendar-show_rss_feed' value='" . $show_rss_feed . "' />";
+			$table  .= "<input type='hidden' id='largecalendar-show_ical_feed' value='" . $show_ical_feed . "' />";
+			$table  .= "<input type='hidden' id='largecalendar-hide_duplicates' value='" . $hide_duplicates . "' />";
 			
+			if ( 'on' == $show_rss_feed || 'on' == $show_ical_feed ) {
+				
+				$table .= "<div id='ftcalendar-feeds'>";
+				
+				if ( 'all' === $calendars )
+					$feed_title = __( 'All Calendars', 'ftcalendar' );
+				else
+					$feed_title = $calendars;
+				
+				$site_url = get_bloginfo( 'url' );
+				
+				if ( 'on' == $show_rss_feed ) {
+						
+					if ( $wp_rewrite->using_permalinks() ) {
+						
+						$table .=  '<a class="ftcal-rss-icon" href="' . $site_url . '/calendars/' . $calendars . '/feed/?type=monthly" title="' . __('Monthly Feed for', 'ftcalendar' ) . ' ' . $feed_title . '"></a> ';
+					
+					} else {
+						
+						$table .=  '<a class="ftcal-rss-icon" href="' . $site_url . '/?ftcalendar=' . $calendars . '&feed=' . get_default_feed() . '&type=monthly" title="' . __( 'Monthly Feed for', 'ftcalendar' ) . ' ' . $feed_title . '"></a> ';
+						
+					}
+							
+				}
+			
+				if ( 'on' == $show_ical_feed ) {
+						
+					if ( $wp_rewrite->using_permalinks() ) {
+						
+						$table .=  '<a class="ftcal-ical-icon" href="' . $site_url . '/calendars/' . $calendars . '/feed/ical/" title="' . __( 'iCal Feed for', 'ftcalendar' ) . ' ' . $feed_title . '"></a> ';
+					
+					} else {
+						
+						$table .=  '<a class="ftcal-ical-icon" href="' . $site_url . '/?ftcalendar=' . $calendars . '&feed=ical" title="' . __( 'iCal Feed for', 'ftcalendar' ) . ' ' . $feed_title . '"></a> ';
+						
+					}
+							
+				}
+							
+				$table .= "</div>";
+			
+			}
 			
 			$table .= "<div id='ftcalendar-nav'>";
 			$table .= "<span id='ftcalendar-prev'><a class='large-prev' ref='" . $prev_month . "' href='" . $permalink . $sep . "type=month&date=" . $prev_month . "'>" . apply_filters( 'ftcalendar-prev-arrow', '&lArr;' ) . "</a></span>";
@@ -728,7 +1057,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			$table .= "<table id='ftcalendar-table' class='ftcalendar " . $class . "' style='" . $style . "'>";
 			
 			// Set table headings
-			$headings = $this->get_headings( $heading_label );
+			$headings = $this->get_headings( $heading_label, $start_of_week );
 			if ( !empty( $headings ) ) {
 			
 				$table .= "<tr>";
@@ -752,7 +1081,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 				$year = date_i18n( 'Y', $str_time );
 				$fordate = date_i18n( 'Y-m-d', $str_time );
 				
-				if ( $cur_dow % 7 == 0 ) {
+				if ( $cur_dow % 7 == $start_of_week ) {
 					$table .= "<tr style='height=" . $row_height . "%;'>";
 				}
 				
@@ -790,7 +1119,14 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 					
 					foreach ( (array)$cal_entries[$fordate] as $time => $event_ids ) {
 						
+						$duplicate_event_array = array(); //reinitialize for ever day	
+						
 						foreach ( (array)$event_ids as $event_id ) {
+							
+							$event_title = get_the_title( $cal_data_arr[$event_id]->post_parent );
+								
+							if ( 'on' == $hide_duplicates && in_array( $cal_data_arr[$event_id]->start_datetime . $event_title, $duplicate_event_array ) )
+								continue;
 							
 							if ( $cal_data_arr[$event_id]->all_day ) {
 								
@@ -803,6 +1139,8 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 								$table .= "<div class='ftcalendar-event'><div><a style='" . $style . "' href='" . get_permalink( $cal_data_arr[$event_id]->post_parent ) . "'><span class='ftcalendar-event-time'>" . date_i18n( $timeformat, strtotime( $cal_data_arr[$event_id]->start_datetime ) ) . "</span> " . get_the_title( $cal_data_arr[$event_id]->post_parent ) . "</a></div></div>";
 								
 							}
+								
+							$duplicate_event_array[] = $cal_data_arr[$event_id]->start_datetime . $event_title;
 							
 						}
 						
@@ -815,7 +1153,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 				$table .= "</td>";
 			
 				$cur_dow++;
-				if ( $cur_dow % 7 == 0 ) {
+				if ( $cur_dow % 7 == $start_of_week ) {
 					
 					$table .= "</tr>";
 					
@@ -848,13 +1186,16 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			if ( isset( $_POST ) ){
 				
 				$atts = array( 
-					'date'			=> $_POST['date'],
-					'calendars'		=> $_POST['calendars'],
-					'class'			=> $_POST['tableclass'],
-					'width'			=> $_POST['width'],
-					'height'		=> $_POST['height'],
-					'dateformat'	=> $_POST['dateformat'],
-					'timeformat'	=> $_POST['timeformat']
+					'date'				=> $_POST['date'],
+					'calendars'			=> $_POST['calendars'],
+					'class'				=> $_POST['tableclass'],
+					'width'				=> $_POST['width'],
+					'height'			=> $_POST['height'],
+					'dateformat'		=> $_POST['dateformat'],
+					'timeformat'		=> $_POST['timeformat'],
+					'show_rss_feed'		=> $_POST['show_rss_feed'],
+					'show_ical_feed'	=> $_POST['show_rss_feed'],
+					'hide_duplicates'	=> $_POST['hide_duplicates']
 				);
 					
 				$table = $this->do_ftcal_thumb_calendar( $atts );
@@ -884,14 +1225,17 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			$timeformat 	= get_option( 'time_format' );
 			
 			$defaults = array( 
-				'type'			=> 'thumb',
-				'date'			=> null,
-				'calendars'		=> 'all',
-				'class'			=> '',
-				'width'			=> '',
-				'height'		=> '',
-				'dateformat'	=> $dateformat,
-				'timeformat'	=> $timeformat
+				'type'				=> 'thumb',
+				'date'				=> null,
+				'calendars'			=> 'all',
+				'class'				=> '',
+				'width'				=> '',
+				'height'			=> '',
+				'dateformat'		=> $dateformat,
+				'timeformat'		=> $timeformat,
+				'show_rss_feed'		=> 'on',
+				'show_ical_feed'	=> 'on',
+				'hide_duplicates'	=> 'off'
 			);
 		
 			// Merge defaults with passed atts
@@ -913,14 +1257,23 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			$working_month 	= date_i18n( 'm', $str_date );
 			$cur_year 		= date_i18n( 'Y' );
 			
-			$str_start_date = strtotime( "-" . $wday . " Day", $str_date );
+			$start_of_week	= get_option('start_of_week');
+			$sow_diff = $wday >= $start_of_week ? $wday - $start_of_week : abs( 7 - $start_of_week + $wday );
+			$str_start_date = strtotime( "-" . $sow_diff . " Day", $str_date );
 			$start_date		= date_i18n( 'Y-m-d', $str_start_date );
 			$first_day 		= getdate( $str_start_date );
 			$cur_dow 		= $first_day['wday'];
 			
 			$str_last_day	= strtotime( "+1 Month", $str_date ) - 1;
 			$last_wday		= date_i18n( 'w', $str_last_day );
-			$diff			= 6 - $last_wday; //wday is 0 based
+			
+			if ( $last_wday + 1 == $start_of_week ) {
+				$diff = 0;
+			} else if ( $last_wday > $start_of_week ) {
+				$diff = abs( 6 - ( $last_wday - $start_of_week ) );
+			} else {
+				$diff = abs( ( $start_of_week + $last_wday ) - 6 );
+			}
 			
 			$str_end_date 	= strtotime( "+" . $diff . " Days", $str_last_day ) - 1;
 			$end_date		= date_i18n( 'Y-m-d', $str_end_date );
@@ -952,6 +1305,52 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			$table .= "<input type='hidden' id='thumbcalendar-height' value='" . $height . "' />";
 			$table .= "<input type='hidden' id='thumbcalendar-dateformat' value='" . $dateformat . "' />";
 			$table .= "<input type='hidden' id='thumbcalendar-timeformat' value='" . $timeformat . "' />";
+			$table  .= "<input type='hidden' id='thumbcalendar-show_rss_feed' value='" . $show_rss_feed . "' />";
+			$table  .= "<input type='hidden' id='thumbcalendar-show_ical_feed' value='" . $show_ical_feed . "' />";
+			$table  .= "<input type='hidden' id='thumbcalendar-hide_duplicates' value='" . $hide_duplicates . "' />";
+			
+			if ( 'on' == $show_rss_feed || 'on' == $show_ical_feed ) {
+				
+				$table .= "<div id='ftcalendar-feeds'>";
+				
+				if ( 'all' === $calendars )
+					$feed_title = __( 'All Calendars', 'ftcalendar' );
+				else
+					$feed_title = $calendars;
+					
+				$site_url = get_bloginfo( 'url' );
+				
+				if ( 'on' == $show_rss_feed ) {
+					
+					if ( $wp_rewrite->using_permalinks() ) {
+						
+						$table .=  '<a class="ftcal-rss-icon" href="' . $site_url . '/calendars/' . $calendars . '/feed/?type=monthly" title="' . __( 'Monthly Feed for', 'ftcalendar' ) . ' ' . $feed_title . '"></a> ';
+					
+					} else {
+						
+						$table .=  '<a class="ftcal-rss-icon" href="' . $site_url . '/?ftcalendar=' . $calendars . '&feed=' . get_default_feed() . '&type=monthly" title="' . __( 'Monthly Feed for', 'ftcalendar' ) . ' ' . $feed_title . '"></a> ';
+						
+					}
+							
+				}
+			
+				if ( 'on' == $show_ical_feed ) {
+						
+					if ( $wp_rewrite->using_permalinks() ) {
+						
+						$table .=  '<a class="ftcal-ical-icon" href="' . $site_url . '/calendars/' . $calendars . '/feed/ical/" title="' . __( 'iCal Feed for', 'ftcalendar' ) . ' ' . $feed_title . '"></a> ';
+					
+					} else {
+						
+						$table .=  '<a class="ftcal-ical-icon" href="' . $site_url . '/?ftcalendar=' . $calendars . '&feed=ical" title="' . __( 'iCal Feed for', 'ftcalendar') . ' ' . $feed_title . '"></a> ';
+						
+					}
+							
+				}
+							
+				$table .= "</div>";
+			
+			}
 			
 			$table .= "<div id='ftcalendar-nav'>";
 			$table .= "<span id='ftcalendar-prev'><a class='thumb-prev' ref='" . $prev_month . "' href='?thumb_date=" . $prev_month . "'>" . apply_filters( 'ftcalendar-thumb-prev-arrow', '&lArr;' ) . "</a></span>";
@@ -963,7 +1362,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			$table .= "<table id='ftcalendar-table' class='ftcalendar " . $class . "' style='" . $style . "'>";
 			
 			// Set table headings
-			$headings = $this->get_headings( 'letter' );
+			$headings = $this->get_headings( 'letter', $start_of_week );
 			if ( !empty( $headings ) ) {
 			
 				$table .= "<tr>";
@@ -986,54 +1385,75 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 				$year = date_i18n( 'Y', $str_time );
 				$fordate = date_i18n( 'Y-m-d', $str_time );
 				
-				if ( $cur_dow % 7 == 0 ) {
+				if ( $cur_dow % 7 == $start_of_week )
 					$table .= "<tr style='height=" . $row_height . "%;'>";
-				}
 				
-				if ( $day == $cur_day && $month == $cur_month && $year == $cur_year ) {
+				if ( $day == $cur_day && $month == $cur_month && $year == $cur_year )
 					$current_day_class = 'current_day';
-				} else {
+				else
 					$current_day_class = '';
-				}
 				
-				if ( $month != $working_month ) {
+				if ( $month != $working_month )
 					$unmonth_class = 'unmonth';
-				} else {
+				else
 					$unmonth_class = '';
-				}
 				
 				$table .= "<td class='ftcalendar-event-date " . $current_day_class . " " . $unmonth_class . "'>";
 				
+				
 				if ( isset( $cal_entries[$fordate] ) ) {
+					
 					$table .= "<span class='thumb-event " . $unmonth_class . "' ref='" . $fordate . "' >$day</span>";
 					$table .= "<div id='" . $fordate . "' class='thumb-event-div'>";
 					$table .= "<div class='thumb-event-header'>" . date_i18n( $dateformat, strtotime( $fordate ) ) . "<span class='thumb-event-close'>x</span></div>";
 					$table .= "<div class='thumb-events'>";
+					
 					foreach ( (array)$cal_entries[$fordate] as $time => $event_ids ) {
+						
+						$duplicate_event_array = array(); //reinitialize for ever day	
+						
 						foreach ( (array)$event_ids as $event_id ) {
+							
+							$event_title = get_the_title( $cal_data_arr[$event_id]->post_parent );
+								
+							if ( 'on' == $hide_duplicates && in_array( $cal_data_arr[$event_id]->start_datetime . $event_title, $duplicate_event_array ) )
+								continue;
+							
 							if ( $cal_data_arr[$event_id]->all_day ) {
+								
 								$style = 'background-color: #' . $ftcal_meta['ftcal-bg-color-' . $cal_data_arr[$event_id]->calendar_id] . '; border-color: #' . $ftcal_meta['ftcal-border-color-' . $cal_data_arr[$event_id]->calendar_id] . ';';
 								$table .= "<div style='" . $style . "' class='ftcalendar-event'><div style='" . $style . "' ><a href='" . get_permalink( $cal_data_arr[$event_id]->post_parent ) . "'>" . get_the_title( $cal_data_arr[$event_id]->post_parent ) . "</a></div></div>";
+								
 							} else {
+								
 								$style = 'color: #' . $ftcal_meta['ftcal-bg-color-' . $cal_data_arr[$event_id]->calendar_id] . ';';
 								$table .= "<div class='ftcalendar-event'><div><a style='" . $style . "' href='" . get_permalink( $cal_data_arr[$event_id]->post_parent ) . "'><span class='ftcalendar-event-time'>" . date_i18n( $timeformat, strtotime( $cal_data_arr[$event_id]->start_datetime ) ) . "</span> " . get_the_title( $cal_data_arr[$event_id]->post_parent ) . "</a></div></div>";
+								
 							}
+								
+							$duplicate_event_array[] = $cal_data_arr[$event_id]->start_datetime . $event_title;
+							
 						}
+						
 					}
+					
 					$table .= "</div>";
 					$table .= "</div>";
 					
 				} else {
+					
 					$table .= $day;
+					
 				}
 				
 				$table .= "</td>";
 			
 				$cur_dow++;
-				if ( $cur_dow % 7 == 0 ) {
+				if ( $cur_dow % 7 == $start_of_week )
 					$table .= "</tr>";
-				}
+				
 			}
+			
 			$table .= "</table>";
 			
 			$table .= "<div class='ftc-clearboth'></div>";
@@ -1121,7 +1541,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 				
 			}
 			
-			$cal_entries = array();
+			$cal_entries = false;
 			
 			if ( $start_at_midnight )
 				$start_date .= " 00:00:00";	// add Midnight in start date
@@ -1336,7 +1756,7 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 		 * @param string $heading_label The type of label we want for days
 		 * @since 0.3
 		 */
-		function get_headings( $heading_label ) {
+		function get_headings( $heading_label, $start_of_week = 0 ) {
 		
 			$headings = array();
 			
@@ -1357,8 +1777,10 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 					break;
 			
 			}
+			
+			$start = array_splice( $headings, $start_of_week );
 					
-			return $headings;
+			return array_merge( $start, $headings );
 		
 		}
 		
@@ -1399,6 +1821,19 @@ if ( ! class_exists( 'FT_CAL_ShortCodes' ) ) {
 			}
 		
 			return false;
+			
+		}
+		
+		/**
+		 * A shortcode to display the post schedule
+		 *
+		 * @since 1.2.7
+		 */
+		function do_ftcal_post_schedule( $atts ) {
+			
+			global $ft_cal_events;
+			
+			return $ft_cal_events->get_post_schedule( '', $atts );
 			
 		}
 	

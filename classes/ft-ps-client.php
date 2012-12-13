@@ -86,7 +86,7 @@ if ( ! class_exists( 'FT_Premium_Support_Client' ) ) {
 			
 			// Check for premium support, sso, and paypal button transients
 			$status_key = md5( 'ft_premium_support_' . $this->product_id . '_' . sanitize_title_with_dashes( $this->site_url )  . '_' . sanitize_title_with_dashes( $this->server_url ) ) ;
-			$sso_key = md5( 'ft_premium_sso_' . $current_user->id . '_' . $this->product_id . '_' . sanitize_title_with_dashes( $this->site_url )  . '_' . sanitize_title_with_dashes( $this->server_url ) );
+			$sso_key = md5( 'ft_premium_sso_' . $current_user->ID . '_' . $this->product_id . '_' . sanitize_title_with_dashes( $this->site_url )  . '_' . sanitize_title_with_dashes( $this->server_url ) );
 			$paypal_button_key = md5( 'ft_premium_signup_' . $this->product_id . '_' . sanitize_title_with_dashes( $this->site_url )  . '_' . sanitize_title_with_dashes( $this->server_url ) );
 			$exp_option_key = '_ftpssu_' . md5( 'ftpssue-' . $this->product_id . '-' . sanitize_title_with_dashes( $this->site_url ) . '-' . sanitize_title_with_dashes( $this->server_url ) );
 
@@ -95,7 +95,7 @@ if ( ! class_exists( 'FT_Premium_Support_Client' ) ) {
 
 				$body['ft-ps-status-request'] = true;
 				$body['site'] = urlencode( $this->site_url );
-				$body['user'] = $current_user->id;
+				$body['user'] = $current_user->ID;
 				$body['product'] = $this->product_id;
 				$body['email'] = urlencode( $current_user->user_email );
 				$body['nicename'] = urlencode( $current_user->user_nicename );

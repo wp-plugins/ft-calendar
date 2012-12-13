@@ -1,21 +1,19 @@
 <?php
 /**
  * @package FT_Calendar
- * @version 1.0.7.4
+ * @version 1.2.9
  */
 /*
 Plugin Name: FullThrottle Calendar
 Plugin URI: http://calendar-plugin.com/
 Description: A feature rich calendar plugin for WordPress.
-Author: FullThrottle Development
-Version: 1.0.7.4
+Author: Michael Torbert, FullThrottle Development
+Version: 1.2.9
 Author URI: http://fullthrottledevelopment.com/
-Primary Developer: Glenn Ansley (glenn@glennansley.com)
-Primary Developer: Lew Ayotte (lew@lewayotte.com)
 */
 
 #### CONSTANTS ####
-define( 'FT_CAL_VERSION', '1.0.7.4' );
+define( 'FT_CAL_VERSION', '1.2.9' );
 define( 'FT_CAL_DB_VERSION', '1.0' );
 
 // From http://codex.wordpress.org/Determining_Plugin_and_Content_Directories
@@ -92,6 +90,7 @@ include_once( FT_CAL_PATH . '/classes/class-calendars.php' );
 include_once( FT_CAL_PATH . '/classes/class-events.php' );
 include_once( FT_CAL_PATH . '/classes/class-widgets.php' );
 include_once( FT_CAL_PATH . '/classes/class-shortcodes.php' );
+include_once( FT_CAL_PATH . '/classes/class-feeds.php' );
 
 #### PROCEDURAL POWER FTW! ####
 // Init Admin
@@ -130,6 +129,13 @@ $ft_cal_events		= new FT_CAL_Events();
  * @since 0.3
  */
 $ft_cal_shortcodes	= new FT_CAL_ShortCodes();
+
+/**
+ * Object used to manage / display feeds
+ *
+ * @since 1.1.6
+ */
+$ft_cal_feeds	= new FT_CAL_Feeds();
 
 /**
  * Premium Support Client for SimpleMap

@@ -28,6 +28,10 @@ $ftjquery(document).ready(function($) {
 		}
 	});
 	
+	$( 'input#event_date_start' ).change( function(){
+		$( 'input#range_start' ).val( $( 'input#event_date_start' ).val() );		
+	});
+	
 	$( 'input#event_date_end' ).datepicker({
 		onSelect : function(dateText, inst) {
 			new_end_date = new Date( $(this).datepicker( 'getDate' ) );
