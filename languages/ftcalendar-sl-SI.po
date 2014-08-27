@@ -1,0 +1,400 @@
+# Copyright (C) 2010 
+# This file is distributed under the same license as the  package.
+msgid ""
+msgstr ""
+"Project-Id-Version: FT Calendar\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/ft-calendar\n"
+"POT-Creation-Date: 2011-09-21 14:36:57+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2012-03-10 19:36+0100\n"
+"Last-Translator: \n"
+"Language-Team: QB - Creative Studio <info@qb.si>\n"
+"X-Poedit-Language: Slovenian\n"
+"X-Poedit-Country: SLOVENIA\n"
+
+#: strings.php:5
+#: strings.php:7
+msgid "Calendar Label Color"
+msgstr "Barva koledarja"
+
+#: strings.php:58
+msgid "All day"
+msgstr "Ves dan"
+
+#: strings.php:60
+msgid "Repeats..."
+msgstr "Ponvaljanje..."
+
+#: strings.php:62
+msgid "Repeats"
+msgstr "Ponavljanje"
+
+#: strings.php:65
+msgid "Daily"
+msgstr "Dnevno"
+
+#: strings.php:68
+msgid "Every weekday"
+msgstr "Vsak dan"
+
+#: strings.php:71
+msgid "Every Mon., Wed., and Fri."
+msgstr "Vsak Pon., Sre., in Pet."
+
+#: strings.php:74
+msgid "Every Tues., and Thurs."
+msgstr "Vsaki Tor., in Čet."
+
+#: strings.php:77
+msgid "Weekly"
+msgstr "Tedensko"
+
+#: strings.php:80
+msgid "Monthly"
+msgstr "Mesečno"
+
+#: strings.php:83
+msgid "Yearly"
+msgstr "Letno"
+
+#: strings.php:86
+msgid "Weekly on weekdays"
+msgstr ""
+
+#: strings.php:89
+msgid "Weekly on Monday, Wednesday, Friday"
+msgstr ""
+
+#: strings.php:92
+msgid "Weekly on Tuesday, Thursday"
+msgstr ""
+
+#: strings.php:95
+msgid "Repeat Every"
+msgstr "Ponovi vsak"
+
+#: strings.php:99
+msgid "days"
+msgstr "dan"
+
+#: strings.php:102
+msgid "Repeat On:"
+msgstr "Ponovi"
+
+#: strings.php:105
+#: strings.php:123
+msgid "S"
+msgstr "S"
+
+#: strings.php:108
+msgid "M"
+msgstr "P"
+
+#: strings.php:111
+#: strings.php:117
+msgid "T"
+msgstr "T"
+
+#: strings.php:114
+msgid "W"
+msgstr "S"
+
+#: strings.php:120
+msgid "F"
+msgstr "P"
+
+#: strings.php:126
+msgid "Repeat By"
+msgstr "Ponovi"
+
+#: strings.php:129
+msgid "day of the month"
+msgstr "dan v mesecu"
+
+#: strings.php:132
+msgid "day of the week"
+msgstr "dan v tednu"
+
+#: strings.php:134
+msgid "Starts On"
+msgstr "Začetek"
+
+#: strings.php:137
+msgid "Ends On:"
+msgstr "Konec"
+
+#: strings.php:140
+msgid "Never"
+msgstr "Nikoli"
+
+#: strings.php:142
+msgid "Until"
+msgstr "Do"
+
+#: strings.php:208
+msgid "FullThrottle Calendar General Settings"
+msgstr "FullThrottle splošne nastavitve koledarja"
+
+#: strings.php:213
+msgid "General Options"
+msgstr "Splošne možnosti"
+
+#: strings.php:215
+#: strings.php:218
+msgid "Enable Calendar items for these post types:"
+msgstr "Omogoči elemente koledarja za te vrste objav:"
+
+#: strings.php:220
+msgid "Show Support Link:"
+msgstr "Prikaži podporno povezavo:"
+
+#: strings.php:221
+msgid "Enable SMART Post Ordering:"
+msgstr "Omogoče \"SMART Post\" vrstni red:"
+
+#: strings.php:222
+msgid "Include Recurring End Date in SMART Ordering:"
+msgstr "Vključi ponavljajoči se končni datum v \"SMART\" vrstnem redu"
+
+#: strings.php:223
+msgid "Show Schedule within Post:"
+msgstr "Prikaži urnik v objavi:"
+
+#: strings.php:224
+msgid "Where to Display Schedule?"
+msgstr "Kje bo urnik prikazan?"
+
+#: strings.php:225
+msgid "Use Event Date as pubDate in feeds:"
+msgstr "Uporabi datum dogodka kot pubDatum v RSS:"
+
+#: strings.php:226
+msgid "Save Changes"
+msgstr "Shrani spremembe"
+
+#: strings.php:228
+#: strings.php:248
+#: strings.php:265
+#: strings.php:318
+msgid "Partners"
+msgstr "Partnerji"
+
+#: strings.php:231
+msgid "FullThrottle Calendar Import"
+msgstr "FullThrottle Calendar Uvoz"
+
+#: strings.php:236
+#: strings.php:256
+msgid "FullThrottle Calendar"
+msgstr "FullThrottle Koledar"
+
+#: strings.php:238
+msgid "Select file to import"
+msgstr "Izberi datoteke za uvoz"
+
+#: strings.php:239
+msgid "Delete existing data?"
+msgstr "Izbrišem obstoječe podatke?"
+
+#: strings.php:240
+msgid "Import FullThrottle Calendar Data"
+msgstr "Uvozi FullThrottle podatke "
+
+#: strings.php:242
+msgid "Event Calendar 3"
+msgstr "Event Calendar 3"
+
+#: strings.php:244
+msgid "Import Event Calendar 3 data to this Calendar"
+msgstr "Uvozi \"Event Calendar 3\" podatke v ta koledar"
+
+#: strings.php:245
+msgid "Import EC3 Data"
+msgstr "Uvozi EC3 podatke"
+
+#: strings.php:251
+msgid "FullThrottle Calendar Export"
+msgstr "FullThrottle Calendar Izvoz"
+
+#: strings.php:258
+msgid "Select calendar(s) to export"
+msgstr "Označi koledar-/je za izvoz"
+
+#: strings.php:260
+#: strings.php:357
+#: strings.php:432
+msgid "All Calendars"
+msgstr "Vsi koledarji"
+
+#: strings.php:262
+msgid "Export FullThrottle Calendar Data"
+msgstr "Izvozi podatke FullThrottle koledarja"
+
+#: strings.php:268
+msgid "FullThrottle Calendar Help"
+msgstr "FullThrottle Calendar - Pomoč"
+
+#: strings.php:271
+msgid "[ftcalendar] - Calendar Shortcode"
+msgstr "[ftcalendar] - bližnjice"
+
+#: strings.php:274
+msgid "[ftcalendar_thumb] - Thumbnail Calendar Shortcode"
+msgstr "[ftcalendar_thumb] - Thumbnail - bližnjice"
+
+#: strings.php:277
+msgid "[ftcalendar_list] - Event List Shortcode"
+msgstr "[ftcalendar_list] - Event List bližnjice"
+
+#: strings.php:280
+msgid "Calendar of Events Widget"
+msgstr "Calendar of Events gradnik"
+
+#: strings.php:283
+msgid "Upcoming Events List Widget"
+msgstr "Upcoming Events List gradnik"
+
+#: strings.php:286
+msgid "Premium Support and Features"
+msgstr "Premium podpora in funkcije"
+
+#: strings.php:288
+msgid "FT Calendar Premium Support Benefits"
+msgstr "Prednosti FT Calendar Premium"
+
+#: strings.php:289
+msgid "FT Calendar offers a premium support package for the low cost of %s per year per domain."
+msgstr "FT Calendar ponuja premium paket podpore za %s za eno leto po domeni."
+
+#: strings.php:290
+msgid "By signing up for FT Calendar premium support, you help to ensure future enhancements to this excellent project as well as the following benefits:"
+msgstr "S prijavo za FT premium podporo, boste pomagali, da se zagotovijo bodoče izboljšave tega projekta, kot tudi naslednje ugodnosti:"
+
+#: strings.php:292
+msgid "Around the clock access to our knowledge base and support forum from within your WordPress dashboard"
+msgstr "24/7 urno podporo do naše baze znanja in foruma znotraj WordPress armaturne plošče."
+
+#: strings.php:295
+msgid "Professional and timely response times to all your questions from the FT Calendar team"
+msgstr "Profesionalna in hitro odzivna ekipa FT koledarja vam bo odgovorila na vsa vaša vprašanja"
+
+#: strings.php:298
+msgid "A 10% discount for any custom functionality you request from the FT Calendar developers"
+msgstr "10% popusta za vse dodatne funkcionalnosti, ki jih boste želeli."
+
+#: strings.php:301
+msgid "A 6-12 month advance access to new features integrated into the auto upgrade functionality of WordPress"
+msgstr "Do novih funkcij boste lahko dostopali 6-12 mesecev prej, kot bodo vključene v avtomatsko nadgradnjo WordPress-a"
+
+#: strings.php:304
+msgid "Ads removed from Calendar Meta Boxes and Control Panels"
+msgstr "Odstranjeni oglasi iz nadzorne plošče FT koledar-ja"
+
+#: strings.php:307
+msgid "Signup Now"
+msgstr "Prijavite se"
+
+#: strings.php:310
+msgid "Learn More"
+msgstr "Preberite več"
+
+#: strings.php:313
+msgid "Launch Premium Support widget"
+msgstr "Zaženite Premium Support gradnik"
+
+#: strings.php:315
+msgid "Visit Premium Support web site"
+msgstr "Obiščite Premium Support spletno stran"
+
+#: strings.php:345
+#: strings.php:420
+msgid "Title:"
+msgstr "Naslov:"
+
+#: strings.php:348
+#: strings.php:423
+msgid "Show XML Feed?"
+msgstr "Prikažem XML feed?"
+
+#: strings.php:351
+#: strings.php:426
+msgid "Show iCal Feed?"
+msgstr "Prikažem iCal feed?"
+
+#: strings.php:354
+#: strings.php:429
+msgid "Calendars:"
+msgstr "Koledarji:"
+
+#: strings.php:360
+msgid "Start Date:"
+msgstr "Začetni datum:"
+
+#: strings.php:363
+msgid "Time Span:"
+msgstr "Čas. razpon:"
+
+#: strings.php:366
+msgid "Day(s)"
+msgstr "Dan"
+
+#: strings.php:369
+msgid "Week(s)"
+msgstr "Teden"
+
+#: strings.php:372
+msgid "Month(s)"
+msgstr "Mesec"
+
+#: strings.php:375
+msgid "Year(s)"
+msgstr "Leto"
+
+#: strings.php:378
+msgid "Limit:"
+msgstr "Omejitev:"
+
+#: strings.php:381
+msgid "0 = Show all events in given time span"
+msgstr "0 = Prikaži vse dogodke v danes časovnem obdobju"
+
+#: strings.php:384
+msgid "Time Format:"
+msgstr "Format časa:"
+
+#: strings.php:387
+#: strings.php:393
+#: strings.php:402
+msgid "See <a href=\"http://php.net/date/\" target=\"_blank\">PHP's Format Parameters</a> for help."
+msgstr "Obišči <a href=\"http://php.net/date/\" target=\"_blank\">PHP's Format Parameters</a> za pomoč."
+
+#: strings.php:390
+msgid "Date Format:"
+msgstr "Format datuma:"
+
+#: strings.php:396
+msgid "Date Template:"
+msgstr "Datumska predloga:"
+
+#: strings.php:399
+msgid "Month Format:"
+msgstr "Mesečni format:"
+
+#: strings.php:405
+msgid "Month Template:"
+msgstr "Mesečna predloga:"
+
+#: strings.php:408
+msgid "Event Template:"
+msgstr "Predloga dogodka:"
+
+#: strings.php:411
+msgid "Hide Duplicates?"
+msgstr "Skrijem duplikate?"
+
+#: strings.php:414
+msgid "Date Template must be blank."
+msgstr "Predloga datuma mora biti prazna."
+
