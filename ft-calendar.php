@@ -1,19 +1,19 @@
 <?php
 /**
  * @package FT_Calendar
- * @version 1.2.9
+ * @version 1.3.0
  */
 /*
 Plugin Name: FullThrottle Calendar
 Plugin URI: http://calendar-plugin.com/
 Description: A feature rich calendar plugin for WordPress.
 Author: Michael Torbert, FullThrottle Development
-Version: 1.2.9
+Version: 1.3.0
 Author URI: http://fullthrottledevelopment.com/
 */
 
 #### CONSTANTS ####
-define( 'FT_CAL_VERSION', '1.2.9' );
+define( 'FT_CAL_VERSION', '1.3.0' );
 define( 'FT_CAL_DB_VERSION', '1.0' );
 
 // From http://codex.wordpress.org/Determining_Plugin_and_Content_Directories

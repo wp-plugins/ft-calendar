@@ -38,7 +38,7 @@ if ( ! class_exists( 'FT_CAL_Options' ) ) {
 		 *
 		 * @since 0.3.2
 		 */
-		var $show_support			= true;
+		var $show_support			= false;
 		
 		/**
 		 * Boolean to enable SMART ordering for queries
@@ -146,7 +146,7 @@ if ( ! class_exists( 'FT_CAL_Options' ) ) {
 				'attach_events_to_post_types'	=> array( 'post' ),
 				'calendar_label_singular'		=> __( 'Calendar' ),
 				'calendar_label_plural'			=> __( 'Calendars' ),
-				'show_support'					=> true,
+				'show_support'					=> false,
 				'smart_ordering'				=> true,
 				'include_recurring_end'			=> false,
 				'show_post_schedule'			=> false,
@@ -246,8 +246,29 @@ if ( ! class_exists( 'FT_CAL_Options' ) ) {
 				$this->upgrade_to_1_1_7();
 			}
 			
+			if ( version_compare( $current_version, '1.3.0', '<' ) ) {
+				$this->upgrade_to_1_3_0();
+			}
+			
 			update_option( 'ft_cal_version', FT_CAL_VERSION );
 				
+		}
+		
+		/**
+		 * Upgrade for anything below 1.3.0
+		 *
+		 * @since 1.3.0
+		 *
+		 * Ensure show_support starts at its default of false going forward.
+		 *
+		 */
+		function upgrade_to_1_3_0() {
+			$options = $this->get_calendar_options();
+			if ( !empty( $options ) && !empty( $options['calendar'] ) ) {
+				$options['calendar']['show_support'] = false;
+				update_option( 'ft_calendar_options', $options );
+			}
+			$this->set_options();
 		}
 		
 		/**
